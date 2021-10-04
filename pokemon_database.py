@@ -1,6 +1,7 @@
 import sqlite3
 from constants import *
 
+
 class DataBase:
 
     def __init__(self, name, fields, types):
@@ -77,3 +78,11 @@ class DataBase:
         conn.close()
 
         return data
+
+    def destroyTable(self):
+        conn = sqlite3.connect(DATABASE)
+        cursor = conn.cursor()
+        sql_command = f'''DROP TABLE {self.name};'''
+        cursor.execute(sql_command)
+        conn.commit()
+        conn.close()

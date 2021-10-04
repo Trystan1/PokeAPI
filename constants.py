@@ -1,1 +1,1 @@
-DATABASE = pokemon_library.db
+DATABASE = 'pokemon_library.db'
