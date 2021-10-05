@@ -5,7 +5,6 @@ from api_request import *
 app = Flask(__name__)
 
 
-
 @app.route("/")
 def Index():
     return render_template('welcome.html')
