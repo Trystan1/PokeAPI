@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-# from pokemon_database import *
+from pokemon_database import *
 from api_request import *
 
 app = Flask(__name__)
