@@ -1,0 +1,77 @@
+{% extends "layout.html" %}
+{% block title %}The Library{% endblock %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokedex</title>
+</head>
+<body>
+<style>
+    .download-data-button{
+          background: rgba(150, 255, 200, 150);
+          border: none;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+     }
+
+</style>
+
+<div class="container body-content">
+    <button class="download-data-button" type="button" onclick="redownloadConfirm()">Download data</button>
+
+    <div id="hiddenDIV" style="display:none;">
+        Redownloading the data will overwrite your current Pokedex... are you sure you'd like to continue?<br>
+        <button class="pokedex-button" type="button" id="buttonyes" onclick="redownloadDatabase()">Yes</button>
+        <button class="pokedex-button" type="button" id="buttonno" onclick="hideDIV()">No</button>
+        <div id="slightDelay"></div>
+    </div>
+    <form>
+        <legend>Choose your Pokemon:</legend>
+            <select name="pokedexSelect" id="pokedexSelect" required onchange="showPokemon({{  pokeDex  }})">
+                    <option value="" disabled selected>Select your Pokemon</option>
+                {% for row in pokeDex %}
+                    <option  value="{{ row['name']  }}">{{  row['name']  }}</option>
+                {% endfor %}
+            </select>
+        <p id="pokemonShown"></p>
+    </form>
+</div>
+
+<script>
+function redownloadConfirm() {
+   document.getElementById('hiddenDIV').style.display = "block";
+    }
+
+function redownloadDatabase() {
+    document.getElementById("buttonno").disabled = true;
+    document.getElementById("slightDelay").innerHTML = "This may take a while...";
+    location.href='pokedex/redownload'
+}
+
+function hideDIV() {
+    document.getElementById('hiddenDIV').style.display = "none";
+}
+
+function showPokemon(pokeDex) {
+    var select = document.getElementById("pokedexSelect").value;
+    for (var i in pokeDex){
+        if(pokeDex[i].name == select){
+            pokemon = pokeDex[i].name;
+            image = pokeDex[i].image;
+            attack = pokeDex[i].attack;
+            defence = pokeDex[i].defence;
+            types = pokeDex[i].types;
+        }
+    }
+    document.getElementById("pokemonShown").innerHTML = "You selected: " + pokemon + " " + attack + " " + defence + " " + types;
+}
+</script>
+</body>
+</html>
+
+
+{% endblock %}

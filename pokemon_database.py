@@ -1,6 +1,7 @@
 import sqlite3
 from constants import *
 
+
 class DataBase:
 
     def __init__(self, name, fields, types):
@@ -78,58 +79,10 @@ class DataBase:
 
         return data
 
-    # def findMatchingID(self, User_Input):
-    #     User_Input_List = [User_Input]
-    #
-    #     conn = sqlite3.connect(DATABASE)
-    #     cursor = conn.cursor()
-    #     sql_command = f'''SELECT * FROM {self.name}'''
-    #     sql_command += f'''\nWHERE {self.fields[0]}=?'''
-    #     cursor.execute(sql_command, User_Input_List)
-    #     rows = cursor.fetchall()
-    #
-    #     data = []
-    #     for row in rows:
-    #         data_row = {}
-    #         for i in range(0, len(row)):
-    #             data_row[f'{self.fields[i]}'] = row[i]
-    #
-    #         data.append(data_row)
-    #     conn.commit()
-    #     conn.close()
-    #
-    #     return data
-
-    # def editData(self, user_edit, ID):
-    #     conn = sqlite3.connect(DATABASE)
-    #     cursor = conn.cursor()
-    #     edits = []
-    #     sql_command = f"""UPDATE {self.name}"""
-    #     sql_command += f"""\nSET """
-    #
-    #     for i in range(1, len(user_edit)+1):
-    #         sql_command += f"""{self.fields[i]}=?, """
-    #         edits.append(f"{user_edit[f'{self.fields[i]}']}")
-    #
-    #     sql_command = sql_command[:-2]
-    #     sql_command += f"""\nWHERE {self.fields[0]} = {ID};"""
-    #
-    #     cursor.execute(sql_command, edits)
-    #     conn.commit()
-    #     conn.close
-
-    # def editAvailable(self, crement, ID):
-    #     conn = sqlite3.connect(DATABASE)
-    #     cursor = conn.cursor()
-    #
-    #     data = self.findMatchingID(ID)
-    #     currentVal = int(data[0]['Available'])
-    #
-    #     sql_command = f"""UPDATE {self.name}"""
-    #     sql_command += f"""\nSET """
-    #     sql_command += f"""{self.fields[4]}={str((crement*1)+currentVal)}"""
-    #     sql_command += f"""\nWHERE {self.fields[0]} = {ID};"""
-    #
-    #     cursor.execute(sql_command)
-    #     conn.commit()
-    #     conn.close()
+    def destroyTable(self):
+        conn = sqlite3.connect(DATABASE)
+        cursor = conn.cursor()
+        sql_command = f'''DROP TABLE {self.name};'''
+        cursor.execute(sql_command)
+        conn.commit()
+        conn.close()
