@@ -1,15 +1,29 @@
 {% extends "layout.html" %}
 {% block title %}The Library{% endblock %}
 {% block content %}
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Game</title>
 </head>
+<style>
+
+     .next-button{
+          background: rgba(150, 255, 200, 150);
+          border: none;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+     }
+
+</style>
 <body>
-
+    <div class="container body-content">
+        <button class="next-button" type="button" onclick="location.href='/playgame/nextbutton1'">Next</button>
+    </div>
 </body>
-</html>
 
+</html>
 {% endblock %}
