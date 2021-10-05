@@ -7,11 +7,11 @@ app = Flask(__name__)
 
 
 @app.route("/")
-def index():
+def Index():
     return render_template('welcome.html')
 
 @app.route("/pokedex")
-def pokedex():
+def PokeDex():
     Pokedex = initialiseDatabase()
     pokeDex = Pokedex.getAllData()
     return render_template('pokedex.html', pokeDex=pokeDex)
@@ -22,9 +22,10 @@ def playGame():
     return render_template('game.html')
 
 @app.route("/pokedex/redownload")
-def redownloaddata():
+def RedownloadData():
     main()
-    return pokedex()
+    return PokeDex()
+
 
 
 
