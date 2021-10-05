@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+{% block title %}The Library{% endblock %}
+{% block content %}
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Welcome Screen</title>
+</head>
+<style>
+    body {
+    background-image: url('https://media-s3-us-east-1.ceros.com/hype-beast/images/2018/07/13/a9a51bc0b8d626db493ab5f9a971b043/background-hero.png?imageOpt=1&fit=bounds&width=480');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+     }
+
+     .jumbotron {
+        background: rgba(255, 255, 255, 0.7);
+     }
+
+     .pokedex-button{
+          background: rgba(150, 255, 200, 150);
+          border: none;
+          padding: 15px 32px;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          font-size: 16px;
+     }
+</style>
+<body>
+<div class="container body-content">
+    <div class="jumbotron">
+        <h1>Welcome to Pokemon</h1>
+        <p class="lead">Do you want to be the very best... like no one ever was?
+        </p>
+    </div>
+    <button class="pokedex-button" type="button" onclick="location.href='pokedex'">Pokedex</button>
+</div>
+
+<script>
+
+</script>
+</body>
+
+</html>
+
+{% endblock %}
