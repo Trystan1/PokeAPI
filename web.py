@@ -16,6 +16,11 @@ def PokeDex():
     pokeDex = Pokedex.getAllData()
     return render_template('pokedex.html', pokeDex=pokeDex)
 
+@app.route("/playgame")
+def playGame():
+    #PlayGame = IntialiseGame()
+    return render_template('game.html')
+
 
 @app.route("/pokedex/redownload")
 def RedownloadData():
