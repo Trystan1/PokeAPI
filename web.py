@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from pokemon_database import *
 from api_request import *
+from game_mechanics import *
 
 app = Flask(__name__)
 
@@ -16,9 +17,16 @@ def PokeDex():
     pokeDex = Pokedex.getAllData()
     return render_template('pokedex.html', pokeDex=pokeDex)
 
+
 @app.route("/playgame")
-def playGame():
-    #PlayGame = IntialiseGame()
+def PlayGame():
+    Player1, Player2, DiscardPile = InitialiseGame()
+    player1 = Player1.getAllData()
+    player2 = Player2.getAllData()
+    print('Player 1')
+    print(*player1, sep="\n")
+    print('Player 2')
+    print(*player2, sep="\n")
     return render_template('game.html')
 
 
