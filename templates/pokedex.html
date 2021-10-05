@@ -25,7 +25,7 @@
       width: 35vh;
     }
 
-    .top-right {
+    .name-position {
       position: absolute;
       top: 25px;
       right: 16px;
@@ -50,13 +50,15 @@
                 {% endfor %}
             </select>
         <p></p>
-        <div id="hiddenDIV3" style="display:none;">
+    </form>
+    <div id="hiddenDIV3" style="display:none;">
             <div class="pokemon-card-container">
                 <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" style="border-radius:15px;">
-                <div class="top-right" id="pokemonName"></div>
+                <div class="name-position" id="pokemonName"></div>
+                <div class="stats-position" id="pokemonStats"></div>
+                <div class="types-position" id="pokemonTypes"></div>
             </div>
-        </div>
-    </form>
+    </div>
 </div>
 
 <script>
@@ -87,6 +89,8 @@ function showPokemon(pokeDex) {
     }
     document.getElementById('hiddenDIV3').style.display = "block";
     document.getElementById("pokemonName").innerHTML = name;
+    document.getElementById("pokemonTypes").innerHTML = "Attack: " + attack + " Defence: " + defence;
+    document.getElementById("pokemonStats").innerHTML = "Types: " + types;
     }
 </script>
 </body>
