@@ -8,10 +8,11 @@ def main():
     if numPokemon != 151:
         print(f'Houston we have a problem, there are not enough Pokemon, returned {numPokemon}/151')
     Pokedex = initialiseDatabase()
-    # Pokedex.destroyTable()    # uncomment this if want a quick table reset
-    # Pokedex = initialiseDatabase()
+    Pokedex.destroyTable()    # uncomment this if want a quick table reset
+    Pokedex = initialiseDatabase()
     Pokedex.addData(pokeDex)
     return Pokedex
+
 
 def getPokedex():
 
