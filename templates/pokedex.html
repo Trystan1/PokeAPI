@@ -18,6 +18,18 @@
           font-size: 16px;
      }
 
+    .pokemon-card-container{
+      position: relative;
+      text-align: center;
+      height:50vh;
+      width: 35vh;
+    }
+
+    .top-right {
+      position: absolute;
+      top: 25px;
+      right: 16px;
+    }
 </style>
 
 <div class="container body-content">
@@ -37,7 +49,13 @@
                     <option  value="{{ row['name']  }}">{{  row['name']  }}</option>
                 {% endfor %}
             </select>
-        <p id="pokemonShown"></p>
+        <p></p>
+        <div id="hiddenDIV3" style="display:none;">
+            <div class="pokemon-card-container">
+                <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" style="border-radius:15px;">
+                <div class="top-right" id="pokemonName"></div>
+            </div>
+        </div>
     </form>
 </div>
 
@@ -60,15 +78,16 @@ function showPokemon(pokeDex) {
     var select = document.getElementById("pokedexSelect").value;
     for (var i in pokeDex){
         if(pokeDex[i].name == select){
-            pokemon = pokeDex[i].name;
+            name = pokeDex[i].name;
             image = pokeDex[i].image;
             attack = pokeDex[i].attack;
             defence = pokeDex[i].defence;
             types = pokeDex[i].types;
         }
     }
-    document.getElementById("pokemonShown").innerHTML = "You selected: " + pokemon + " " + attack + " " + defence + " " + types;
-}
+    document.getElementById('hiddenDIV3').style.display = "block";
+    document.getElementById("pokemonName").innerHTML = name;
+    }
 </script>
 </body>
 </html>
