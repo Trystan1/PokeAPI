@@ -29,18 +29,60 @@
       position: absolute;
       top: 25px;
       right: 16px;
+      font-size: 150%;
     }
+
+    .stats-position {
+      position: absolute;
+      top: 75%;
+      right: 5%;
+    }
+
+    .types-position {
+      position: absolute;
+      top: 40px;
+      left: 40px;
+    }
+
+    .pokemon-image-position {
+      position: absolute;
+      top: 15%;
+      right: 0%;
+      height:250px;
+      width: 250px;
+    }
+
+    .download-content{
+        width: 200px;
+        padding-left: 20px;
+    }
+
+    .hidden-DIV{
+        content: '';
+        position: absolute;
+        z-index: 100;
+	    background: #00aabb;
+	    border-radius: .4em;
+        border: 20px solid transparent;
+        border-bottom-color: #00aabb;
+	    border-top: 0;
+	    border-right: 0;
+    }
+
+
 </style>
 
-<div class="container body-content">
-    <button class="download-data-button" type="button" onclick="redownloadConfirm()">Download data</button>
+<div class="download-content">
+<button class="download-data-button cursor" type="button" onclick="redownloadConfirm()">Download data</button>
 
-    <div id="hiddenDIV" style="display:none;">
+    <div id="hiddenDIV" style="display:none;" class="hidden-DIV">
         Redownloading the data will overwrite your current Pokedex... are you sure you'd like to continue?<br>
-        <button class="pokedex-button" type="button" id="buttonyes" onclick="redownloadDatabase()">Yes</button>
-        <button class="pokedex-button" type="button" id="buttonno" onclick="hideDIV()">No</button>
+        <button class="pokedex-button cursor" type="button" id="buttonyes" onclick="redownloadDatabase()">Yes</button>
+        <button class="pokedex-button cursor" type="button" id="buttonno" onclick="hideDIV()">No</button>
         <div id="slightDelay"></div>
     </div>
+</div>
+<div class="container body-content">
     <form>
         <legend>Choose your Pokemon:</legend>
             <select name="pokedexSelect" id="pokedexSelect" required onchange="showPokemon({{  pokeDex  }})">
@@ -57,9 +99,12 @@
                 <div class="name-position" id="pokemonName"></div>
                 <div class="stats-position" id="pokemonStats"></div>
                 <div class="types-position" id="pokemonTypes"></div>
+                <img class="pokemon-image-position" id="pokemonImage" src="">
+
             </div>
     </div>
 </div>
+
 
 <script>
 function redownloadConfirm() {
@@ -89,9 +134,11 @@ function showPokemon(pokeDex) {
     }
     document.getElementById('hiddenDIV3').style.display = "block";
     document.getElementById("pokemonName").innerHTML = name;
-    document.getElementById("pokemonTypes").innerHTML = "Attack: " + attack + " Defence: " + defence;
-    document.getElementById("pokemonStats").innerHTML = "Types: " + types;
+    document.getElementById("pokemonStats").innerHTML = "Attack: " + attack + " Defence: " + defence;
+    document.getElementById("pokemonTypes").innerHTML = "Types: " + types;
+    document.getElementById('pokemonImage').src=image;
     }
+
 </script>
 </body>
 </html>
