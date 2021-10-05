@@ -58,6 +58,20 @@ def PreviousCard(Player1):
     Player1, Player2, DiscardPile = InitialiseDecks()
     Player1.addData(player1)
 
+
+def PlayCard(Player1):
+    # when function is called, the first item in the player deck table is deleted ('played')
+    # the same card is then added to the discard pile
+    # you may want to add 'cardPlayed' as an output of this function?
+    player1 = Player1.getAllData()
+    cardPlayed = [player1[0]]
+    player1.pop(0)
+    Player1.destroyTable()
+    Player1, Player2, DiscardPile = InitialiseDecks()
+    DiscardPile.addData(cardPlayed)
+    Player1.addData(player1)
+
+
 ## Lines for testing
 # Player1, Player2, DiscardPile = InitialiseGame()
 # player1 = Player1.getAllData()
@@ -70,7 +84,4 @@ def PreviousCard(Player1):
 # NextCard(Player1)
 # print('Player2 rotated')
 # NextCard(Player2)
-
-
-# recommend that the shown card is the first one in the list
-# clicking NextCard resorts the player1/2 list and updates the player database to match
+# PlayCard(Player1)
