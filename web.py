@@ -23,8 +23,10 @@ def PlayGame():
     Player1, Player2, DiscardPile = InitialiseGame()
     player1Cards = Player1.getAllData()
     player2Cards = Player2.getAllData()
-
-    return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards)
+    if player1Cards == [] or player2Cards == []:
+        return render_template('error.html', errorType="emptydatabase")
+    else:
+        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards)
 
 
 @app.route("/playgame/nextbutton1")
