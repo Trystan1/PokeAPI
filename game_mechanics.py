@@ -31,11 +31,10 @@ def InitialiseGame():
     player1 = Player1.getAllData()
     player2 = Player2.getAllData()
 
-    # print('Player 1')
-    # print(*player1, sep="\n")
-    # print('Player 2')
-    # print(*player2, sep="\n")
-    return player1, player2
+    print('Player 1')
+    print(*player1, sep="\n")
+    print('Player 2')
+    print(*player2, sep="\n")
 
 
 InitialiseGame()
