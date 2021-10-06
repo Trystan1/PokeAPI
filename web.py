@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from pokemon_database import *
+from game_mechanics import *
 from api_request import *
 
 app = Flask(__name__)
@@ -18,8 +18,8 @@ def PokeDex():
 
 @app.route("/playgame")
 def playGame():
-    #PlayGame = IntialiseGame()
-    return render_template('game.html')
+    playerHands = InitialiseGame()
+    return render_template('game.html', playerHands=playerHands)
 
 @app.route("/pokedex/redownload")
 def RedownloadData():
