@@ -72,7 +72,7 @@ def PlayCard(Player1):
     Player1.addData(player1)
 
 
-## Lines for testing
+# Lines for testing
 # Player1, Player2, DiscardPile = InitialiseGame()
 # player1 = Player1.getAllData()
 # player2 = Player2.getAllData()
