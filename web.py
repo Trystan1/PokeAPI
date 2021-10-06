@@ -21,24 +21,31 @@ def PokeDex():
 @app.route("/playgame")
 def PlayGame():
     Player1, Player2, DiscardPile = InitialiseGame()
-    player1 = Player1.getAllData()
-    player2 = Player2.getAllData()
-    print('Player 1')
-    print(*player1, sep="\n")
-    # print('Player 2')
-    # print(*player2, sep="\n")
-    return render_template('game.html')
+    player1Cards = Player1.getAllData()
+    player2Cards = Player2.getAllData()
+    if player1Cards == [] or player2Cards == []:
+        return render_template('error.html', errorType="emptydatabase")
+    else:
+        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards)
 
 
 @app.route("/playgame/nextbutton1")
-def NextButton():
+def NextButton1():
     Player1, Player2, DiscardPile = InitialiseDecks()
-    NextCard(Player1)
-    player1 = Player1.getAllData()
-    print('Player 1')
-    print(*player1, sep="\n")
-    return render_template('game.html')
+    NextCard(Player1, 1)
+    player1Cards = Player1.getAllData()
+    player2Cards = Player2.getAllData()
 
+    return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards)
+
+@app.route("/playgame/nextbutton2")
+def NextButton2():
+    Player1, Player2, DiscardPile = InitialiseDecks()
+    NextCard(Player2, 2)
+    player1Cards = Player1.getAllData()
+    player2Cards = Player2.getAllData()
+
+    return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards)
 
 @app.route("/pokedex/redownload")
 def RedownloadData():
