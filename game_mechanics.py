@@ -37,15 +37,21 @@ def InitialiseGame():
     return Player1, Player2, DiscardPile
 
 
-def NextCard(Player1):
+def NextCard(Player, playno):
     # Put first card in player 'deck' to end
-    player1 = Player1.getAllData()
-    player1 = deque(player1)
-    player1.rotate(-1)
-    player1 = list(player1)
-    Player1.destroyTable()
+    player = Player.getAllData()
+    player = deque(player)
+    player.rotate(-1)
+    player = list(player)
+    Player.destroyTable()
     Player1, Player2, DiscardPile = InitialiseDecks()
-    Player1.addData(player1)
+    if playno == 1:
+        Player1.addData(player)
+    elif playno == 2:
+        Player2.addData(player)
+    else:
+        pass
+
 
 
 def PreviousCard(Player1):

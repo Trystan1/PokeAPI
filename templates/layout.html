@@ -32,11 +32,68 @@ TR:nth-child(even) {
 .welcome-page-button{
           background: rgba(153, 255, 204, 150);
           border: none;
-          padding: 10px 200px;
+          padding: 1% 10%;
           text-align: center;
           text-decoration: none;
           display: inline-block;
-          font-size: 16px;
+          cursor: pointer;
+          font-size: 2.5vw;
+}
+
+    .pokemon-card-container{
+        position:absolute
+    }
+
+    .inner-container{
+        width = 35vw;
+        height = auto;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .name-position {
+      position: absolute;
+      text-align: center;
+      font-size: 3vw;
+      right: 20%;
+    }
+
+    .stats-position {
+      position: absolute;
+      text-align: center;
+      font-size: 1.5vw;
+      left: 20%;
+      bottom: 30%
+    }
+
+    .types-position {
+      position: absolute;
+      left: 20%;
+      bottom: 20%;
+      font-size: 1.5vw;
+    }
+
+    .pokemon-image-position {
+      position: absolute;
+      top: 10%;
+      right: 20%;
+      height:18vw;
+      width: 18vw;
+    }
+
+        .pokemon-card{
+        border-radius:15px;
+        max-width: 30vw;
+        height: auto;
+    }
+
+.game-page-button{
+          background: rgba(153, 255, 204, 150);
+          border: none;
+          padding: 1% 5%;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
           cursor: pointer;
           font-size: 2.5vw;
 }
@@ -54,7 +111,9 @@ TR:nth-child(even) {
 <!--    <a class="navbar-brand" href="/">Pokedex</a>-->
 </nav>
 
+<script>
 
+</script>
 
 <div>
     {% block content %}{% endblock %}

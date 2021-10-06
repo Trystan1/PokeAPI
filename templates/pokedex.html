@@ -18,40 +18,6 @@
           font-size: 16px;
      }
 
-    .pokemon-card-container{
-      position: relative;
-      text-align: center;
-      height:50vh;
-      width: 35vh;
-    }
-
-    .name-position {
-      position: absolute;
-      top: 25px;
-      right: 16px;
-      font-size: 150%;
-    }
-
-    .stats-position {
-      position: absolute;
-      top: 75%;
-      right: 5%;
-    }
-
-    .types-position {
-      position: absolute;
-      top: 40px;
-      left: 40px;
-    }
-
-    .pokemon-image-position {
-      position: absolute;
-      top: 15%;
-      right: 0%;
-      height:250px;
-      width: 250px;
-    }
-
     .download-content{
         width: 200px;
         padding-left: 20px;
@@ -68,7 +34,6 @@
 	    border-top: 0;
 	    border-right: 0;
     }
-
 
 </style>
 
@@ -93,18 +58,16 @@
             </select>
         <p></p>
     </form>
-    <div id="hiddenDIV3" style="display:none;">
-            <div class="pokemon-card-container">
-                <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" style="border-radius:15px;">
-                <div class="name-position" id="pokemonName"></div>
-                <div class="stats-position" id="pokemonStats"></div>
-                <div class="types-position" id="pokemonTypes"></div>
+            <div class="pokemon-card-container" id="hiddenDIV3" style="display:none">
+                <div class="inner-container">
+                <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                <span class="name-position" id="pokemonName"></span>
+                <span class="stats-position" id="pokemonStats"></span>
+                <span class="types-position" id="pokemonTypes"></span>
                 <img class="pokemon-image-position" id="pokemonImage" src="">
-
+                    </div>
             </div>
-    </div>
 </div>
-
 
 <script>
 function redownloadConfirm() {
@@ -121,7 +84,7 @@ function hideDIV() {
     document.getElementById('hiddenDIV').style.display = "none";
 }
 
-function showPokemon(pokeDex) {
+    function showPokemon(pokeDex) {
     var select = document.getElementById("pokedexSelect").value;
     for (var i in pokeDex){
         if(pokeDex[i].name == select){
