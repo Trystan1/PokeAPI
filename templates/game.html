@@ -7,21 +7,51 @@
     <title>Game</title>
 </head>
 <style>
+    .float-container{
+        padding: 20px;
+    }
 
-     .next-button{
-          background: rgba(150, 255, 200, 150);
-          border: none;
-          padding: 15px 32px;
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          font-size: 16px;
-     }
+    .float-child1{
+        width: 50%;
+        float: left;
+        padding: 20px;
+    }
 
+    .float-child2{
+        width: 50%;
+        float: right;
+        padding: 20px;
+    }
 </style>
 <body>
-    <div class="container body-content">
-        <button class="next-button" type="button" onclick="location.href='/playgame/nextbutton1'">Next</button>
+    <p></p>
+    <div class="float-container">
+        <div class="float-child1">
+            <button class="game-page-button" type="button" onclick="location.href='/playgame/nextbutton1'">Next</button>
+            <div class="pokemon-card-container">
+                <div class="inner-container">
+                <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
+                <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
+                <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
+                <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
+                </div>
+            </div>
+            Number of Cards: {{  player1Cards|length  }}
+        </div>
+
+        <div class="float-child2">
+            <button class="game-page-button" type="button" onclick="location.href='/playgame/nextbutton2'">Next</button>
+            <div class="pokemon-card-container">
+                <div class="inner-container">
+                <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                <span class="name-position" id="pokemonName2">{{  player2Cards[0].name  }}</span>
+                <span class="stats-position" id="pokemonStats2">Attack: {{  player2Cards[0].attack  }} Defence: {{  player2Cards[0].defence  }}</span>
+                <span class="types-position" id="pokemonTypes2">{{  player2Cards[0].types  }}</span>
+                <img class="pokemon-image-position" id="pokemonImage2" src="{{  player2Cards[0].image  }}">
+                </div>
+            </div>
+            Number of Cards: {{  player2Cards|length  }}
     </div>
 </body>
 
