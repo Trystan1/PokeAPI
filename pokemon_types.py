@@ -44,15 +44,18 @@ def getModifier(modifierURL, defenceTypes):
 def getModifierFlag(damageRelations, damageTo, defenceTypes):
     damageFlag = False
     doubleDamage = damageRelations[damageTo]
-    # print(f'{damageTo}')
+
     for line in doubleDamage:
-        # print(line["name"])
         if line["name"] in defenceTypes:
             damageFlag = True
 
     return damageFlag
 
 
-modifierURL = getURL('fighting')
-damageValue = getModifier(modifierURL, ['rock', 'fairy', 'ghost'])
-print(damageValue/10)
+def pokemonTypes(attackType, defenseTypes):
+    modifierURL = getURL(attackType)
+    damageModifier = getModifier(modifierURL, defenseTypes)
+    return damageModifier/10
+
+
+damageModifier = pokemonTypes('fighting', ['rock', 'fairy'])
