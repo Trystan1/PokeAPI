@@ -27,6 +27,7 @@ def getPokedex():
     for individualPokemon in pokemonObjects:
 
         pokemonName = individualPokemon['name']
+        pokemonName = pokemonName.capitalize()      # capitalise first letter of name
 
         r = requests.get(individualPokemon['url'])
         response = r.json()

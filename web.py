@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request
-from game_mechanics import *
+from pokemon_database import *
 from api_request import *
+from game_mechanics import *
 
 app = Flask(__name__)
-
 
 
 @app.route("/")
@@ -19,9 +19,26 @@ def PokeDex():
 
 
 @app.route("/playgame")
-def playGame():
-    playerHands = InitialiseGame()
-    return render_template('game.html', playerHands=playerHands)
+def PlayGame():
+    Player1, Player2, DiscardPile = InitialiseGame()
+    player1 = Player1.getAllData()
+    player2 = Player2.getAllData()
+    print('Player 1')
+    print(*player1, sep="\n")
+    # print('Player 2')
+    # print(*player2, sep="\n")
+    return render_template('game.html')
+
+
+@app.route("/playgame/nextbutton1")
+def NextButton():
+    Player1, Player2, DiscardPile = InitialiseDecks()
+    NextCard(Player1)
+    player1 = Player1.getAllData()
+    print('Player 1')
+    print(*player1, sep="\n")
+    return render_template('game.html')
+
 
 @app.route("/pokedex/redownload")
 def RedownloadData():
@@ -29,7 +46,4 @@ def RedownloadData():
     return PokeDex()
 
 
-
-
 if __name__ == "__main__": app.run()
-
