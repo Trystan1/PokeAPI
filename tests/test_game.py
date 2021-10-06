@@ -5,7 +5,6 @@ class TestTypes:
 
     @staticmethod
     def test_fighting_with_rock():
-
         # Arrange
         damageModifier = pokemonTypes('fighting', ['rock'])
 
