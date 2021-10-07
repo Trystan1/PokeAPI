@@ -11,10 +11,7 @@ def InitialiseDecks():
     Player2 = DataBase('Player2', ['name', 'image', 'attack', 'defence', 'types'],
                        ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
     Player2.createTable()
-    DiscardPile = DataBase('DiscardPile', ['name', 'image', 'attack', 'defence', 'types'],
-                       ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
-    DiscardPile.createTable()
-    return Player1, Player2, DiscardPile
+    return Player1, Player2
 
 
 def DealCards(pokeDex, Player1, Player2):
@@ -24,17 +21,16 @@ def DealCards(pokeDex, Player1, Player2):
 
 
 def InitialiseGame():
-    Player1, Player2, DiscardPile = InitialiseDecks()
+    Player1, Player2 = InitialiseDecks()
     Player1.destroyTable()
     Player2.destroyTable()
-    DiscardPile.destroyTable()
-    Player1, Player2, DiscardPile = InitialiseDecks()
+    Player1, Player2 = InitialiseDecks()
     Pokedex = initialiseDatabase()
     pokeDex = Pokedex.getAllData()
 
     DealCards(pokeDex, Player1, Player2)
 
-    return Player1, Player2, DiscardPile
+    return Player1, Player2
 
 
 def NextCard(Player, playno):
@@ -44,25 +40,13 @@ def NextCard(Player, playno):
     player.rotate(-1)
     player = list(player)
     Player.destroyTable()
-    Player1, Player2, DiscardPile = InitialiseDecks()
+    Player1, Player2 = InitialiseDecks()
     if playno == 1:
         Player1.addData(player)
     elif playno == 2:
         Player2.addData(player)
     else:
         pass
-
-
-
-def PreviousCard(Player1):
-    # Put first card in player 'deck' to end
-    player1 = Player1.getAllData()
-    player1 = deque(player1)
-    player1.rotate(1)
-    player1 = list(player1)
-    Player1.destroyTable()
-    Player1, Player2, DiscardPile = InitialiseDecks()
-    Player1.addData(player1)
 
 
 def PlayCard(Player1):
@@ -73,14 +57,13 @@ def PlayCard(Player1):
     cardPlayed = [player1[0]]
     player1.pop(0)
     Player1.destroyTable()
-    Player1, Player2, DiscardPile = InitialiseDecks()
-    DiscardPile.addData(cardPlayed)
+    Player1, Player2 = InitialiseDecks()
+    # DiscardPile.addData(cardPlayed)
     Player1.addData(player1)
 
 
-
 # Lines for testing
-# Player1, Player2, DiscardPile = InitialiseGame()
+# Player1, Player2 = InitialiseGame()
 # player1 = Player1.getAllData()
 # player2 = Player2.getAllData()
 # print('Player 1')
