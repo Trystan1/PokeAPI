@@ -127,13 +127,8 @@ def ComputeVictor(attackType, Player1, Player2, playerIndex):
 
     attackValue = int(attackingPlayer[0]['attack'])
     defenceValue = int(defendingPlayer[0]['defence'])
-    print(f"Attack Value: {attackValue}")
-    print(f"Defence Value: {defenceValue}")
-    print(f"Damage Modifier: {damageModifier}")
     modifiedAttack = damageModifier*attackValue
-    print(f"Modified Attack: {modifiedAttack}")
     attackResult = defenceValue - modifiedAttack
-    print(f"Attack Result: {attackResult}")
 
     if attackResult <= 0:
         print('attacker victory')
@@ -170,18 +165,34 @@ def ComputeVictor(attackType, Player1, Player2, playerIndex):
     return playerIndex, attackResult
 
 
-# Lines for testing
+def EndGame(Player1, Player2):
+    player1 = Player1.getAllData()
+    player2 = Player2.getAllData()
+    endFlag = False
+
+    if len(player1) == 0 or len(player2) == 0:
+        endFlag = True
+
+    return endFlag
+
+# --------------------- Lines for testing
 # Player1, Player2 = InitialiseGame()
+# Player1, Player2 = InitialiseDecks()
+# player1 = Player1.getAllData()
+# player2 = Player2.getAllData()
+# print(f"Player 1: {player1[0]['name']}, attack: {player1[0]['attack']}, defence: {player1[0]['defence']}, types: {player1[0]['types']}")
+# print(f"Player 2: {player2[0]['name']}, attack: {player2[0]['attack']}, defence: {player2[0]['defence']}, types: {player2[0]['types']}")
+# AttackingPlayer, playerIndex = SelectAttackingPlayer(Player1, Player2)
+# attackingPlayer = AttackingPlayer.getAllData()
+# attackType = ComputerAttack(AttackingPlayer)
+# print(f'Player {playerIndex+1} ({attackingPlayer[0]["name"]}) is attacking, using their {attackType} type')
+# defendingTypes = GetDefenceTypes(Player1, Player2, playerIndex)
+# print(f"The defender's types are {defendingTypes}")
+# playerIndex, attackResult = ComputeVictor(attackType, Player1, Player2, playerIndex)
+# print(f"The new attacker is Player: {playerIndex+1}")
+
+# --------------------- All you actually need to put in web.py
 Player1, Player2 = InitialiseDecks()
-player1 = Player1.getAllData()
-player2 = Player2.getAllData()
-print(f"Player 1: {player1[0]['name']}, attack: {player1[0]['attack']}, defence: {player1[0]['defence']}, types: {player1[0]['types']}")
-print(f"Player 2: {player2[0]['name']}, attack: {player2[0]['attack']}, defence: {player2[0]['defence']}, types: {player2[0]['types']}")
-AttackingPlayer, playerIndex = SelectAttackingPlayer(Player1, Player2)
-attackingPlayer = AttackingPlayer.getAllData()
-attackType = ComputerAttack(AttackingPlayer)
-print(f'Player {playerIndex+1} ({attackingPlayer[0]["name"]}) is attacking, using their {attackType} type')
-defendingTypes = GetDefenceTypes(Player1, Player2, playerIndex)
-print(f"The defender's types are {defendingTypes}")
+AttackingPlayer, playerIndex = SelectAttackingPlayer(Player1, Player2)   # not after game initialisation
+attackType = ComputerAttack(AttackingPlayer)    # this is coming from the frontend?
 playerIndex, attackResult = ComputeVictor(attackType, Player1, Player2, playerIndex)
-print(f"The new attacker is Player: {playerIndex+1}")
