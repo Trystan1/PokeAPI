@@ -29,6 +29,3 @@ class TestCards:
 
         # Assert
         assert len(player1Cards) == 76 and len(player2Cards) == 75
-
-    #TODO check with Dave how to get getAllData() to work within a static method
-    #TODO check also how to create another test using the same body but a different assert (ie. make a function within card_tests to return player1cards, player2cards?)
