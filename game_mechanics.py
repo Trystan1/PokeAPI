@@ -49,6 +49,51 @@ def NextCard(Player, playno):
         pass
 
 
+def SelectAttackingPlayer(Player1, Player2):
+    Players = [Player1, Player2]
+    playerIndex = random.randint(0, 1)
+    AttackingPlayer = Players[playerIndex]
+    return AttackingPlayer, playerIndex
+
+
+def SwitchAttackingPlayer(Player1, Player2, playerIndex):
+    if playerIndex == 0:
+        playerIndex = 1
+    elif playerIndex == 1:
+        playerIndex = 0
+    else:
+        playerIndex = None
+
+    Players = [Player1, Player2]
+    AttackingPlayer = Players[playerIndex]
+    return AttackingPlayer, playerIndex
+
+
+def ComputerAttack(AttackingPlayer):
+    attackingPlayer = AttackingPlayer.getAllData()
+    attackingTypeString = attackingPlayer[0]['types']
+    attackingTypes = attackingTypeString.split(",")
+    attackingType = random.choice(attackingTypes)
+
+    return attackingType
+
+
+def GetDefenceTypes(Player1, Player2, playerIndex):
+    if playerIndex == 0:
+        DefendingPlayer = Player2
+    elif playerIndex == 1:
+        DefendingPlayer = Player1
+    defendingPlayer = DefendingPlayer.getAllData()
+    defendingTypeString = defendingPlayer[0]['types']
+    defendingTypes = defendingTypeString.split(",")
+    return defendingTypes
+
+
+def ComputeVictor():
+    # don't call me Shirley
+    pass
+
+
 def PlayCard(Player1):
     # when function is called, the first item in the player deck table is deleted ('played')
     # the same card is then added to the discard pile
@@ -62,40 +107,23 @@ def PlayCard(Player1):
     Player1.addData(player1)
 
 
-def selectAttackingPlayer(Player1, Player2):
-    Players = [Player1, Player2]
-    playerIndex = random.randint(0, 1)
-    AttackingPlayer = Players[playerIndex]
-    return AttackingPlayer, playerIndex
-
-
-def switchAttackingPlayer(Player1, Player2, playerIndex):
-    if playerIndex == 0:
-        playerIndex = 1
-    elif playerIndex == 1:
-        playerIndex = 0
-    else:
-        playerIndex = None
-
-    Players = [Player1, Player2]
-    AttackingPlayer = Players[playerIndex]
-    return AttackingPlayer, playerIndex
-
-
 # Lines for testing
 Player1, Player2 = InitialiseGame()
-player1 = Player1.getAllData()
-player2 = Player2.getAllData()
-print(player1)
-# # print(*player1, sep="\n")
-print(player2)
-# print(*player2, sep="\n")
-# print('Player1 rotated')
+# player1 = Player1.getAllData()
+# player2 = Player2.getAllData()
+# print(player1)
+# print(player2)
+AttackingPlayer, playerIndex = SelectAttackingPlayer(Player1, Player2)
+attackingPlayer = AttackingPlayer.getAllData()
+# print(playerIndex)
+# print(attackingPlayer)
+attackingType = ComputerAttack(AttackingPlayer)
+# print(attackingType)
+defendingTypes = GetDefenceTypes(Player1, Player2, playerIndex)
+# print(defendingTypes)
+
+
 # NextCard(Player1)
-# print('Player2 rotated')
 # NextCard(Player2)
 # PlayCard(Player1)
-AttackingPlayer, playerIndex = selectAttackingPlayer(Player1, Player2)
-attackingPlayer = AttackingPlayer.getAllData()
-print(playerIndex)
-print(attackingPlayer)
+

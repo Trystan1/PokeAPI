@@ -58,4 +58,4 @@ def pokemonTypes(attackType, defenseTypes):
     return damageModifier/10
 
 
-damageModifier = pokemonTypes('fighting', ['rock', 'fairy'])
+# damageModifier = pokemonTypes('fighting', ['rock', 'fairy'])
