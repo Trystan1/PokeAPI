@@ -45,7 +45,7 @@ def Attack():
 @app.route("/playgame/nextbutton1")
 def NextButton1():
     Player1, Player2 = InitialiseDecks()
-    NextCard(Player1, 1)
+    NextCard(Player1, 0)
     player1Cards = Player1.getAllData()
     player2Cards = Player2.getAllData()
     Players = [Player1, Player2]
@@ -58,7 +58,7 @@ def NextButton1():
 @app.route("/playgame/nextbutton2")
 def NextButton2():
     Player1, Player2 = InitialiseDecks()
-    NextCard(Player2, 2)
+    NextCard(Player2, 1)
     player1Cards = Player1.getAllData()
     player2Cards = Player2.getAllData()
     Players = [Player1, Player2]
