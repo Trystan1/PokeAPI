@@ -1,7 +1,7 @@
 import requests
 
 
-def getURL(attackType):
+def GetURL(attackType):
 
     r = requests.get(f'https://pokeapi.co/api/v2/type/')
     response = r.json()
@@ -18,7 +18,7 @@ def getURL(attackType):
     return modifierURL
 
 
-def getModifier(modifierURL, defenceTypes):
+def GetModifier(modifierURL, defenceTypes):
 
     damageValue = int(10)
 
@@ -27,9 +27,9 @@ def getModifier(modifierURL, defenceTypes):
         response = r.json()
         damageRelations = response["damage_relations"]
 
-        doubleFlag = getModifierFlag(damageRelations, 'double_damage_to', defenceTypes)
-        halfFlag = getModifierFlag(damageRelations, 'half_damage_to', defenceTypes)
-        noFlag = getModifierFlag(damageRelations, 'no_damage_to', defenceTypes)
+        doubleFlag = GetModifierFlag(damageRelations, 'double_damage_to', defenceTypes)
+        halfFlag = GetModifierFlag(damageRelations, 'half_damage_to', defenceTypes)
+        noFlag = GetModifierFlag(damageRelations, 'no_damage_to', defenceTypes)
 
         if doubleFlag:damageValue = damageValue*2
         if halfFlag:damageValue = damageValue*0.5
@@ -41,7 +41,7 @@ def getModifier(modifierURL, defenceTypes):
     return damageValue
 
 
-def getModifierFlag(damageRelations, damageTo, defenceTypes):
+def GetModifierFlag(damageRelations, damageTo, defenceTypes):
     damageFlag = False
     doubleDamage = damageRelations[damageTo]
 
@@ -52,9 +52,9 @@ def getModifierFlag(damageRelations, damageTo, defenceTypes):
     return damageFlag
 
 
-def pokemonTypes(attackType, defenseTypes):
-    modifierURL = getURL(attackType)
-    damageModifier = getModifier(modifierURL, defenseTypes)
+def PokemonTypes(attackType, defenseTypes):
+    modifierURL = GetURL(attackType)
+    damageModifier = GetModifier(modifierURL, defenseTypes)
     return damageModifier/10
 
 
