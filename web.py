@@ -26,7 +26,6 @@ def PlayGame():
     player2Cards = Player2.getAllData()
     Players = [Player1, Player2]
     playerIndex = random.randint(0, 1)
-    AttackingPlayer = Players[playerIndex]
     if player1Cards == [] or player2Cards == []:
         return render_template('error.html', errorType="emptydatabase")
     else:
@@ -34,7 +33,13 @@ def PlayGame():
 
 @app.route("/playgame/attack")
 def Attack():
-    return render_template('attack.html')
+    attType = request.args.get('attType')
+
+    Player1, Player2 = InitialiseDecks()
+    player1Cards = Player1.getAllData()
+    player2Cards = Player2.getAllData()
+    #TODO input winnerindex (index of who won)
+    return render_template('attack.html', player1Cards=player1Cards, player2Cards=player2Cards)
 
 
 @app.route("/playgame/nextbutton1")
@@ -45,7 +50,6 @@ def NextButton1():
     player2Cards = Player2.getAllData()
     Players = [Player1, Player2]
     playerIndex = random.randint(0, 1)
-    AttackingPlayer = Players[playerIndex]
     #TODO put attacking player into 'get attacking player' function for playgame, nextbutton1, nextbutton2
 
     return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, attackingPlayer=playerIndex)
@@ -59,7 +63,6 @@ def NextButton2():
     player2Cards = Player2.getAllData()
     Players = [Player1, Player2]
     playerIndex = random.randint(0, 1)
-    AttackingPlayer = Players[playerIndex]
 
     return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, attackingPlayer=playerIndex)
 
