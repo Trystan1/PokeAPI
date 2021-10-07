@@ -91,6 +91,7 @@ def GetDefenceTypes(Player1, Player2, playerIndex):
 
 def ComputeVictor():
     # don't call me Shirley
+    # needs to call pokemonTypes, then workout how to define attacker and defender
     pass
 
 
