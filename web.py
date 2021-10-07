@@ -24,11 +24,12 @@ def PlayGame():
     Player1, Player2 = InitialiseGame()
     player1Cards = Player1.getAllData()
     player2Cards = Player2.getAllData()
-    Players = [Player1, Player2]
-    playerIndex = random.randint(0, 1)
-    currentPlayer = Players[playerIndex]
+    # Players = [Player1, Player2]
+    # playerIndex = random.randint(0, 1)
+    # currentPlayer = Players[playerIndex]
+    CurrentPlayer, playerIndex = selectAttackingPlayer(Player1, Player2)
     if player1Cards == [] or player2Cards == []:
-        return render_template('error.html', errorType="emptydatabase", currentPlayer=currentPlayer)
+        return render_template('error.html', errorType="emptydatabase", CurrentPlayer=CurrentPlayer)
     else:
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards)
 

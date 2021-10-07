@@ -62,16 +62,40 @@ def PlayCard(Player1):
     Player1.addData(player1)
 
 
+def selectAttackingPlayer(Player1, Player2):
+    Players = [Player1, Player2]
+    playerIndex = random.randint(0, 1)
+    AttackingPlayer = Players[playerIndex]
+    return AttackingPlayer, playerIndex
+
+
+def switchAttackingPlayer(Player1, Player2, playerIndex):
+    if playerIndex == 0:
+        playerIndex = 1
+    elif playerIndex == 1:
+        playerIndex = 0
+    else:
+        playerIndex = None
+
+    Players = [Player1, Player2]
+    AttackingPlayer = Players[playerIndex]
+    return AttackingPlayer, playerIndex
+
+
 # Lines for testing
-# Player1, Player2 = InitialiseGame()
-# player1 = Player1.getAllData()
-# player2 = Player2.getAllData()
-# print('Player 1')
+Player1, Player2 = InitialiseGame()
+player1 = Player1.getAllData()
+player2 = Player2.getAllData()
+print(player1)
 # # print(*player1, sep="\n")
-# print('Player 2')
+print(player2)
 # print(*player2, sep="\n")
 # print('Player1 rotated')
 # NextCard(Player1)
 # print('Player2 rotated')
 # NextCard(Player2)
 # PlayCard(Player1)
+AttackingPlayer, playerIndex = selectAttackingPlayer(Player1, Player2)
+attackingPlayer = AttackingPlayer.getAllData()
+print(playerIndex)
+print(attackingPlayer)
