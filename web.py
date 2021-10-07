@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from pokemon_database import *
 from api_request import *
 from game_mechanics import *
+from random import randint
 
 app = Flask(__name__)
 
@@ -23,8 +24,11 @@ def PlayGame():
     Player1, Player2, DiscardPile = InitialiseGame()
     player1Cards = Player1.getAllData()
     player2Cards = Player2.getAllData()
+    Players = [Player1, Player2]
+    playerIndex = random.randint(0, 1)
+    currentPlayer = Players[playerIndex]
     if player1Cards == [] or player2Cards == []:
-        return render_template('error.html', errorType="emptydatabase")
+        return render_template('error.html', errorType="emptydatabase", currentPlayer=currentPlayer)
     else:
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards)
 
