@@ -7,7 +7,7 @@ class TestCards:
     @staticmethod
     def set_up_decks():
         # Arrange
-        Player1, Player2, DiscardPile = InitialiseGame()
+        Player1, Player2 = InitialiseGame()
 
         # Act
         player1Cards = Player1.getAllData()

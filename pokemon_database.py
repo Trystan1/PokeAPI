@@ -86,3 +86,11 @@ class DataBase:
         cursor.execute(sql_command)
         conn.commit()
         conn.close()
+
+    def deleteLine(self, pokemonName):
+        conn = sqlite3.connect(DATABASE)
+        cursor = conn.cursor()
+        sql_command = f"""DELETE FROM {self.name} WHERE name='{pokemonName}';"""
+        cursor.execute(sql_command)
+        conn.commit()
+        conn.close()
