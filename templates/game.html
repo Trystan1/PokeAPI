@@ -5,51 +5,75 @@
 
 </head>
 <body>
+{% if nextIndex != None %}
+     <form action="/playgame/newround" method="get" style="text-align: center;">
+         <input type="hidden" name="nextIndex" value="{{nextIndex}}">
+         <button class="">Continue to next round?</button>
+     </form>
+{% elif nextIndex == None %}
+    {% if playerIndex == 0 %}
+    <form action="/playgame/attack" method="get">
+        <input type="hidden" name="playerIndex" value="{{playerIndex}}">
+        What type would you like to attack with?
+        <select class="select-box" name="attType" id="typesSelect">
+            {% set typeList = player1Cards[0].types.split(',') %}
+            {% for type in typeList %}
+                <option class="select-box" value="{{ type  }}">{{  type  }}</option>
+            {% endfor %}
+        </select>
+        <button class="">Attack!</button>
+    </form>
+    {% elif playerIndex == 1 %}
+    <form action="/playgame/attack" method="get" style="text-align: center;">
+         {% set typeList = player1Cards[0].types.split(',') %}
+        {% set attType = typeList|random %}
+        Please press continue to see the results..
+        <input type="hidden" name="attType" value="{{attType}}">
+        <input type="hidden" name="playerIndex" value="{{playerIndex}}">
+         <button class="">Continue?</button>
+     </form>
+    {% endif %}
+{% endif %}
 <div class="float-container">
      <div class="float-child">
         <div class="pokemon-card-container">
-                {% if prevIndex == 0 %}
-                    <div><b>Attacker - Player</b></div>
-                {% elif prevIndex == 1 %}
-                    <div><b>Defender - Player</b></div>
+                {% if playerIndex == 1 %}
+                        <div><b>Defender - Player</b></div>
+                    {% elif playerIndex == 0 %}
+                        <div><b>Attacker - Player</b></div>
                 {% endif %}
-                {% if playerIndex == 0 %}
+                {% if playerIndex == 1 and nextIndex == None%}
+                        <div class="inner-container">
+                            <img src="http://epikosccg.com/wp-content/uploads/2017/04/pokemon-back.png" class="pokemon-card">
+                        </div>
+                {% else %}
+                    <div class="inner-container" >
+                        <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                        <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
+                        <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
+                        <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
+                        <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
+                    </div>
+                {% endif %}
+                {% if nextIndex == 0 %}
                     <div><b>WINNER!</b></div>
-                {% elif playerIndex == 1 %}
+                {% elif nextIndex == 1 %}
                     <div><b>LOSER...</b></div>
                 {% endif %}
-            <div class="inner-container" >
-                <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
-                <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
-                <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
-                <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
-                <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
-            </div>
         </div>
-         {% if prevIndex != 0 %}
-             <form action="/playgame/newround" method="get">
-                 <input type="hidden" name="playerIndex" value="{{playerIndex}}">
-                 <button class="" style="float:right; bottom:0%;">Continue?</button>
-             </form>
-         {% elif prevIndex == None %}
-            <form action="/playgame/newround" method="get">
-                <input type="hidden" name="playerIndex" value="{{playerIndex}}">
-                <button class="" style="float:right; bottom:0%;">Attack!</button>
-            </form>
-         {% endif %}
     </div>
     <div class="float-child">
-            <div class="pokemon-card-container">
-                {% if prevIndex == 0 %}
-                    <div><b>Defender - CPU</b></div>
-                {% elif prevIndex == 1 %}
-                    <div><b>Attacker - CPU</b></div>
-                {% endif %}
-                {% if playerIndex == 1 %}
-                    <div><b>WINNER!</b></div>
-                {% elif prevIndex == 0 %}
-                    <div><b>LOSER...</b></div>
-                {% endif %}
+        <div class="pokemon-card-container">
+            {% if playerIndex == 0 %}
+                <div><b>Defender - Player</b></div>
+            {% elif playerIndex == 1 %}
+                <div><b>Attacker - Player</b></div>
+            {% endif %}
+            {% if playerIndex == 0 and nextIndex == None %}
+                <div class="inner-container">
+                    <img src="http://epikosccg.com/wp-content/uploads/2017/04/pokemon-back.png" class="pokemon-card">
+                </div>
+            {% else %}
                 <div class="inner-container">
                     <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
                     <span class="name-position" id="pokemonName2">{{  player2Cards[0].name  }}</span>
@@ -57,9 +81,15 @@
                     <span class="types-position" id="pokemonTypes2">{{  player2Cards[0].types  }}</span>
                     <img class="pokemon-image-position" id="pokemonImage2" src="{{  player2Cards[0].image  }}">
                 </div>
-            </div>
-    </div>
+            {% endif %}
+            {% if nextIndex == 1 %}
+                <div><b>WINNER!</b></div>
+            {% elif nextIndex == 0 %}
+                <div><b>LOSER...</b></div>
+            {% endif %}
 
+        </div>
+    </div>
 </div>
 
 </body>

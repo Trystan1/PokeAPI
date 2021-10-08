@@ -167,8 +167,8 @@ def ComputeVictor(attackType, Player1, Player2, playerIndex):
 
 
 def EndGame(Player1, Player2):
-    player1 = Player1.getAllData()
-    player2 = Player2.getAllData()
+    player1 = Player1.GetAllData()
+    player2 = Player2.GetAllData()
     endFlag = None
 
     if len(player1) == 0:

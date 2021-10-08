@@ -26,35 +26,35 @@ def PlayGame():
     player2Cards = Player2.GetAllData()
     playerIndex = random.randint(0, 1)
     attackResult = None
-    prevIndex = None
+    nextIndex = None
     if player1Cards == [] or player2Cards == []:
         return render_template('error.html', errorType="emptydatabase")
     else:
-        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, attackingPlayer=playerIndex, attackResult=attackResult, prevIndex=prevIndex)
+        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex)
 
 @app.route("/playgame/attack")
 def Attack():
     attType = request.args.get('attType')
-    playerIndex = int(request.args.get('attackingPlayer'))
-    prevIndex = playerIndex
-    Player1, Player2 = InitialiseDecks()
-    player1Cards = Player1.GetAllData()
-    player2Cards = Player2.GetAllData()
-    playerIndex, attackResult = ComputeVictor(attType, Player1, Player2, playerIndex)
-    endFlag = EndGame(Player1, Player2)
-    if endFlag is None:
-        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, prevIndex=prevIndex)
-    else:
-        return render_template('victoryscreen.html', endFlag=endFlag)
-@app.route("/playgame/newround")
-def NewRound():
     playerIndex = int(request.args.get('playerIndex'))
     Player1, Player2 = InitialiseDecks()
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
+    nextIndex, attackResult = ComputeVictor(attType, Player1, Player2, playerIndex)
+    endFlag = EndGame(Player1, Player2)
+    if endFlag is None:
+        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex)
+    else:
+        return render_template('victoryscreen.html', endFlag=endFlag)
+
+@app.route("/playgame/newround")
+def NewRound():
+    playerIndex = int(request.args.get('nextIndex'))
+    Player1, Player2 = InitialiseDecks()
+    player1Cards = Player1.GetAllData()
+    player2Cards = Player2.GetAllData()
     attackResult = None
-    prevIndex = None
-    return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, prevIndex=prevIndex)
+    nextIndex = None
+    return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex)
 
 
 @app.route("/playgame/nextbutton1")
