@@ -1,5 +1,59 @@
 {% extends "layout.html" %}
 {% block title %}Pickachu useeeee thunderbolt!{% endblock %}
 {% block content %}
+<head>
 
+</head>
+<body>
+<div class="float-container">
+     <div class="float-child">
+        <div class="pokemon-card-container">
+            {% if prevIndex == 0 %}
+                    <div><b>Attacker - Player</b></div>
+                {% else %}
+                    <div><b>Defender - Player</b></div>
+                {% endif %}
+                {% if playerIndex == 0 %}
+                    <div><b>WINNER!</b></div>
+                {% else %}
+                    <div><b>LOSER...</b></div>
+                {% endif %}
+            <div class="inner-container" >
+                <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
+                <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
+                <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
+                <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
+            </div>
+        </div>
+         <form action="/playgame/newround" method="get">
+             <input type="hidden" name="playerIndex" value="{{playerIndex}}">
+            <button class="" style="float:right; bottom:0%;">Continue?</button>
+         </form>
+    </div>
+    <div class="float-child">
+            <div class="pokemon-card-container">
+                {% if prevIndex == 0 %}
+                    <div><b>Defender - CPU</b></div>
+                {% else %}
+                    <div><b>Attacker - CPU</b></div>
+                {% endif %}
+                {% if playerIndex == 1 %}
+                    <div><b>WINNER!</b></div>
+                {% else %}
+                    <div><b>LOSER...</b></div>
+                {% endif %}
+                <div class="inner-container">
+                    <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                    <span class="name-position" id="pokemonName2">{{  player2Cards[0].name  }}</span>
+                    <span class="stats-position" id="pokemonStats2">Attack: {{  player2Cards[0].attack  }} Defence: {{  player2Cards[0].defence  }}</span>
+                    <span class="types-position" id="pokemonTypes2">{{  player2Cards[0].types  }}</span>
+                    <img class="pokemon-image-position" id="pokemonImage2" src="{{  player2Cards[0].image  }}">
+                </div>
+            </div>
+    </div>
+
+</div>
+
+</body>
 {% endblock %}
