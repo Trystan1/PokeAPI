@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from pokemon_database import *
+# from pokemon_database import *
 from api_request import *
 from game_mechanics import *
 from random import randint
