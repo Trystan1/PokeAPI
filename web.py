@@ -36,8 +36,8 @@ def Attack():
     playerIndex = int(request.args.get('attackingPlayer'))
     prevIndex = playerIndex
     Player1, Player2 = InitialiseDecks()
-    player1Cards = Player1.getAllData()
-    player2Cards = Player2.getAllData()
+    player1Cards = Player1.GetAllData()
+    player2Cards = Player2.GetAllData()
     playerIndex, attackResult = ComputeVictor(attType, Player1, Player2, playerIndex)
     endFlag = EndGame(Player1, Player2)
     if endFlag is None:
@@ -48,8 +48,8 @@ def Attack():
 def NewRound():
     playerIndex = int(request.args.get('playerIndex'))
     Player1, Player2 = InitialiseDecks()
-    player1Cards = Player1.getAllData()
-    player2Cards = Player2.getAllData()
+    player1Cards = Player1.GetAllData()
+    player2Cards = Player2.GetAllData()
     return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, attackingPlayer=playerIndex)
 
 
