@@ -14,16 +14,16 @@ def Index():
 
 @app.route("/pokedex")
 def PokeDex():
-    Pokedex = initialiseDatabase()
-    pokeDex = Pokedex.getAllData()
+    Pokedex = InitialiseDatabase()
+    pokeDex = Pokedex.GetAllData()
     return render_template('pokedex.html', pokeDex=pokeDex)
 
 
 @app.route("/playgame")
 def PlayGame():
     Player1, Player2 = InitialiseGame()
-    player1Cards = Player1.getAllData()
-    player2Cards = Player2.getAllData()
+    player1Cards = Player1.GetAllData()
+    player2Cards = Player2.GetAllData()
     playerIndex = random.randint(0, 1)
     if player1Cards == [] or player2Cards == []:
         return render_template('error.html', errorType="emptydatabase")
@@ -57,8 +57,8 @@ def NewRound():
 def NextButton1():
     Player1, Player2 = InitialiseDecks()
     NextCard(Player1, 0)
-    player1Cards = Player1.getAllData()
-    player2Cards = Player2.getAllData()
+    player1Cards = Player1.GetAllData()
+    player2Cards = Player2.GetAllData()
     playerIndex = random.randint(0, 1)
     #TODO put attacking player into 'get attacking player' function for playgame, nextbutton1, nextbutton2
 
@@ -69,8 +69,8 @@ def NextButton1():
 def NextButton2():
     Player1, Player2 = InitialiseDecks()
     NextCard(Player2, 1)
-    player1Cards = Player1.getAllData()
-    player2Cards = Player2.getAllData()
+    player1Cards = Player1.GetAllData()
+    player2Cards = Player2.GetAllData()
     playerIndex = random.randint(0, 1)
 
     return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, attackingPlayer=playerIndex)
@@ -78,7 +78,7 @@ def NextButton2():
 
 @app.route("/pokedex/redownload")
 def RedownloadData():
-    main()
+    FillPokedex()
     return PokeDex()
 
 
