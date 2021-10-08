@@ -6,13 +6,33 @@
     <meta charset="UTF-8">
     <title>Game</title>
 <style>
+    .jumbotron {
+        background: rgba(255, 255, 255, 0.7);
+     }
 
+    .game-page-button{
+          background: rgba(153, 255, 255, 150);
+          padding: 1% 10%;
+          text-align: center;
+          text-decoration: none;
+          display: inline-block;
+          cursor: pointer;
+          font-size: 2.5vw;
+    }
+    button:hover {
+        color: white;
+    }
+
+    .select-box{
+        width: 15vw;
+    }
 </style>
 </head>
 <body>
+{% if attackingPlayer == 0 %}
 <div class="float-container">
     <div class="float-child">
-        <button class="game-page-button" type="button" onclick="location.href='/playgame/nextbutton1'">Next</button>
+        <b> ATTACKER'S POKEMON </b>
         <div class="pokemon-card-container">
             <div class="inner-container">
                 <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
@@ -22,38 +42,67 @@
                 <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
             </div>
         </div>
-        Number of Cards: {{  player1Cards|length  }}
+    </div>
+    <div class="float-child" id="divTypeSelect">
+        <div class="jumbotron">
+        <input type="hidden" name="attackingPlayer" value="{{attackingPlayer}}">
+        <form action="/playgame/attack" method="get">
+            <fieldset>
+                <legend><b>Attacking Player is User</b> <br></legend>
+                <legend>What type would you like to attack with?</legend>
+                <select class="select-box" name="attType" id="typesSelect">
+                    {% set typeList = player1Cards[0].types.split(',') %}
+                    {% for type in typeList %}
+                        <option class="select-box" value="{{ type  }}">{{  type  }}</option>
+                    {% endfor %}
+                </select>
+            </fieldset><br>
+            <input type="hidden" name="attackingPlayer" value="{{attackingPlayer}}">
+            <button class="game-page-button">Attack</button>
+        </form>
+        </div>
+        <div class="jumbotron" style="padding:1vw">
+            <div style="text-align:centre"><b>Your Pokemon:</b></div>
+            <img style="width:13vw;height:auto" id="pokemonImage3" src="{{  player1Cards[0].image  }}">
+        </div>
     </div>
 </div>
-<div class="float-child" id="divTypeSelect" style="top: 50%">
-    {% if attackingPlayer == 0 %}
-    <form action="/playgame/attack" method="get">
-        <fieldset>
-            <legend><b>Attacking Player is Player 1</b> <br></legend>
-            <legend>What type would you like to attack with?</legend>
-            <select name="attType" id="typesSelect">
+{% elif attackingPlayer == 1 %}
+<div class="float-container">
+    <div class="float-child">
+        <b> ATTACKER'S POKEMON </b>
+        <div class="pokemon-card-container">
+            <div class="inner-container">
+                <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                <span class="name-position" id="pokemonName2">{{  player2Cards[0].name  }}</span>
+                <span class="stats-position" id="pokemonStats2">Attack: {{  player2Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
+                <span class="types-position" id="pokemonTypes2">{{  player2Cards[0].types  }}</span>
+                <img class="pokemon-image-position" id="pokemonImage2" src="{{  player2Cards[0].image  }}">
+            </div>
+        </div>
+    </div>
+    <div class="float-child" id="divTypeSelect2">
+        <div class="jumbotron">
+        <input type="hidden" name="attackingPlayer" value="{{attackingPlayer}}">
+        <form action="/playgame/attack" method="get">
+            <fieldset>
+                <legend><b>Attacking Player is Computer</b></legend>
                 {% set typeList = player1Cards[0].types.split(',') %}
-                {% for type in typeList %}
-                    <option  value="{{ type  }}">{{  type  }}</option>
-                {% endfor %}
-            </select>
-        </fieldset><br>
-        <button>Attack</button>
-    </form>
-    {% elif attackingPlayer == 1 %}
-    <form action="/playgame/attack" method="get">
-        <fieldset>
-            <legend><b>Attacking Player is Player 2</b></legend>
-            {% set typeList = player1Cards[0].types.split(',') %}
-            {% set attType = typeList|random %}
-            <legend>Please press continue to see the results..</legend>
-            <input type="hidden" name="attType" value="{{attType}}">
-        </fieldset><br>
-        <button>Continue</button>
-    </form>
-{% endif %}
+                {% set attType = typeList|random %}
+                <legend>Please press continue to see the results..</legend>
+                <input type="hidden" name="attType" value="{{attType}}">
+                <input type="hidden" name="attackingPlayer" value="{{attackingPlayer}}">
+            </fieldset><br>
+            <button class="game-page-button">Continue</button>
+        </form>
+        </div>
+        <div class="jumbotron" style="padding:1vw">
+            <div style="text-align:centre"><b>Your Pokemon:</b></div>
+            <img style="width:13vw;height:auto" id="pokemonImage3" src="{{  player1Cards[0].image  }}">
+        </div>
+    </div>
 </div>
-
+{% endif %}
 </body>
 </html>
 {% endblock %}

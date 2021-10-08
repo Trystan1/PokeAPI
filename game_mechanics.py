@@ -98,6 +98,7 @@ def ComputerAttack(AttackingPlayer):
 
 
 def GetDefenceTypes(Player1, Player2, playerIndex):
+    DefendingPlayer = None
     if playerIndex == 0:
         DefendingPlayer = Player2
     elif playerIndex == 1:
@@ -168,10 +169,12 @@ def ComputeVictor(attackType, Player1, Player2, playerIndex):
 def EndGame(Player1, Player2):
     player1 = Player1.getAllData()
     player2 = Player2.getAllData()
-    endFlag = False
+    endFlag = None
 
-    if len(player1) == 0 or len(player2) == 0:
-        endFlag = True
+    if len(player1) == 0:
+        endFlag = 'Player 1'
+    elif len(player2) == 0:
+        endFlag = 'Player 2'
 
     return endFlag
 
@@ -190,6 +193,7 @@ def EndGame(Player1, Player2):
 # print(f"The defender's types are {defendingTypes}")
 # playerIndex, attackResult = ComputeVictor(attackType, Player1, Player2, playerIndex)
 # print(f"The new attacker is Player: {playerIndex+1}")
+# print(f"The attack result is: {attackResult}")
 
 # --------------------- All you actually need to put in web.py
 Player1, Player2 = InitialiseDecks()
