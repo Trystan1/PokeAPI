@@ -1,17 +1,17 @@
 import random
 from collections import deque
 from pokemon_database import *
-from api_request import initialiseDatabase
+from api_request import InitialiseDatabase
 from pokemon_types import PokemonTypes
 
 
 def InitialiseDecks():
     Player1 = DataBase('Player1', ['name', 'image', 'attack', 'defence', 'types'],
                        ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
-    Player1.createTable()
+    Player1.CreateTable()
     Player2 = DataBase('Player2', ['name', 'image', 'attack', 'defence', 'types'],
                        ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
-    Player2.createTable()
+    Player2.CreateTable()
     return Player1, Player2
 
 
@@ -20,34 +20,34 @@ def InitialiseDeck(playerIndex):
     if playerIndex == 0:
         AttackingPlayer = DataBase('Player1', ['name', 'image', 'attack', 'defence', 'types'],
                            ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
-        AttackingPlayer.createTable()
+        AttackingPlayer.CreateTable()
         DefendingPlayer = DataBase('Player2', ['name', 'image', 'attack', 'defence', 'types'],
                            ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
-        DefendingPlayer.createTable()
+        DefendingPlayer.CreateTable()
     elif playerIndex == 1:
         AttackingPlayer = DataBase('Player2', ['name', 'image', 'attack', 'defence', 'types'],
                                    ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
-        AttackingPlayer.createTable()
+        AttackingPlayer.CreateTable()
         DefendingPlayer = DataBase('Player1', ['name', 'image', 'attack', 'defence', 'types'],
                                    ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
-        DefendingPlayer.createTable()
+        DefendingPlayer.CreateTable()
 
     return AttackingPlayer, DefendingPlayer
 
 
 def DealCards(pokeDex, Player1, Player2):
     random.shuffle(pokeDex)
-    Player1.addData(pokeDex[0:76])
-    Player2.addData(pokeDex[76:151])
+    Player1.AddData(pokeDex[0:76])
+    Player2.AddData(pokeDex[76:151])
 
 
 def InitialiseGame():
     Player1, Player2 = InitialiseDecks()
-    Player1.destroyTable()
-    Player2.destroyTable()
+    Player1.DestroyTable()
+    Player2.DestroyTable()
     Player1, Player2 = InitialiseDecks()
-    Pokedex = initialiseDatabase()
-    pokeDex = Pokedex.getAllData()
+    Pokedex = InitialiseDatabase()
+    pokeDex = Pokedex.GetAllData()
 
     DealCards(pokeDex, Player1, Player2)
 
@@ -56,16 +56,16 @@ def InitialiseGame():
 
 def NextCard(Player, playno):
     # Put first card in player 'deck' to end
-    player = Player.getAllData()
+    player = Player.GetAllData()
     player = deque(player)
     player.rotate(-1)
     player = list(player)
-    Player.destroyTable()
+    Player.DestroyTable()
     Player1, Player2 = InitialiseDecks()
     if playno == 0:
-        Player1.addData(player)
+        Player1.AddData(player)
     elif playno == 1:
-        Player2.addData(player)
+        Player2.AddData(player)
     else:
         pass
 
@@ -89,7 +89,7 @@ def SwitchAttackingPlayer(playerIndex):
 
 
 def ComputerAttack(AttackingPlayer):
-    attackingPlayer = AttackingPlayer.getAllData()
+    attackingPlayer = AttackingPlayer.GetAllData()
     attackingTypeString = attackingPlayer[0]['types']
     attackingTypes = attackingTypeString.split(",")
     attackingType = random.choice(attackingTypes)
@@ -98,11 +98,12 @@ def ComputerAttack(AttackingPlayer):
 
 
 def GetDefenceTypes(Player1, Player2, playerIndex):
+    DefendingPlayer = None
     if playerIndex == 0:
         DefendingPlayer = Player2
     elif playerIndex == 1:
         DefendingPlayer = Player1
-    defendingPlayer = DefendingPlayer.getAllData()
+    defendingPlayer = DefendingPlayer.GetAllData()
     defendingTypeString = defendingPlayer[0]['types']
     defendingTypes = defendingTypeString.split(",")
     return defendingTypes
@@ -116,14 +117,14 @@ def ComputeVictor(attackType, Player1, Player2, playerIndex):
 
     if playerIndex == 0:
         AttackingPlayer = Player1
-        attackingPlayer = AttackingPlayer.getAllData()
+        attackingPlayer = AttackingPlayer.GetAllData()
         DefendingPlayer = Player2
-        defendingPlayer = DefendingPlayer.getAllData()
+        defendingPlayer = DefendingPlayer.GetAllData()
     elif playerIndex == 1:
         AttackingPlayer = Player2
-        attackingPlayer = AttackingPlayer.getAllData()
+        attackingPlayer = AttackingPlayer.GetAllData()
         DefendingPlayer = Player1
-        defendingPlayer = DefendingPlayer.getAllData()
+        defendingPlayer = DefendingPlayer.GetAllData()
 
     attackValue = int(attackingPlayer[0]['attack'])
     defenceValue = int(defendingPlayer[0]['defence'])
@@ -133,32 +134,32 @@ def ComputeVictor(attackType, Player1, Player2, playerIndex):
     if attackResult <= 0:
         print('attacker victory')
         # add defender's card to attacker
-        AttackingPlayer.addData([defendingPlayer[0]])
+        AttackingPlayer.AddData([defendingPlayer[0]])
         # delete card from defender
-        DefendingPlayer.deleteLine(defendingPlayer[0]['name'])
+        DefendingPlayer.DeleteLine(defendingPlayer[0]['name'])
         # rotate attacker's deck
-        attackingPlayer = AttackingPlayer.getAllData()
+        attackingPlayer = AttackingPlayer.GetAllData()
         attackingPlayer = deque(attackingPlayer)
         attackingPlayer.rotate(-1)
         attackingPlayer = list(attackingPlayer)
-        AttackingPlayer.destroyTable()
+        AttackingPlayer.DestroyTable()
         AttackingPlayer, DefendingPlayer = InitialiseDeck(playerIndex)
-        AttackingPlayer.addData(attackingPlayer)
+        AttackingPlayer.AddData(attackingPlayer)
 
     elif attackResult > 0:
         print('defender victory')
         # add attacker's card to defender
-        DefendingPlayer.addData([attackingPlayer[0]])
+        DefendingPlayer.AddData([attackingPlayer[0]])
         # delete card from attacker
-        AttackingPlayer.deleteLine(attackingPlayer[0]['name'])
+        AttackingPlayer.DeleteLine(attackingPlayer[0]['name'])
         # rotate defender's deck
-        defendingPlayer = DefendingPlayer.getAllData()
+        defendingPlayer = DefendingPlayer.GetAllData()
         defendingPlayer = deque(defendingPlayer)
         defendingPlayer.rotate(-1)
         defendingPlayer = list(defendingPlayer)
-        DefendingPlayer.destroyTable()
+        DefendingPlayer.DestroyTable()
         AttackingPlayer, DefendingPlayer = InitialiseDeck(playerIndex)
-        DefendingPlayer.addData(defendingPlayer)
+        DefendingPlayer.AddData(defendingPlayer)
         # defender and attacker switch roles
         playerIndex = SwitchAttackingPlayer(playerIndex)
 
@@ -168,10 +169,12 @@ def ComputeVictor(attackType, Player1, Player2, playerIndex):
 def EndGame(Player1, Player2):
     player1 = Player1.getAllData()
     player2 = Player2.getAllData()
-    endFlag = False
+    endFlag = None
 
-    if len(player1) == 0 or len(player2) == 0:
-        endFlag = True
+    if len(player1) == 0:
+        endFlag = 'Player 1'
+    elif len(player2) == 0:
+        endFlag = 'Player 2'
 
     return endFlag
 
@@ -192,7 +195,7 @@ def EndGame(Player1, Player2):
 # print(f"The new attacker is Player: {playerIndex+1}")
 
 # --------------------- All you actually need to put in web.py
-Player1, Player2 = InitialiseDecks()
-AttackingPlayer, playerIndex = SelectAttackingPlayer(Player1, Player2)   # not after game initialisation
-attackType = ComputerAttack(AttackingPlayer)    # this is coming from the frontend?
-playerIndex, attackResult = ComputeVictor(attackType, Player1, Player2, playerIndex)
+# Player1, Player2 = InitialiseDecks()
+# AttackingPlayer, playerIndex = SelectAttackingPlayer(Player1, Player2)   # not after game initialisation
+# attackType = ComputerAttack(AttackingPlayer)    # this is coming from the frontend?
+# playerIndex, attackResult = ComputeVictor(attackType, Player1, Player2, playerIndex)

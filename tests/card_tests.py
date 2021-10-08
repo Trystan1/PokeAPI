@@ -10,8 +10,8 @@ class TestCards:
         Player1, Player2 = InitialiseGame()
 
         # Act
-        player1Cards = Player1.getAllData()
-        player2Cards = Player2.getAllData()
+        player1Cards = Player1.GetAllData()
+        player2Cards = Player2.GetAllData()
         return player1Cards, player2Cards
 
     @staticmethod

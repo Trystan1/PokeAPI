@@ -9,7 +9,7 @@ class DataBase:
         self.fields = fields
         self.types = types
 
-    def createTable(self):
+    def CreateTable(self):
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
 
@@ -23,7 +23,7 @@ class DataBase:
         conn.commit()
         conn.close()
 
-    def addData(self, data):
+    def AddData(self, data):
         # when passes a list of dictionaries, will add data in dictionaries to the given table in the database only if
         # dictionary key is within the 'fields' of the table
         conn = sqlite3.connect(DATABASE)
@@ -57,7 +57,7 @@ class DataBase:
 
         conn.close()
 
-    def getAllData(self):
+    def GetAllData(self):
         # read contents of given table into list of dictionaries, each key is defined by the corresponding field entry
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
@@ -79,7 +79,7 @@ class DataBase:
 
         return data
 
-    def destroyTable(self):
+    def DestroyTable(self):
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
         sql_command = f'''DROP TABLE {self.name};'''
@@ -87,7 +87,7 @@ class DataBase:
         conn.commit()
         conn.close()
 
-    def deleteLine(self, pokemonName):
+    def DeleteLine(self, pokemonName):
         conn = sqlite3.connect(DATABASE)
         cursor = conn.cursor()
         sql_command = f"""DELETE FROM {self.name} WHERE name='{pokemonName}';"""

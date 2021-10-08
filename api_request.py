@@ -2,19 +2,19 @@ import requests
 from pokemon_database import DataBase
 
 
-def main():
+def FillPokedex():
 
-    pokeDex, numPokemon = getPokedex()
+    pokeDex, numPokemon = GetPokedex()
     if numPokemon != 151:
         print(f'Houston we have a problem, there are not enough Pokemon, returned {numPokemon}/151')
-    Pokedex = initialiseDatabase()
-    Pokedex.destroyTable()    # uncomment this if want a quick table reset
-    Pokedex = initialiseDatabase()
-    Pokedex.addData(pokeDex)
+    Pokedex = InitialiseDatabase()
+    Pokedex.DestroyTable()    # uncomment this if want a quick table reset
+    Pokedex = InitialiseDatabase()
+    Pokedex.AddData(pokeDex)
     return Pokedex
 
 
-def getPokedex():
+def GetPokedex():
 
     r = requests.get(f'https://pokeapi.co/api/v2/pokemon/?offset=0&limit=151')
 
@@ -52,12 +52,9 @@ def getPokedex():
     return pokeDex, numPokemon
 
 
-def initialiseDatabase():
+def InitialiseDatabase():
     Pokedex = DataBase('Pokedex', ['name', 'image', 'attack', 'defence', 'types'],
                        ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
-    Pokedex.createTable()
+    Pokedex.CreateTable()
 
     return Pokedex
-
-
-# main()
