@@ -1,7 +1,14 @@
 {% extends "layout.html" %}
-{% block title %}Uh Oh...{% endblock %}
+{% block title %}Beansed It...{% endblock %}
 {% block content %}
+<html>
+<body>
 
-You've hit the error page!
+{% if errorType=="generalError" %}
 
+<strong>You've hit the error page! We don't know what went wrong. Maybe try turning it off and on again?</strong>
+<img src="https://i.imgur.com/sohWhy9.png">
+
+</body>
+{% endif %}
 {% endblock %}

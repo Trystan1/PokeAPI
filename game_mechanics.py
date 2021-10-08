@@ -196,7 +196,7 @@ def EndGame(Player1, Player2):
 # print(f"The attack result is: {attackResult}")
 
 # --------------------- All you actually need to put in web.py
-Player1, Player2 = InitialiseDecks()
-AttackingPlayer, playerIndex = SelectAttackingPlayer(Player1, Player2)   # not after game initialisation
-attackType = ComputerAttack(AttackingPlayer)    # this is coming from the frontend?
-playerIndex, attackResult = ComputeVictor(attackType, Player1, Player2, playerIndex)
+# Player1, Player2 = InitialiseDecks()
+# AttackingPlayer, playerIndex = SelectAttackingPlayer(Player1, Player2)   # not after game initialisation
+# attackType = ComputerAttack(AttackingPlayer)    # this is coming from the frontend?
+# playerIndex, attackResult = ComputeVictor(attackType, Player1, Player2, playerIndex)

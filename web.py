@@ -81,5 +81,8 @@ def RedownloadData():
     main()
     return PokeDex()
 
+@app.route("/error")
+def Error():
+    return render_template('error.html', errorType="generalError")
 
 if __name__ == "__main__": app.run()
