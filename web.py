@@ -25,10 +25,12 @@ def PlayGame():
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
     playerIndex = random.randint(0, 1)
+    attackResult = None
+    prevIndex = None
     if player1Cards == [] or player2Cards == []:
         return render_template('error.html', errorType="emptydatabase")
     else:
-        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, attackingPlayer=playerIndex)
+        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, attackingPlayer=playerIndex, attackResult=attackResult, prevIndex=prevIndex)
 
 @app.route("/playgame/attack")
 def Attack():
@@ -41,7 +43,7 @@ def Attack():
     playerIndex, attackResult = ComputeVictor(attType, Player1, Player2, playerIndex)
     endFlag = EndGame(Player1, Player2)
     if endFlag is None:
-        return render_template('attack.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, prevIndex=prevIndex)
+        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, prevIndex=prevIndex)
     else:
         return render_template('victoryscreen.html', endFlag=endFlag)
 @app.route("/playgame/newround")
@@ -50,7 +52,9 @@ def NewRound():
     Player1, Player2 = InitialiseDecks()
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
-    return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, attackingPlayer=playerIndex)
+    attackResult = None
+    prevIndex = None
+    return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, prevIndex=prevIndex)
 
 
 @app.route("/playgame/nextbutton1")
