@@ -37,6 +37,7 @@
 <div class="float-container">
      <div class="float-child">
         <div class="pokemon-card-container">
+                Number of Cards = {{player1Cards|length}}
                 {% if playerIndex == 1 %}
                         <div><b>Defender - Player</b></div>
                     {% elif playerIndex == 0 %}
@@ -64,6 +65,7 @@
     </div>
     <div class="float-child">
         <div class="pokemon-card-container">
+            Number of Cards = {{player2Cards|length}}
             {% if playerIndex == 0 %}
                 <div><b>Defender - Player</b></div>
             {% elif playerIndex == 1 %}
