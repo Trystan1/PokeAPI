@@ -30,19 +30,24 @@
         <div class="center">
             <button class="welcome-page-button wide_button" type="button" onclick="location.href='damage_relations'">Damage Relations</button>
         </div>
-
-    <!--        <img src="https://en.meming.world/images/en/6/6e/Surprised_Pikachu.jpg">-->
+        <p></p>
+        <div class="center">
+            <button class="welcome-page-button wide_button" type="button" onclick="PlayOnClick()">Evolve</button>
+        </div>
+<!--            <img src="https://giphy.com/gifs/pokemon-cbMp1PSySlKjS">-->
         </div>
 </div>
 
 
-
-
-
 <script>
-    var audio = new Audio("{{ url_for('static', filename='Audio/click.mp3') }}");
+    var audio_click = new Audio("{{ url_for('static', filename='Audio/click.mp3') }}");
     document.onclick = function() {
-        audio.play();
+        audio_click.play();
+    }
+
+    var audio_evolve = new Audio("{{ url_for('static', filename='Audio/JOHN.mp3') }}");
+    function PlayOnClick() {
+    audio_evolve.play();
     }
 </script>
 </body>
