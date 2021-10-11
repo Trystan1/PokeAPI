@@ -85,4 +85,8 @@ def RedownloadData():
 def Error():
     return render_template('error.html', errorType="generalError")
 
+@app.route("/victory")
+def Victory():
+    return render_template('victoryscreen.html')
+
 if __name__ == "__main__": app.run()
