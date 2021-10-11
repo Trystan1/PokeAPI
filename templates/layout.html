@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
 <style>
+
+
 body {
     background-image: url('https://media-s3-us-east-1.ceros.com/hype-beast/images/2018/07/13/a9a51bc0b8d626db493ab5f9a971b043/background-hero.png?imageOpt=1&fit=bounds&width=480');
     background-repeat: no-repeat;
@@ -48,9 +50,6 @@ TR:nth-child(even) {
     }
 
     .inner-container{
-        width = 35vw;
-        height = auto;
-        overflow: hidden;
         position: relative;
     }
 
@@ -109,6 +108,17 @@ TR:nth-child(even) {
   height: 10%;
 }
 
+.float-container{
+        padding: 20px;
+    }
+
+    .float-child{
+        width: 50%;
+        float: left;
+        padding: 20px;
+    }
+
+
 </style>
 
 <head>
@@ -116,6 +126,9 @@ TR:nth-child(even) {
     <link rel="stylesheet"
           href="{{ url_for('static', filename='bootstrap.min.css') }}"/>
     <script src="{{ url_for('static', filename='index.js') }}"></script>
+    <link rel="icon"
+      type="image/png"
+      href="https://cdn2.bulbagarden.net/upload/1/1e/185Sudowoodo.png">
 </head>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
     <a class="navbar-brand" href="/">Home</a>
