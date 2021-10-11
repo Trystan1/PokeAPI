@@ -35,8 +35,15 @@
         </div>
 </div>
 
-<script>
 
+
+
+
+<script>
+    var audio = new Audio("{{ url_for('static', filename='Audio/click.mp3') }}");
+    document.onclick = function() {
+        audio.play();
+    }
 </script>
 </body>
 

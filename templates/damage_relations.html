@@ -10,9 +10,27 @@
 
 <div class="container body-content">
     <div class="centre-picture">
-        <img src="https://cdn.discordapp.com/attachments/894499411131007026/896028089572802630/typechart.png" width="75%" height="75%">
+        <img src="{{ url_for('static', filename='Images/Damage_Relations.png') }}" width="75%" height="75%">
+<!--        <img src="../Images/Damage_Relations.png" alt="why aren't you working?">-->
+<!--        <img src="https://github.com/Trystan1/PokeAPI/main/Images/Damage_Relations.png?raw=true">-->
+
     </div>
+
+    <audio autoplay>
+<!--      <source src="jes_smith_music_a_bright_day.mp3" type="audio/mpeg">-->
+        <source src="{{ url_for('static', filename='Audio/jes_smith_music_a_bright_day.mp3') }}" type="audio/mpeg">
+    </audio>
+
+
+
 </div>
+
+<script>
+    var audio = new Audio("{{ url_for('static', filename='Audio/click.mp3') }}");
+    document.onclick = function() {
+        audio.play();
+    }
+</script>
 
 </html>
 
