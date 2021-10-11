@@ -132,7 +132,6 @@ def ComputeVictor(attackType, Player1, Player2, playerIndex):
     attackResult = defenceValue - modifiedAttack
 
     if attackResult <= 0:
-        print('attacker victory')
         # add defender's card to attacker
         AttackingPlayer.AddData([defendingPlayer[0]])
         # delete card from defender
@@ -147,7 +146,6 @@ def ComputeVictor(attackType, Player1, Player2, playerIndex):
         AttackingPlayer.AddData(attackingPlayer)
 
     elif attackResult > 0:
-        print('defender victory')
         # add attacker's card to defender
         DefendingPlayer.AddData([attackingPlayer[0]])
         # delete card from attacker
