@@ -43,9 +43,14 @@
                     {% elif playerIndex == 0 %}
                         <div><b>Attacker - Player</b></div>
                 {% endif %}
+                {% if nextIndex == 0 %}
+                    <div><b>WINNER!</b></div>
+                {% elif nextIndex == 1 %}
+                    <div><b>LOSER...</b></div>
+                {% endif %}
                 {% if playerIndex == 1 and nextIndex == None%}
                         <div class="inner-container">
-                            <img src="http://epikosccg.com/wp-content/uploads/2017/04/pokemon-back.png" class="pokemon-card">
+                            <img src="https://cdn2.bulbagarden.net/upload/1/17/Cardback.jpg" class="pokemon-card">
                         </div>
                 {% else %}
                     <div class="inner-container" >
@@ -55,11 +60,6 @@
                         <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
                         <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
                     </div>
-                {% endif %}
-                {% if nextIndex == 0 %}
-                    <div><b>WINNER!</b></div>
-                {% elif nextIndex == 1 %}
-                    <div><b>LOSER...</b></div>
                 {% endif %}
         </div>
     </div>
@@ -71,9 +71,14 @@
             {% elif playerIndex == 1 %}
                 <div><b>Attacker - Player</b></div>
             {% endif %}
+            {% if nextIndex == 1 %}
+                <div><b>WINNER!</b></div>
+            {% elif nextIndex == 0 %}
+                <div><b>LOSER...</b></div>
+            {% endif %}
             {% if playerIndex == 0 and nextIndex == None %}
                 <div class="inner-container">
-                    <img src="http://epikosccg.com/wp-content/uploads/2017/04/pokemon-back.png" class="pokemon-card">
+                    <img src="https://cdn2.bulbagarden.net/upload/1/17/Cardback.jpg" class="pokemon-card">
                 </div>
             {% else %}
                 <div class="inner-container">
@@ -83,11 +88,6 @@
                     <span class="types-position" id="pokemonTypes2">{{  player2Cards[0].types  }}</span>
                     <img class="pokemon-image-position" id="pokemonImage2" src="{{  player2Cards[0].image  }}">
                 </div>
-            {% endif %}
-            {% if nextIndex == 1 %}
-                <div><b>WINNER!</b></div>
-            {% elif nextIndex == 0 %}
-                <div><b>LOSER...</b></div>
             {% endif %}
 
         </div>
