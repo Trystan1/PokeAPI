@@ -14,6 +14,7 @@
         width: 100%
      }
 </style>
+
 <body>
 <div class="container body-content">
     <div class="jumbotron">
@@ -34,23 +35,53 @@
         </div>
         <p></p>
         <div class="center">
-            <button class="welcome-page-button wide_button" type="button" onclick="PlayOnClick()">Evolve</button>
+            <button class="welcome-page-button wide_button" type="button" onclick="PlayOnClick1();PlayOnClick2()">Evolve</button>
         </div>
-<!--            <img src="https://giphy.com/gifs/pokemon-cbMp1PSySlKjS">-->
+        <p></p>
+        <div class="center">
+        <div class="overlay">
+            <div id="gifDIV" style="display:none">
+                 <img src="{{ url_for('static', filename='Images/evolve.gif') }}" height="100%" width="100%">
+            </div>
         </div>
+        </div>
+    </div>
 </div>
 
+<audio autoplay loop id="background">
+    <source src="{{ url_for('static', filename='Audio/POKEMON_THEME.mp3') }}" type="audio/mpeg">
+</audio>
 
 <script>
+
+    document.getElementById("background").play;
+    var background_music = document.getElementById("background");
+    background_music.volume = 0.05;
+
+
     var audio_click = new Audio("{{ url_for('static', filename='Audio/click.mp3') }}");
+    var audio_evolve = new Audio("{{ url_for('static', filename='Audio/JOHN.mp3') }}");
+    audio_evolve.volume = 0.3;
+
     document.onclick = function() {
         audio_click.play();
     }
 
-    var audio_evolve = new Audio("{{ url_for('static', filename='Audio/JOHN.mp3') }}");
-    function PlayOnClick() {
-    audio_evolve.play();
+  var gif = document.getElementById("gifDIV");
+
+  function PlayOnClick1() {
+        audio_evolve.play();
+        setTimeout(function(){
+            gif.style.display = "block";
+        }, 2500);
     }
+
+    function PlayOnClick2() {
+        setTimeout(function(){
+            gif.style.display = "none";
+        }, 8000);
+    }
+
 </script>
 </body>
 
