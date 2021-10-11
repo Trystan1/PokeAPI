@@ -30,6 +30,7 @@ def PlayGame():
     else:
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, attackingPlayer=playerIndex)
 
+
 @app.route("/playgame/attack")
 def Attack():
     attType = request.args.get('attType')
@@ -44,6 +45,8 @@ def Attack():
         return render_template('attack.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, prevIndex=prevIndex)
     else:
         return render_template('victoryscreen.html', endFlag=endFlag)
+
+
 @app.route("/playgame/newround")
 def NewRound():
     playerIndex = int(request.args.get('playerIndex'))
@@ -80,6 +83,11 @@ def NextButton2():
 def RedownloadData():
     FillPokedex()
     return PokeDex()
+
+
+@app.route("/damage_relations")
+def DamageRelations():
+    return render_template('damage_relations.html')
 
 
 if __name__ == "__main__": app.run()
