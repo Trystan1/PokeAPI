@@ -4,11 +4,21 @@
 <html>
 <link rel="stylesheet" href="style.css">
 <body>
+<style>
+h1 {text-align: center;}
+p {text-align: center;}
+div {text-align: center;}
+</style>
+</head>
+<body>
+
+</body>
+</html>
 
 {% if errorType=="generalError" %}
+<font face="Inherit" size="6px" color="#000000">You've hit the error page! We don't know what went wrong. Maybe try turning it off and on again?</font><br>
+<br> <img src="https://i.kym-cdn.com/photos/images/facebook/001/431/201/40f.png" alt="Pikachu" width="865" height="753">
 
-<strong>You've hit the error page! We don't know what went wrong. Maybe try turning it off and on again?</strong>
-<img src="https://en.meming.world/images/en/6/6e/Surprised_Pikachu.jpg" alt="Pikachu"/>
 </body>
 {% endif %}
 {% endblock %}
