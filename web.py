@@ -2,7 +2,7 @@ from flask import Flask, render_template, request
 from pokemon_database import *
 from api_request import *
 from game_mechanics import *
-from random import randint
+from constants import PLAYERCHOICES
 
 app = Flask(__name__)
 
@@ -18,32 +18,42 @@ def PokeDex():
     pokeDex = Pokedex.GetAllData()
     return render_template('pokedex.html', pokeDex=pokeDex)
 
+@app.route("/gameSetUp")
+def GameSetUp():
+    return render_template('gamesetup.html')
 
 @app.route("/playgame")
 def PlayGame():
+    NumPlayers = int(request.args.get('players'))
+    Players = PLAYERCHOICES[NumPlayers]
+    Player1, Player2 = InitialiseDecks()
+    Player1.DestroyTable(), Player2.DestroyTable()
     Player1, Player2 = InitialiseGame()
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
     playerIndex = random.randint(0, 1)
     attackResult = None
     nextIndex = None
+    attType = None
     if player1Cards == [] or player2Cards == []:
         return render_template('error.html', errorType="emptydatabase")
     else:
-        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex)
+        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex, players=Players, numplayers=NumPlayers, atttype=attType)
 
 
 @app.route("/playgame/attack")
 def Attack():
-    attType = request.args.get('attType')
+    attType = request.args.get('atttype')
     playerIndex = int(request.args.get('playerIndex'))
+    NumPlayers = int(request.args.get('numplayers'))
+    Players = PLAYERCHOICES[NumPlayers]
     Player1, Player2 = InitialiseDecks()
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
     nextIndex, attackResult = ComputeVictor(attType, Player1, Player2, playerIndex)
     endFlag = EndGame(Player1, Player2)
     if endFlag is None:
-        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex)
+        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex, players=Players, numplayers=NumPlayers, atttype=attType)
     else:
         return render_template('victoryscreen.html', endFlag=endFlag)
 
@@ -51,12 +61,15 @@ def Attack():
 @app.route("/playgame/newround")
 def NewRound():
     playerIndex = int(request.args.get('nextIndex'))
+    NumPlayers = int(request.args.get('numplayers'))
+    Players = PLAYERCHOICES[NumPlayers]
     Player1, Player2 = InitialiseDecks()
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
     attackResult = None
     nextIndex = None
-    return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex)
+    attType = None
+    return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex, players=Players, numplayers=NumPlayers, atttype=attType)
 
 
 @app.route("/playgame/nextbutton1")

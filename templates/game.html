@@ -1,47 +1,83 @@
 {% extends "layout.html" %}
-{% block title %}Pickachu useeeee thunderbolt!{% endblock %}
+{% block title %}LETSSSSS BATTLE!{% endblock %}
 {% block content %}
 <head>
+    <style>
+        .jumbotron{
+            width: 60vw;
+            padding: 3vw;
+            background: rgba(255, 255, 255, 0.7);
+            font-size: 2vw
+        }
+
+        .player-info{
+            width: 35vw;
+            padding: 2vw;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius:10px;
+        }
+    </style>
 
 </head>
 <body>
-{% if nextIndex != None %}
-     <form action="/playgame/newround" method="get" style="text-align: center;">
-         <input type="hidden" name="nextIndex" value="{{nextIndex}}">
-         <button class="">Continue to next round?</button>
-     </form>
-{% elif nextIndex == None %}
-    {% if playerIndex == 0 %}
-    <form action="/playgame/attack" method="get">
-        <input type="hidden" name="playerIndex" value="{{playerIndex}}">
-        What type would you like to attack with?
-        <select class="select-box" name="attType" id="typesSelect">
-            {% set typeList = player1Cards[0].types.split(',') %}
-            {% for type in typeList %}
-                <option class="select-box" value="{{ type  }}">{{  type  }}</option>
-            {% endfor %}
-        </select>
-        <button class="">Attack!</button>
-    </form>
-    {% elif playerIndex == 1 %}
-    <form action="/playgame/attack" method="get" style="text-align: center;">
-         {% set typeList = player1Cards[0].types.split(',') %}
-        {% set attType = typeList|random %}
-        Please press continue to see the results..
-        <input type="hidden" name="attType" value="{{attType}}">
-        <input type="hidden" name="playerIndex" value="{{playerIndex}}">
-         <button class="">Continue?</button>
-     </form>
+<div class="center">
+    <div class="jumbotron">
+    {% if nextIndex != None %}
+         <form action="/playgame/newround" method="get" style="text-align: center;">
+             <input type="hidden" name="nextIndex" value="{{nextIndex}}">
+             <input type="hidden" name="numplayers" value="{{numplayers}}">
+             {% if playerIndex == 0 %}
+             {{player1Cards[0].name}} used its {{atttype}} move!
+             {% elif playerIndex == 1 %}
+             {{player2Cards[0].name}} used its {{atttype}} move!
+             {% endif %}
+             <button class="">Continue to next round?</button>
+         </form>
+    {% elif nextIndex == None %}
+        {% if (playerIndex == 0 and players[0][0:6] == 'Player') or (playerIndex == 1 and players[1][0:6] == 'Player') %}
+        <form action="/playgame/attack" method="get">
+            <input type="hidden" name="playerIndex" value="{{playerIndex}}">
+            <input type="hidden" name="numplayers" value="{{numplayers}}">
+            {{players[playerIndex]}}, What type would you like to attack with?
+            <select class="select-box" name="atttype" id="typesSelect">
+                {% if playerIndex == 0 %}
+                    {% set typeList = player1Cards[0].types.split(',') %}
+                {% elif playerIndex == 1 %}
+                    {% set typeList = player2Cards[0].types.split(',') %}
+                {% endif %}
+                {% for type in typeList %}
+                    <option class="select-box" value="{{ type  }}">{{  type  }}</option>
+                {% endfor %}
+            </select>
+            <button class="">Attack!</button>
+        </form>
+        {% else %}
+        <form action="/playgame/attack" method="get">
+            {% if playerIndex == 0 %}
+                {% set typeList = player1Cards[0].types.split(',') %}
+            {% elif playerIndex == 1 %}
+                {% set typeList = player2Cards[0].types.split(',') %}
+            {% endif %}
+            {% set atttype = typeList|random %}
+            Please press continue to see the results..
+            <input type="hidden" name="atttype" value="{{atttype}}">
+            <input type="hidden" name="playerIndex" value="{{playerIndex}}">
+            <input type="hidden" name="numplayers" value="{{numplayers}}">
+             <button class="">Continue?</button>
+         </form>
+        {% endif %}
     {% endif %}
-{% endif %}
-<div class="float-container">
+    </div>
+</div>
+<div class="float-container" style="font-size: 2vw;">
      <div class="float-child">
         <div class="pokemon-card-container">
+            <div class="player-info">
                 Number of Cards = {{player1Cards|length}}
                 {% if playerIndex == 1 %}
-                        <div><b>Defender - Player</b></div>
+                        <div><b>Defender - {{players[0]}}</b></div>
                     {% elif playerIndex == 0 %}
-                        <div><b>Attacker - Player</b></div>
+                        <div><b>Attacker - {{players[0]}}</b></div>
                 {% endif %}
                 {% if nextIndex == 0 %}
                     <div><b>WINNER!</b></div>
@@ -61,15 +97,17 @@
                         <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
                     </div>
                 {% endif %}
+            </div>
         </div>
     </div>
     <div class="float-child">
         <div class="pokemon-card-container">
+            <div class="player-info">
             Number of Cards = {{player2Cards|length}}
             {% if playerIndex == 0 %}
-                <div><b>Defender - CPU</b></div>
+                <div><b>Defender - {{players[1]}}</b></div>
             {% elif playerIndex == 1 %}
-                <div><b>Attacker - CPU</b></div>
+                <div><b>Attacker - {{players[1]}}</b></div>
             {% endif %}
             {% if nextIndex == 1 %}
                 <div><b>WINNER!</b></div>
@@ -79,7 +117,6 @@
             {% if playerIndex == 0 and nextIndex == None %}
                 <div class="inner-container">
                     <img src="https://cdn2.bulbagarden.net/upload/1/17/Cardback.jpg" class="pokemon-card">
-                </div>
             {% else %}
                 <div class="inner-container">
                     <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
@@ -89,7 +126,7 @@
                     <img class="pokemon-image-position" id="pokemonImage2" src="{{  player2Cards[0].image  }}">
                 </div>
             {% endif %}
-
+            </div>
         </div>
     </div>
 </div>

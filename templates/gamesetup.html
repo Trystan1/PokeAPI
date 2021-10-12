@@ -1,0 +1,57 @@
+{% extends "layout.html" %}
+{% block title %}Welcome!{% endblock %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+    .jumbotron {
+        background: rgba(255, 255, 255, 0.7);
+        height: 100%
+        width: 100%
+     }
+
+    .player-sprite {
+        width: 3vw;
+        height: auto;
+    }
+     </style>
+</head>
+<body>
+<div class="container body-content">
+    <div class="jumbotron">
+        <h1>LET'S BATTLE!</h1>
+        <p class="lead">How many trainers are battling?
+        </p>
+    </div>
+    <form action="/playgame" method="get">
+        <div class="center">
+                <input type="hidden" name="players" value=0>
+                <button class="welcome-page-button wide_button">Zero</button>
+        </div>
+    </form>
+    <p></p>
+    <form action="/playgame" method="get">
+        <div class="center">
+                <input type="hidden" name="players" value=1>
+                <button class="welcome-page-button wide_button">One
+                <img class='player-sprite' src="https://images.gamebanana.com/img/ico/sprays/5b9089fef122c.png"></button>
+        </div>
+    </form>
+    <p></p>
+    <form action="/playgame" method="get">
+        <div class="center">
+                <input type="hidden" name="players" value=2>
+                <button class="welcome-page-button wide_button">Two
+                <img class='player-sprite' src="https://images.gamebanana.com/img/ico/sprays/5b9089fef122c.png">
+                <img class='player-sprite' src="https://images.gamebanana.com/img/ico/sprays/5b9089fef122c.png"></button>
+        </div>
+    </form>
+
+</div>
+</body>
+</html>
+
+
+{% endblock %}
