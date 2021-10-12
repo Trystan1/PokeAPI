@@ -50,25 +50,21 @@ def GetPokedex():
         response = r.json()
 
         try:
-            # print(f'first {response["chain"]["evolves_to"][0]["species"]}')
             firstEvolution = response["chain"]["evolves_to"][0]["species"]["name"]
             firstEvolution = firstEvolution.capitalize()
-            if firstEvolution == pokemonName: firstEvolution = ''
         except IndexError:
-            pass
+            firstEvolution = ''
 
         try:
-            # print(f'second {response["chain"]["evolves_to"][0]["evolves_to"][0]["species"]}')
             secondEvolution = response["chain"]["evolves_to"][0]["evolves_to"][0]["species"]["name"]
             secondEvolution = secondEvolution.capitalize()
-            if secondEvolution == pokemonName: secondEvolution = ''
         except IndexError:
-            pass
+            secondEvolution = ''
 
-        if firstEvolution == '':
+        if firstEvolution == pokemonName:
             pokemonEvolution = secondEvolution
-        elif secondEvolution == '':
-            pokemonEvolution = firstEvolution
+        elif secondEvolution == pokemonName:
+            pokemonEvolution = ''
         else:
             pokemonEvolution = f'{firstEvolution},{secondEvolution}'
 
