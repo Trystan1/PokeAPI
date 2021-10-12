@@ -42,10 +42,41 @@ def GetPokedex():
             typeList += f'{types["type"]["name"]},'
         typeList = typeList[:-1]    # delete last comma
 
-        pokeDex.append(
-            {'name': pokemonName, 'image': pokemonImage, 'attack': pokemonAttack, 'defence': pokemonDefence,
-             'types': typeList})
+        # get to species page
+        r = requests.get(response["species"]["url"])
+        response = r.json()
+        # get to evolution chain page
+        r = requests.get(response["evolution_chain"]["url"])
+        response = r.json()
 
+        try:
+            # print(f'first {response["chain"]["evolves_to"][0]["species"]}')
+            firstEvolution = response["chain"]["evolves_to"][0]["species"]["name"]
+            firstEvolution = firstEvolution.capitalize()
+            if firstEvolution == pokemonName: firstEvolution = ''
+        except IndexError:
+            pass
+
+        try:
+            # print(f'second {response["chain"]["evolves_to"][0]["evolves_to"][0]["species"]}')
+            secondEvolution = response["chain"]["evolves_to"][0]["evolves_to"][0]["species"]["name"]
+            secondEvolution = secondEvolution.capitalize()
+            if secondEvolution == pokemonName: secondEvolution = ''
+        except IndexError:
+            pass
+
+        if firstEvolution == '':
+            pokemonEvolution = secondEvolution
+        elif secondEvolution == '':
+            pokemonEvolution = firstEvolution
+        else:
+            pokemonEvolution = f'{firstEvolution},{secondEvolution}'
+
+        pokeDex.append(
+            {'name': pokemonName, 'evolution_path': pokemonEvolution, 'image': pokemonImage, 'attack': pokemonAttack,
+             'defence': pokemonDefence,
+             'types': typeList})
+        # print(pokeDex[numPokemon-1])
         numPokemon += 1
         print(f'{numPokemon}/151')
 
