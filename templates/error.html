@@ -1,22 +1,40 @@
 {% extends "layout.html" %}
 {% block title %}Beansed It...{% endblock %}
 {% block content %}
-<html>
-<link rel="stylesheet" href="style.css">
-<body>
+<html lang="en">
+<head>
 <style>
-h1 {text-align: center;}
-p {text-align: center;}
-div {text-align: center;}
+<!--    body {-->
+<!--      background-image: url('https://images.alphacoders.com/127/127671.jpg');-->
+<!--      background-repeat: no-repeat;-->
+<!--    }-->
+
+    .jumbotron {
+        background: rgba(255, 255, 255, 0.7);
+     }
 </style>
 </head>
-
-</html>
-
+<body>
 {% if errorType=="generalError" %}
-<font face="Inherit" size="6px" color="#000000">You've hit the error page! We don't know what went wrong. Maybe try turning it off and on again?</font><br>
-<br> <img src="https://i.kym-cdn.com/photos/images/facebook/001/431/201/40f.png" alt="Pikachu" width="865" height="753">
-
-</body>
+<div class="container body-content">
+    <div class="jumbotron" style="text-align: center">
+    <font face="Inherit" size="5vw" color="#000000">You've hit the error page! We don't know what went wrong. Maybe try turning it off and on again?</font><br>
+    </div>
+    <div class="center-image">
+        <img src="https://i.kym-cdn.com/photos/images/facebook/001/431/201/40f.png" alt="Pikachu" width="865" height="753">
+    </div>
+</div>
+{% elif errorType=="databaseError" %}
+<div class="container body-content">
+    <div class="jumbotron" style="text-align: center">
+    <font face="Inherit" size="5vw" color="#000000">You've hit the error page! Your tried starting a game with no data in your database!<br>
+    Head to the Pokedex page below to start filling up your Pokedex before battle!</font>
+    </div>
+</div>
+<div class="center">
+            <button class="welcome-page-button wide_button" type="button" onclick="location.href='../pokedex'">Pokedex</button>
+        </div>
 {% endif %}
+</body>
+</html>
 {% endblock %}
