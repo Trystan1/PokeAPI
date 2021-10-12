@@ -32,10 +32,73 @@
     <div class="center">
         <button class="welcome-page-button wide_button" type="button" onclick="location.href='damage_relations'">Damage Relations</button>
     </div>
-
+    <div>
+        <p></p>
+        <div class="center">
+            <button class="welcome-page-button wide_button" type="button" id="evolveButton" onclick="PlayOnClick1();PlayOnClick2();ToggleButtonOff()">Evolve</button>
+        </div>
+        <p></p>
+        <div class="center">
+        <div class="overlay">
+            <div id="gifDIV" style="display:none">
+                 <img src="{{ url_for('static', filename='Images/evolve.gif') }}" height="100%" width="100%">
+            </div>
+            <div id="pngDIV" style="display:none">
+                 <img src="{{ url_for('static', filename='Images/evolve.png') }}" height="100%" width="100%">
+            </div>
+        </div>
+        </div>
+    </div>
+</div>
+<div style="float:left; padding: 2vw;">
+    <button class="" type="button" onclick="location.href='error/general'">General Error</button>
+    <button class="" type="button" onclick="location.href='error/database'">Database Error</button>
+    <button class="" type="button" onclick="location.href='victory'">Victory</button>
 </div>
 
+<audio autoplay loop id="background">
+    <source src="{{ url_for('static', filename='Audio/POKEMON_THEME.mp3') }}" type="audio/mpeg">
+</audio>
+
 <script>
+
+    document.getElementById("background").play;
+    var background_music = document.getElementById("background");
+    background_music.volume = 0.05;
+
+
+    var audio_click = new Audio("{{ url_for('static', filename='Audio/click.mp3') }}");
+    var audio_evolve = new Audio("{{ url_for('static', filename='Audio/JOHN.mp3') }}");
+    audio_evolve.volume = 0.3;
+
+    document.onclick = function() {
+        audio_click.play();
+    }
+
+  var gif = document.getElementById("gifDIV");
+  var png = document.getElementById("pngDIV");
+
+  function PlayOnClick1() {
+        audio_evolve.play();
+        png.style.display = "block";
+        setTimeout(function(){
+            gif.style.display = "block";
+            png.style.display = "none";
+        }, 1500);
+    }
+
+    function PlayOnClick2() {
+        setTimeout(function(){
+            gif.style.display = "none";
+        }, 7500);
+    }
+
+    function ToggleButtonOff() {
+        document.getElementById("evolveButton").disabled = true;
+        setTimeout(function(){
+            document.getElementById("evolveButton").disabled = false;
+        }, 8000);
+    }
 
 </script>
 </body>

@@ -40,6 +40,7 @@ def PlayGame():
     else:
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex, players=Players, numplayers=NumPlayers, atttype=attType)
 
+
 @app.route("/playgame/attack")
 def Attack():
     attType = request.args.get('atttype')
@@ -55,6 +56,7 @@ def Attack():
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex, players=Players, numplayers=NumPlayers, atttype=attType)
     else:
         return render_template('victoryscreen.html', endFlag=endFlag)
+
 
 @app.route("/playgame/newround")
 def NewRound():
@@ -97,6 +99,24 @@ def NextButton2():
 def RedownloadData():
     FillPokedex()
     return PokeDex()
+
+@app.route("/error/general")
+def GeneralError():
+    return render_template('error.html', errorType="generalError")
+
+
+@app.route("/error/database")
+def DatabaseError():
+    return render_template('error.html', errorType="databaseError")
+
+@app.route("/victory")
+def Victory():
+    endFlag = 'Player 1'
+    return render_template('victoryscreen.html', endFlag=endFlag)
+
+@app.route("/damage_relations")
+def DamageRelations():
+    return render_template('damage_relations.html')
 
 
 if __name__ == "__main__": app.run()
