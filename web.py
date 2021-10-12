@@ -86,4 +86,8 @@ def RedownloadData():
     return PokeDex()
 
 
+@app.route("/damage_relations")
+def DamageRelations():
+    return render_template('damage_relations.html')
+
 if __name__ == "__main__": app.run()
