@@ -53,24 +53,24 @@ def GetPokedex():
             firstEvolution = response["chain"]["evolves_to"][0]["species"]["name"]
             firstEvolution = firstEvolution.capitalize()
         except IndexError:
-            firstEvolution = ''
+            firstEvolution = None
 
         try:
             secondEvolution = response["chain"]["evolves_to"][0]["evolves_to"][0]["species"]["name"]
             secondEvolution = secondEvolution.capitalize()
         except IndexError:
-            secondEvolution = ''
+            secondEvolution = None
 
         if firstEvolution == pokemonName:
             pokemonEvolution = secondEvolution
         elif secondEvolution == pokemonName:
-            pokemonEvolution = ''
-        elif firstEvolution != '' and secondEvolution == '':
+            pokemonEvolution = None
+        elif firstEvolution is not None and secondEvolution is None:
             pokemonEvolution = firstEvolution
-        elif firstEvolution != '' and secondEvolution != '':
+        elif firstEvolution is not None and secondEvolution is not None:
             pokemonEvolution = f'{firstEvolution},{secondEvolution}'
         else:
-            pokemonEvolution = ''
+            pokemonEvolution = None
 
         pokeDex.append(
             {'name': pokemonName, 'evolution_path': pokemonEvolution, 'image': pokemonImage, 'attack': pokemonAttack,
@@ -89,6 +89,3 @@ def InitialiseDatabase():
     Pokedex.CreateTable()
 
     return Pokedex
-
-
-FillPokedex()
