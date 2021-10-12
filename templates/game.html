@@ -94,5 +94,15 @@
     </div>
 </div>
 
+<audio autoplay loop id="background">
+    <source src="{{ url_for('static', filename='Audio/Battle_Theme.mp3') }}" type="audio/mpeg">
+</audio>
+
+<script>
+    document.getElementById("background").play;
+    var background_music = document.getElementById("background");
+    background_music.volume = 0.05;
+</script>
+
 </body>
 {% endblock %}
