@@ -65,14 +65,18 @@ def GetPokedex():
             pokemonEvolution = secondEvolution
         elif secondEvolution == pokemonName:
             pokemonEvolution = ''
-        else:
+        elif firstEvolution != '' and secondEvolution == '':
+            pokemonEvolution = firstEvolution
+        elif firstEvolution != '' and secondEvolution != '':
             pokemonEvolution = f'{firstEvolution},{secondEvolution}'
+        else:
+            pokemonEvolution = ''
 
         pokeDex.append(
             {'name': pokemonName, 'evolution_path': pokemonEvolution, 'image': pokemonImage, 'attack': pokemonAttack,
              'defence': pokemonDefence,
              'types': typeList})
-        # print(pokeDex[numPokemon-1])
+
         numPokemon += 1
         print(f'{numPokemon}/151')
 
