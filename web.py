@@ -87,6 +87,19 @@ def RedownloadData():
     FillPokedex()
     return PokeDex()
 
+@app.route("/error/general")
+def GeneralError():
+    return render_template('error.html', errorType="generalError")
+
+
+@app.route("/error/database")
+def DatabaseError():
+    return render_template('error.html', errorType="databaseError")
+
+@app.route("/victory")
+def Victory():
+    endFlag = 'Player 1'
+    return render_template('victoryscreen.html', endFlag=endFlag)
 
 @app.route("/damage_relations")
 def DamageRelations():
