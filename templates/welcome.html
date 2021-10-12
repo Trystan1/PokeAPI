@@ -43,6 +43,9 @@
             <div id="gifDIV" style="display:none">
                  <img src="{{ url_for('static', filename='Images/evolve.gif') }}" height="100%" width="100%">
             </div>
+            <div id="pngDIV" style="display:none">
+                 <img src="{{ url_for('static', filename='Images/evolve.png') }}" height="100%" width="100%">
+            </div>
         </div>
         </div>
     </div>
@@ -68,18 +71,21 @@
     }
 
   var gif = document.getElementById("gifDIV");
+  var png = document.getElementById("pngDIV");
 
   function PlayOnClick1() {
         audio_evolve.play();
+        png.style.display = "block";
         setTimeout(function(){
             gif.style.display = "block";
-        }, 2500);
+            png.style.display = "none";
+        }, 1500);
     }
 
     function PlayOnClick2() {
         setTimeout(function(){
             gif.style.display = "none";
-        }, 8000);
+        }, 7500);
     }
 
 </script>
