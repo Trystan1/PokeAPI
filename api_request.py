@@ -53,8 +53,11 @@ def GetPokedex():
 
 
 def InitialiseDatabase():
-    Pokedex = DataBase('Pokedex', ['name', 'image', 'attack', 'defence', 'types'],
-                       ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+    Pokedex = DataBase('Pokedex', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
+                       ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
     Pokedex.CreateTable()
 
     return Pokedex
+
+
+FillPokedex()
