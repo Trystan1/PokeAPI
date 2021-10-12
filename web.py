@@ -27,6 +27,8 @@ def PlayGame():
     NumPlayers = int(request.args.get('players'))
     Players = PLAYERCHOICES[NumPlayers]
     Player1, Player2 = InitialiseDecks()
+    Player1.DestroyTable(), Player2.DestroyTable()
+    Player1, Player2 = InitialiseGame()
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
     playerIndex = random.randint(0, 1)
