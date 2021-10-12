@@ -32,6 +32,7 @@ def PlayGame():
     else:
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex)
 
+
 @app.route("/playgame/attack")
 def Attack():
     attType = request.args.get('attType')
@@ -45,6 +46,7 @@ def Attack():
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex)
     else:
         return render_template('victoryscreen.html', endFlag=endFlag)
+
 
 @app.route("/playgame/newround")
 def NewRound():
@@ -96,5 +98,6 @@ def Victory():
 @app.route("/damage_relations")
 def DamageRelations():
     return render_template('damage_relations.html')
+
 
 if __name__ == "__main__": app.run()
