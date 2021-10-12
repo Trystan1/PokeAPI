@@ -35,7 +35,7 @@
         </div>
         <p></p>
         <div class="center">
-            <button class="welcome-page-button wide_button" type="button" onclick="PlayOnClick1();PlayOnClick2()">Evolve</button>
+            <button class="welcome-page-button wide_button" type="button" id="evolveButton" onclick="PlayOnClick1();PlayOnClick2();ToggleButtonOff()">Evolve</button>
         </div>
         <p></p>
         <div class="center">
@@ -86,6 +86,13 @@
         setTimeout(function(){
             gif.style.display = "none";
         }, 7500);
+    }
+
+    function ToggleButtonOff() {
+        document.getElementById("evolveButton").disabled = true;
+        setTimeout(function(){
+            document.getElementById("evolveButton").disabled = false;
+        }, 8000);
     }
 
 </script>
