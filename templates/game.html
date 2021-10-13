@@ -15,7 +15,10 @@
             padding: 2vw;
             background: rgba(255, 255, 255, 0.7);
             border-radius:10px;
+            transition: all 1s;
         }
+
+
     </style>
 
 </head>
@@ -24,6 +27,9 @@
     <div class="jumbotron">
     {% if nextIndex != None %}
          <form action="/playgame/newround" method="get" style="text-align: center;">
+             <audio autoplay id="roundwin">
+                <source src="{{ url_for('static', filename='Audio/round-victory.mp3') }}" type="audio/mpeg">
+             </audio>
              <input type="hidden" name="nextIndex" value="{{nextIndex}}">
              <input type="hidden" name="numplayers" value="{{numplayers}}">
              {% if playerIndex == 0 %}
@@ -49,7 +55,7 @@
                     <option class="select-box" value="{{ type  }}">{{  type  }}</option>
                 {% endfor %}
             </select>
-            <button class="">Attack!</button>
+            <button class="">Attack!</button><br>
         </form>
         {% else %}
         <form action="/playgame/attack" method="get">
@@ -72,7 +78,7 @@
 <div class="float-container" style="font-size: 2vw;">
      <div class="float-child">
         <div class="pokemon-card-container">
-            <div class="player-info">
+            <div id="leftcard" class="player-info">
                 Number of Cards = {{player1Cards|length}}
                 {% if playerIndex == 1 %}
                         <div><b>Defender - {{players[0]}}</b></div>
@@ -80,9 +86,9 @@
                         <div><b>Attacker - {{players[0]}}</b></div>
                 {% endif %}
                 {% if nextIndex == 0 %}
-                    <div><b>WINNER!</b></div>
+                    <b><div id="leftplayer">WINNER!</div></b>
                 {% elif nextIndex == 1 %}
-                    <div><b>LOSER...</b></div>
+                    <b><div id="leftplayer">LOSER...</div></b>
                 {% endif %}
                 {% if playerIndex == 1 and nextIndex == None%}
                         <div class="inner-container">
@@ -102,7 +108,7 @@
     </div>
     <div class="float-child">
         <div class="pokemon-card-container">
-            <div class="player-info">
+            <div id="rightcard" class="player-info">
             Number of Cards = {{player2Cards|length}}
             {% if playerIndex == 0 %}
                 <div><b>Defender - {{players[1]}}</b></div>
@@ -110,13 +116,14 @@
                 <div><b>Attacker - {{players[1]}}</b></div>
             {% endif %}
             {% if nextIndex == 1 %}
-                <div><b>WINNER!</b></div>
+                <b><div id="rightplayer">WINNER!</div></b>
             {% elif nextIndex == 0 %}
-                <div><b>LOSER...</b></div>
+                <b><div id="rightplayer">LOSER...</div></b>
             {% endif %}
             {% if playerIndex == 0 and nextIndex == None %}
                 <div class="inner-container">
                     <img src="https://cdn2.bulbagarden.net/upload/1/17/Cardback.jpg" class="pokemon-card">
+                </div>
             {% else %}
                 <div class="inner-container">
                     <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
@@ -131,14 +138,53 @@
     </div>
 </div>
 
-<audio autoplay loop id="background">
-    <source src="{{ url_for('static', filename='Audio/Battle_Theme.mp3') }}" type="audio/mpeg">
-</audio>
+
+<!--<audio autoplay loop id="background">-->
+<!--    <source src="{{ url_for('static', filename='Audio/Battle_Theme.mp3') }}" type="audio/mpeg">-->
+<!--</audio>-->
 
 <script>
-    document.getElementById("background").play;
-    var background_music = document.getElementById("background");
-    background_music.volume = 0.05;
+<!--    document.getElementById("background").play;-->
+<!--    var background_music = document.getElementById("background");-->
+<!--    background_music.volume = 0.02;-->
+
+    document.getElementById("roundwin").play;
+    var round_win_music = document.getElementById("roundwin");
+    round_win_music.volume = 0.1;
+
+    function showresults() {
+        var leftplayer = document.getElementById("leftplayer").innerHTML
+        var rightplayer = document.getElementById("rightplayer").innerHTML
+        if (leftplayer == 'WINNER!') {
+            leftcolour = "#008000";
+        } else {
+            leftcolour = "#8B0000";
+        }
+        if (rightplayer == 'WINNER!') {
+            rightcolour = "#008000";
+        } else {
+            rightcolour = "#8B0000";
+        }
+        colourLeftBox(leftcolour)
+        colourRightBox(rightcolour)
+    }
+
+    function colourRightBox(rightcolour) {
+        document.getElementById('rightcard').style.background = rightcolour;
+            setTimeout(function(){
+                document.getElementById('rightcard').style.background = "";
+            }, 2000);
+    }
+
+    function colourLeftBox(leftcolour) {
+        document.getElementById('leftcard').style.background = leftcolour;
+            setTimeout(function(){
+                document.getElementById('leftcard').style.background = "";
+            }, 2000);
+    }
+
+    window.onload = showresults();
+
 </script>
 
 </body>

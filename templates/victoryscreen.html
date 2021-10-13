@@ -20,5 +20,16 @@ body {
         <font face="Inherit" size="6px" color="#000000">  {{endFlag}} has collected all 151 cards and is crowned victorious! </font>
     </div>
 </div>
+
+<audio autoplay loop id="background">
+    <source src="{{ url_for('static', filename='Audio/game-victory.mp3') }}" type="audio/mpeg">
+</audio>
+
+<script>
+    document.getElementById("background").play;
+    var background_music = document.getElementById("background");
+    background_music.volume = 0.1;
+</script>
+
 </body>
 {% endblock %}

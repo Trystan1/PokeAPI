@@ -4,14 +4,60 @@
 <html lang="en">
 <head>
 <style>
-<!--    body {-->
-<!--      background-image: url('https://images.alphacoders.com/127/127671.jpg');-->
-<!--      background-repeat: no-repeat;-->
-<!--    }-->
-
     .jumbotron {
         background: rgba(255, 255, 255, 0.7);
-     }
+    }
+
+    .fade-in {
+      animation: fadeIn ease 4s;
+      -webkit-animation: fadeIn ease 4s;
+      -moz-animation: fadeIn ease 4s;
+      -o-animation: fadeIn ease 4s;
+      -ms-animation: fadeIn ease 4s;
+    }
+    @keyframes fadeIn {
+      0% {
+        opacity:0;
+      }
+      100% {
+        opacity:1;
+      }
+    }
+
+    @-moz-keyframes fadeIn {
+      0% {
+        opacity:0;
+      }
+      100% {
+        opacity:1;
+      }
+    }
+
+    @-webkit-keyframes fadeIn {
+      0% {
+        opacity:0;
+      }
+      100% {
+        opacity:1;
+      }
+    }
+
+    @-o-keyframes fadeIn {
+      0% {
+        opacity:0;
+      }
+      100% {
+        opacity:1;
+      }
+    }
+
+    @-ms-keyframes fadeIn {
+      0% {
+        opacity:0;
+      }
+      100% {
+        opacity:1;
+    }
 </style>
 </head>
 <body>
@@ -20,8 +66,11 @@
     <div class="jumbotron" style="text-align: center">
     <font face="Inherit" size="5vw" color="#000000">You've hit the error page! We don't know what went wrong. Maybe try turning it off and on again?</font><br>
     </div>
-    <div class="center-image">
-        <img src="https://i.kym-cdn.com/photos/images/facebook/001/431/201/40f.png" alt="Pikachu" width="865" height="753">
+    <div class="center-image fade-in">
+        <img id="pikachu" src="https://i.kym-cdn.com/photos/images/facebook/001/431/201/40f.png" alt="Pikachu" width="400px" height="auto">
+    </div>
+    <div>
+        <img id="questionmark" src="https://upload.wikimedia.org/wikipedia/commons/5/55/Question_Mark.svg" style="position:absolute; z-index:1; display: none;">
     </div>
 </div>
 {% elif errorType=="databaseError" %}
@@ -32,9 +81,13 @@
     </div>
 </div>
 <div class="center">
-            <button class="welcome-page-button wide_button" type="button" onclick="location.href='../pokedex'">Pokedex</button>
-        </div>
+    <button class="welcome-page-button wide_button" type="button" onclick="location.href='../pokedex'">Pokedex</button>
+</div>
 {% endif %}
+
+<script>
+
+</script>
 </body>
 </html>
 {% endblock %}
