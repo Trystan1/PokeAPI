@@ -27,6 +27,9 @@
     <div class="jumbotron">
     {% if nextIndex != None %}
          <form action="/playgame/newround" method="get" style="text-align: center;">
+             <audio autoplay id="roundwin">
+                <source src="{{ url_for('static', filename='Audio/round-victory.mp3') }}" type="audio/mpeg">
+             </audio>
              <input type="hidden" name="nextIndex" value="{{nextIndex}}">
              <input type="hidden" name="numplayers" value="{{numplayers}}">
              {% if playerIndex == 0 %}
@@ -145,6 +148,10 @@
 <!--    var background_music = document.getElementById("background");-->
 <!--    background_music.volume = 0.02;-->
 
+    document.getElementById("roundwin").play;
+    var round_win_music = document.getElementById("roundwin");
+    round_win_music.volume = 0.1;
+
     function showresults() {
         var leftplayer = document.getElementById("leftplayer").innerHTML
         var rightplayer = document.getElementById("rightplayer").innerHTML
@@ -166,14 +173,14 @@
         document.getElementById('rightcard').style.background = rightcolour;
             setTimeout(function(){
                 document.getElementById('rightcard').style.background = "";
-            }, 1000);
+            }, 2000);
     }
 
     function colourLeftBox(leftcolour) {
         document.getElementById('leftcard').style.background = leftcolour;
             setTimeout(function(){
                 document.getElementById('leftcard').style.background = "";
-            }, 1000);
+            }, 2000);
     }
 
     window.onload = showresults();
