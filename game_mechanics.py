@@ -198,3 +198,34 @@ def EndGame(Player1, Player2):
         endFlag = 'Player 2'
 
     return endFlag
+
+
+def EvolvePokemon(nextIndex, Player1, Player2):
+    # take last card of the deck, check its evolution path and if is not none then delete it and replace with the fist
+    # in the evolution list
+
+    Pokedex = InitialiseDatabase()
+    pokeDex = Pokedex.GetAllData()
+
+    if nextIndex == 0:
+        Player = Player1
+    elif nextIndex == 1:
+        Player = Player2
+    else:
+        Player = None
+
+    playerDeck = Player.GetAllData()
+    evolvingPokemon = playerDeck[-1]
+
+    evolutions = evolvingPokemon['evolution_path'].split(",")
+
+    print(evolvingPokemon['name'])
+    print(evolutions)
+
+    if evolutions[0] != 'None':
+        Player.DeleteLine(evolvingPokemon['name'])
+        print('evolve!')
+        for line in pokeDex:
+            if line['name'] == evolutions[0]:
+                print(f"Evolution into {line['name']}")
+                Player.AddData([line])
