@@ -51,28 +51,40 @@ def GetPokedex():
         r = requests.get(response["evolution_chain"]["url"])
         response = r.json()
 
-        try:
-            firstEvolution = response["chain"]["evolves_to"][0]["species"]["name"]
-            firstEvolution = firstEvolution.capitalize()
-        except IndexError:
-            firstEvolution = None
+        firstEvolutionList = []
+        firstCounter = False
+        i = 0
+        while firstCounter is False:
+            try:
+                firstEvolution = response["chain"]["evolves_to"][i]["species"]["name"]
+                firstEvolution = firstEvolution.capitalize()
+                firstEvolutionList.append(firstEvolution)
+            except IndexError:
+                if i == 0:
+                    firstEvolution = [None]
+                    firstEvolutionList = firstEvolution
+                firstCounter = True
+            i += 1
 
-        try:
-            secondEvolution = response["chain"]["evolves_to"][0]["evolves_to"][0]["species"]["name"]
-            secondEvolution = secondEvolution.capitalize()
-        except IndexError:
-            secondEvolution = None
+        secondEvolutionList = []
+        for i in range(len(firstEvolutionList)):
+            subSecondEvoList = []
+            secondCounter = False
+            ii = 0
+            while secondCounter is False:
+                try:
+                    secondEvolution = response["chain"]["evolves_to"][i]["evolves_to"][ii]["species"]["name"]
+                    secondEvolution = secondEvolution.capitalize()
+                    subSecondEvoList.append(secondEvolution)
+                except IndexError:
+                    if ii == 0:
+                        secondEvolution = [None]
+                        subSecondEvoList = secondEvolution
+                    secondCounter = True
+                ii += 1
+            secondEvolutionList.append(subSecondEvoList)
 
-        if firstEvolution == pokemonName:
-            pokemonEvolution = secondEvolution
-        elif secondEvolution == pokemonName:
-            pokemonEvolution = None
-        elif firstEvolution is not None and secondEvolution is None:
-            pokemonEvolution = firstEvolution
-        elif firstEvolution is not None and secondEvolution is not None:
-            pokemonEvolution = f'{firstEvolution},{secondEvolution}'
-        else:
-            pokemonEvolution = None
+        pokemonEvolution = ",".join(firstEvolutionList) + ",".join(secondEvolutionList[0])
 
         pokeDex.append(
             {'name': pokemonName, 'evolution_path': pokemonEvolution, 'image': pokemonImage, 'attack': pokemonAttack,
