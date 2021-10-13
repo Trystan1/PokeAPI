@@ -7,6 +7,8 @@ def FillPokedex():
     pokeDex, numPokemon = GetPokedex()
     if numPokemon != 151:
         print(f'Houston we have a problem, there are not enough Pokemon, returned {numPokemon}/151')
+
+    pokeDex = CleanPokeDex(pokeDex)
     Pokedex = InitialiseDatabase()
     Pokedex.DestroyTable()    # uncomment this if want a quick table reset
     Pokedex = InitialiseDatabase()
@@ -42,8 +44,39 @@ def GetPokedex():
             typeList += f'{types["type"]["name"]},'
         typeList = typeList[:-1]    # delete last comma
 
+        # get to species page
+        r = requests.get(response["species"]["url"])
+        response = r.json()
+        # get to evolution chain page
+        r = requests.get(response["evolution_chain"]["url"])
+        response = r.json()
+
+        try:
+            firstEvolution = response["chain"]["evolves_to"][0]["species"]["name"]
+            firstEvolution = firstEvolution.capitalize()
+        except IndexError:
+            firstEvolution = None
+
+        try:
+            secondEvolution = response["chain"]["evolves_to"][0]["evolves_to"][0]["species"]["name"]
+            secondEvolution = secondEvolution.capitalize()
+        except IndexError:
+            secondEvolution = None
+
+        if firstEvolution == pokemonName:
+            pokemonEvolution = secondEvolution
+        elif secondEvolution == pokemonName:
+            pokemonEvolution = None
+        elif firstEvolution is not None and secondEvolution is None:
+            pokemonEvolution = firstEvolution
+        elif firstEvolution is not None and secondEvolution is not None:
+            pokemonEvolution = f'{firstEvolution},{secondEvolution}'
+        else:
+            pokemonEvolution = None
+
         pokeDex.append(
-            {'name': pokemonName, 'image': pokemonImage, 'attack': pokemonAttack, 'defence': pokemonDefence,
+            {'name': pokemonName, 'evolution_path': pokemonEvolution, 'image': pokemonImage, 'attack': pokemonAttack,
+             'defence': pokemonDefence,
              'types': typeList})
 
         numPokemon += 1
@@ -52,9 +85,34 @@ def GetPokedex():
     return pokeDex, numPokemon
 
 
+def CleanPokeDex(pokeDex):
+    # list all names from the pokeDex
+    pokemonNames = []
+    for line in pokeDex:
+        pokemonNames.append(line['name'])
+
+    # for each line, check the evolution path, if there is a pokemon in the evolution path which is not contained in the
+    # names then remove it
+    for i in range(0, len(pokeDex)):
+        if pokeDex[i]['evolution_path'] is not None:
+            evolutionPath = pokeDex[i]['evolution_path'].split(',')
+            evolutionPathNew = ''
+            for ii in range(0, len(evolutionPath)):
+                if evolutionPath[ii] not in pokemonNames:
+                    evolutionPath[ii] = None
+
+                evolutionPathNew += f'{evolutionPath[ii]},'
+            evolutionPathNew = evolutionPathNew[:-1]  # delete last comma
+
+            pokeDex[i]['evolution_path'] = evolutionPathNew
+
+    return pokeDex
+
+
 def InitialiseDatabase():
-    Pokedex = DataBase('Pokedex', ['name', 'image', 'attack', 'defence', 'types'],
-                       ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+    Pokedex = DataBase('Pokedex', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
+                       ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
     Pokedex.CreateTable()
 
     return Pokedex
+

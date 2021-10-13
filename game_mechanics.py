@@ -6,11 +6,11 @@ from pokemon_types import PokemonTypes
 
 
 def InitialiseDecks():
-    Player1 = DataBase('Player1', ['name', 'image', 'attack', 'defence', 'types'],
-                       ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+    Player1 = DataBase('Player1', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
+                                  ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
     Player1.CreateTable()
-    Player2 = DataBase('Player2', ['name', 'image', 'attack', 'defence', 'types'],
-                       ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+    Player2 = DataBase('Player2', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
+                                  ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
     Player2.CreateTable()
     return Player1, Player2
 
@@ -18,27 +18,49 @@ def InitialiseDecks():
 def InitialiseDeck(playerIndex):
 
     if playerIndex == 0:
-        AttackingPlayer = DataBase('Player1', ['name', 'image', 'attack', 'defence', 'types'],
-                           ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+        AttackingPlayer = DataBase('Player1', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
+                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
         AttackingPlayer.CreateTable()
-        DefendingPlayer = DataBase('Player2', ['name', 'image', 'attack', 'defence', 'types'],
-                           ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+        DefendingPlayer = DataBase('Player2', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
+                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
         DefendingPlayer.CreateTable()
     elif playerIndex == 1:
-        AttackingPlayer = DataBase('Player2', ['name', 'image', 'attack', 'defence', 'types'],
-                                   ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+        AttackingPlayer = DataBase('Player2', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
+                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
         AttackingPlayer.CreateTable()
-        DefendingPlayer = DataBase('Player1', ['name', 'image', 'attack', 'defence', 'types'],
-                                   ['TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+        DefendingPlayer = DataBase('Player1', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
+                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
         DefendingPlayer.CreateTable()
 
     return AttackingPlayer, DefendingPlayer
 
 
+def GetEvolution(pokeDex):
+
+    evolutions = []
+    for individualPokemon in pokeDex:
+        newEvolutions = individualPokemon['evolution_path'].split(",")
+        for newEvolution in newEvolutions:
+            evolutions.append(newEvolution)
+
+    firstEvolutionPokedex = []
+    for individualPokemon in pokeDex:
+        if individualPokemon['name'] not in evolutions:
+            firstEvolutionPokedex.append(individualPokemon)
+
+    return firstEvolutionPokedex
+
+
 def DealCards(pokeDex, Player1, Player2):
+    deckLength = len(pokeDex)
+    if deckLength % 2 == 0:
+        handOneLength = int(deckLength / 2)
+    else:
+        handOneLength = int(deckLength // 2)
+
     random.shuffle(pokeDex)
-    Player1.AddData(pokeDex[0:76])
-    Player2.AddData(pokeDex[76:151])
+    Player1.AddData(pokeDex[0:handOneLength])
+    Player2.AddData(pokeDex[handOneLength:deckLength])
 
 
 def InitialiseGame():
@@ -48,8 +70,9 @@ def InitialiseGame():
     Player1, Player2 = InitialiseDecks()
     Pokedex = InitialiseDatabase()
     pokeDex = Pokedex.GetAllData()
+    firstEvolutionPokedex = GetEvolution(pokeDex)
 
-    DealCards(pokeDex, Player1, Player2)
+    DealCards(firstEvolutionPokedex, Player1, Player2)
 
     return Player1, Player2
 
@@ -176,24 +199,33 @@ def EndGame(Player1, Player2):
 
     return endFlag
 
-# --------------------- Lines for testing
-# Player1, Player2 = InitialiseGame()
-# Player1, Player2 = InitialiseDecks()
-# player1 = Player1.getAllData()
-# player2 = Player2.getAllData()
-# print(f"Player 1: {player1[0]['name']}, attack: {player1[0]['attack']}, defence: {player1[0]['defence']}, types: {player1[0]['types']}")
-# print(f"Player 2: {player2[0]['name']}, attack: {player2[0]['attack']}, defence: {player2[0]['defence']}, types: {player2[0]['types']}")
-# AttackingPlayer, playerIndex = SelectAttackingPlayer(Player1, Player2)
-# attackingPlayer = AttackingPlayer.getAllData()
-# attackType = ComputerAttack(AttackingPlayer)
-# print(f'Player {playerIndex+1} ({attackingPlayer[0]["name"]}) is attacking, using their {attackType} type')
-# defendingTypes = GetDefenceTypes(Player1, Player2, playerIndex)
-# print(f"The defender's types are {defendingTypes}")
-# playerIndex, attackResult = ComputeVictor(attackType, Player1, Player2, playerIndex)
-# print(f"The new attacker is Player: {playerIndex+1}")
 
-# --------------------- All you actually need to put in web.py
-# Player1, Player2 = InitialiseDecks()
-# AttackingPlayer, playerIndex = SelectAttackingPlayer(Player1, Player2)   # not after game initialisation
-# attackType = ComputerAttack(AttackingPlayer)    # this is coming from the frontend?
-# playerIndex, attackResult = ComputeVictor(attackType, Player1, Player2, playerIndex)
+def EvolvePokemon(nextIndex, Player1, Player2):
+    # take last card of the deck, check its evolution path and if is not none then delete it and replace with the fist
+    # in the evolution list
+
+    Pokedex = InitialiseDatabase()
+    pokeDex = Pokedex.GetAllData()
+
+    if nextIndex == 0:
+        Player = Player1
+    elif nextIndex == 1:
+        Player = Player2
+    else:
+        Player = None
+
+    playerDeck = Player.GetAllData()
+    evolvingPokemon = playerDeck[-1]
+
+    evolutions = evolvingPokemon['evolution_path'].split(",")
+
+    print(evolvingPokemon['name'])
+    print(evolutions)
+
+    if evolutions[0] != 'None':
+        Player.DeleteLine(evolvingPokemon['name'])
+        print('evolve!')
+        for line in pokeDex:
+            if line['name'] == evolutions[0]:
+                print(f"Evolution into {line['name']}")
+                Player.AddData([line])
