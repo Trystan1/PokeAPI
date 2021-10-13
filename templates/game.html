@@ -17,8 +17,6 @@
             border-radius:10px;
             transition: all 1s;
         }
-
-
     </style>
 
 </head>
@@ -97,10 +95,18 @@
                 {% else %}
                     <div class="inner-container" >
                         <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
-                        <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
-                        <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
-                        <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
-                        <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
+                        {% if evolveFlag == 1 and nextIndex == 0 %}
+                            <span class="name-position" id="pokemonName">{{  evolvedCard.name  }}</span>
+                            <span class="stats-position" id="pokemonStats">Attack: {{  evolvedCard.attack  }} Defence: {{  evolvedCard.defence  }}</span>
+                            <span class="types-position" id="pokemonTypes">{{  evolvedCard.types  }}</span>
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{  evolvedCard.image  }}">
+<!--                            <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename='Images/evolve.gif') }}">-->
+                        {% else %}
+                            <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
+                            <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
+                            <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
+                        {% endif %}
                     </div>
                 {% endif %}
             </div>
@@ -138,15 +144,14 @@
     </div>
 </div>
 
-
-<!--<audio autoplay loop id="background">-->
-<!--    <source src="{{ url_for('static', filename='Audio/Battle_Theme.mp3') }}" type="audio/mpeg">-->
-<!--</audio>-->
+<audio autoplay loop id="background">
+    <source src="{{ url_for('static', filename='Audio/Battle_Theme.mp3') }}" type="audio/mpeg">
+</audio>
 
 <script>
-<!--    document.getElementById("background").play;-->
-<!--    var background_music = document.getElementById("background");-->
-<!--    background_music.volume = 0.02;-->
+    document.getElementById("background").play;
+    var background_music = document.getElementById("background");
+    background_music.volume = 0.02;
 
     document.getElementById("roundwin").play;
     var round_win_music = document.getElementById("roundwin");

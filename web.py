@@ -51,10 +51,14 @@ def Attack():
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
     nextIndex, attackResult = ComputeVictor(attType, Player1, Player2, playerIndex)
-    EvolvePokemon(nextIndex, Player1, Player2)
+    evolveFlag, evolvedCard = EvolvePokemon(nextIndex, Player1, Player2)
+    print(evolveFlag)
     endFlag = EndGame(Player1, Player2)
     if endFlag is None:
-        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex, players=Players, numplayers=NumPlayers, atttype=attType)
+        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards,
+                               playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex,
+                               players=Players, numplayers=NumPlayers, atttype=attType, evolveFlag=evolveFlag,
+                               evolvedCard=evolvedCard)
     else:
         return render_template('victoryscreen.html', endFlag=endFlag)
 

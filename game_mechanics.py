@@ -17,6 +17,9 @@ def InitialiseDecks():
 
 def InitialiseDeck(playerIndex):
 
+    AttackingPlayer = None
+    DefendingPlayer = None
+
     if playerIndex == 0:
         AttackingPlayer = DataBase('Player1', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
                                               ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
@@ -138,6 +141,11 @@ def ComputeVictor(attackType, Player1, Player2, playerIndex):
     # needs to call pokemonTypes, then workout how to define attacker and defender
     damageModifier = PokemonTypes(attackType, defenceTypes)
 
+    attackingPlayer = None
+    defendingPlayer = None
+    AttackingPlayer = None
+    DefendingPlayer = None
+
     if playerIndex == 0:
         AttackingPlayer = Player1
         attackingPlayer = AttackingPlayer.GetAllData()
@@ -204,6 +212,9 @@ def EvolvePokemon(nextIndex, Player1, Player2):
     # take last card of the deck, check its evolution path and if is not none then delete it and replace with the fist
     # in the evolution list
 
+    evolveFlag = 0
+    evolvedCard = None
+
     Pokedex = InitialiseDatabase()
     pokeDex = Pokedex.GetAllData()
 
@@ -225,7 +236,11 @@ def EvolvePokemon(nextIndex, Player1, Player2):
     if evolutions[0] != 'None':
         Player.DeleteLine(evolvingPokemon['name'])
         print('evolve!')
+        evolveFlag = 1
         for line in pokeDex:
             if line['name'] == evolutions[0]:
                 print(f"Evolution into {line['name']}")
                 Player.AddData([line])
+                evolvedCard = line
+
+    return evolveFlag, evolvedCard
