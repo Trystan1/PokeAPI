@@ -17,8 +17,6 @@
             border-radius:10px;
             transition: all 1s;
         }
-
-
     </style>
 
 </head>
@@ -95,13 +93,33 @@
                             <img src="https://cdn2.bulbagarden.net/upload/1/17/Cardback.jpg" class="pokemon-card">
                         </div>
                 {% else %}
+                    {% if evolveFlag == 1 and nextIndex == 0 %}
+                    <div class="inner-container" style="display:none" id="leftPostEvolve">
+                        <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                            <span class="name-position" id="pokemonName">{{  evolvedCard.name  }}</span>
+                            <span class="stats-position" id="pokemonStats">Attack: {{  evolvedCard.attack  }} Defence: {{  evolvedCard.defence  }}</span>
+                            <span class="types-position" id="pokemonTypes">{{  evolvedCard.types  }}</span>
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{  evolvedCard.image  }}">
+                            <img class="pokemon-image-position" id="explosionGIF" src="{{ url_for('static', filename='Images/explosion.gif') }}" style="display:block">
+                        <!--                            <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename='Images/evolve.gif') }}">-->
+                    </div>
+                    <div class="inner-container" style="display:block" id="leftPreEvolve">
+                        <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                            <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
+                            <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
+                            <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
+                    </div>
+                    {% else %}
                     <div class="inner-container" >
                         <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
-                        <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
-                        <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
-                        <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
-                        <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
+                            <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
+                            <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
+                            <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
+
                     </div>
+                    {% endif %}
                 {% endif %}
             </div>
         </div>
@@ -125,32 +143,52 @@
                     <img src="https://cdn2.bulbagarden.net/upload/1/17/Cardback.jpg" class="pokemon-card">
                 </div>
             {% else %}
-                <div class="inner-container">
-                    <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
-                    <span class="name-position" id="pokemonName2">{{  player2Cards[0].name  }}</span>
-                    <span class="stats-position" id="pokemonStats2">Attack: {{  player2Cards[0].attack  }} Defence: {{  player2Cards[0].defence  }}</span>
-                    <span class="types-position" id="pokemonTypes2">{{  player2Cards[0].types  }}</span>
-                    <img class="pokemon-image-position" id="pokemonImage2" src="{{  player2Cards[0].image  }}">
-                </div>
+                {% if evolveFlag == 1 and nextIndex == 1 %}
+                    <div class="inner-container" style="display:none" id="rightPostEvolve">
+                        <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                            <span class="name-position" id="pokemonName">{{  evolvedCard.name  }}</span>
+                            <span class="stats-position" id="pokemonStats">Attack: {{  evolvedCard.attack  }} Defence: {{  evolvedCard.defence  }}</span>
+                            <span class="types-position" id="pokemonTypes">{{  evolvedCard.types  }}</span>
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{  evolvedCard.image  }}">
+                            <img class="pokemon-image-position" id="explosionGIF" src="{{ url_for('static', filename='Images/explosion.gif') }}" style="display:block">
+                    </div>
+                    <div class="inner-container" style="display:block" id="rightPreEvolve">
+                        <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                            <span class="name-position" id="pokemonName">{{  player2Cards[0].name  }}</span>
+                            <span class="stats-position" id="pokemonStats">Attack: {{  player2Cards[0].attack  }} Defence: {{  player2Cards[0].defence  }}</span>
+                            <span class="types-position" id="pokemonTypes">{{  player2Cards[0].types  }}</span>
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{  player2Cards[0].image  }}">
+                    </div>
+                    {% else %}
+                    <div class="inner-container">
+                        <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                        <span class="name-position" id="pokemonName2">{{  player2Cards[0].name  }}</span>
+                        <span class="stats-position" id="pokemonStats2">Attack: {{  player2Cards[0].attack  }} Defence: {{  player2Cards[0].defence  }}</span>
+                        <span class="types-position" id="pokemonTypes2">{{  player2Cards[0].types  }}</span>
+                        <img class="pokemon-image-position" id="pokemonImage2" src="{{  player2Cards[0].image  }}">
+                    </div>
+                    {% endif %}
             {% endif %}
             </div>
         </div>
     </div>
 </div>
 
-
-<!--<audio autoplay loop id="background">-->
-<!--    <source src="{{ url_for('static', filename='Audio/Battle_Theme.mp3') }}" type="audio/mpeg">-->
-<!--</audio>-->
+<audio autoplay loop id="background">
+    <source src="{{ url_for('static', filename='Audio/Battle_Theme.mp3') }}" type="audio/mpeg">
+</audio>
 
 <script>
-<!--    document.getElementById("background").play;-->
-<!--    var background_music = document.getElementById("background");-->
-<!--    background_music.volume = 0.02;-->
+    document.getElementById("background").play;
+    var background_music = document.getElementById("background");
+    background_music.volume = 0.02;
 
     document.getElementById("roundwin").play;
     var round_win_music = document.getElementById("roundwin");
     round_win_music.volume = 0.1;
+
+    var audio_evolve = new Audio("{{ url_for('static', filename='Audio/JOHN.mp3') }}");
+    audio_evolve.volume = 0.3;
 
     function showresults() {
         var leftplayer = document.getElementById("leftplayer").innerHTML
@@ -167,6 +205,12 @@
         }
         colourLeftBox(leftcolour)
         colourRightBox(rightcolour)
+
+        if (("{{evolveFlag}}" == "1") && ("{{nextIndex}}" == "0")) {
+            DoEvolutionLeft();
+        } else if (("{{evolveFlag}}" == "1") && ("{{nextIndex}}" == "1")) {
+            DoEvolutionRight();
+        }
     }
 
     function colourRightBox(rightcolour) {
@@ -185,7 +229,51 @@
 
     window.onload = showresults();
 
+    function DoEvolutionLeft() {
+        var leftPreEvolve = document.getElementById('leftPreEvolve')
+        var leftPostEvolve = document.getElementById('leftPostEvolve')
+        var explosionGIF = document.getElementById('explosionGIF')
+
+        setTimeout(function(){
+            audio_evolve.play();
+        }, 2000);
+
+        setTimeout(function(){
+            leftPreEvolve.style.display = "none";
+            leftPostEvolve.style.display = "block";
+        }, 4500);
+
+        setTimeout(function(){
+            explosionGIF.style.display = "none";
+        }, 8500);
+    }
+
+    function DoEvolutionRight() {
+        var rightPreEvolve = document.getElementById('rightPreEvolve')
+        var rightPostEvolve = document.getElementById('rightPostEvolve')
+        var explosionGIF = document.getElementById('explosionGIF')
+
+        setTimeout(function(){
+            audio_evolve.play();
+        }, 2000);
+
+        setTimeout(function(){
+            rightPreEvolve.style.display = "none";
+            rightPostEvolve.style.display = "block";
+        }, 4500);
+
+        setTimeout(function(){
+            explosionGIF.style.display = "none";
+        }, 8500);
+    }
+
+
+
+
 </script>
+<!--    else if (if evolveFlag == 1 && nextIndex == 1) {-->
+<!--        window.onload = DoEvolutionRight();-->
+<!--    }-->
 
 </body>
 {% endblock %}
