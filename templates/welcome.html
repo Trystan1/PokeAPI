@@ -68,8 +68,9 @@
 
 
     var audio_click = new Audio("{{ url_for('static', filename='Audio/click.mp3') }}");
+    audio_click.volume = 0.1;
     var audio_evolve = new Audio("{{ url_for('static', filename='Audio/JOHN.mp3') }}");
-    audio_evolve.volume = 0.3;
+    audio_evolve.volume = 0.2;
 
     document.onclick = function() {
         audio_click.play();

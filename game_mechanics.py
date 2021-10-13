@@ -231,7 +231,6 @@ def EvolvePokemon(nextIndex, Player1, Player2):
     evolutions = evolvingPokemon['evolution_path'].split(",")
 
     print(evolvingPokemon['name'])
-    print(evolutions)
 
     if evolutions[0] != 'None':
         Player.DeleteLine(evolvingPokemon['name'])

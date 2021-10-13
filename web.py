@@ -52,7 +52,6 @@ def Attack():
     player2Cards = Player2.GetAllData()
     nextIndex, attackResult = ComputeVictor(attType, Player1, Player2, playerIndex)
     evolveFlag, evolvedCard = EvolvePokemon(nextIndex, Player1, Player2)
-    print(evolveFlag)
     endFlag = EndGame(Player1, Player2)
     if endFlag is None:
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards,

@@ -35,7 +35,7 @@
              {% elif playerIndex == 1 %}
              {{player2Cards[0].name}} used its {{atttype}} move!
              {% endif %}
-             <button class="">Continue to next round?</button>
+             <button id="continueNRButton" class="">Continue to next round?</button>
          </form>
     {% elif nextIndex == None %}
         {% if (playerIndex == 0 and players[0][0:6] == 'Player') or (playerIndex == 1 and players[1][0:6] == 'Player') %}
@@ -188,7 +188,7 @@
     round_win_music.volume = 0.1;
 
     var audio_evolve = new Audio("{{ url_for('static', filename='Audio/JOHN.mp3') }}");
-    audio_evolve.volume = 0.3;
+    audio_evolve.volume = 0.1;
 
     function showresults() {
         var leftplayer = document.getElementById("leftplayer").innerHTML
@@ -230,6 +230,7 @@
     window.onload = showresults();
 
     function DoEvolutionLeft() {
+        ToggleButtonOff();
         var leftPreEvolve = document.getElementById('leftPreEvolve')
         var leftPostEvolve = document.getElementById('leftPostEvolve')
         var explosionGIF = document.getElementById('explosionGIF')
@@ -249,6 +250,7 @@
     }
 
     function DoEvolutionRight() {
+        ToggleButtonOff();
         var rightPreEvolve = document.getElementById('rightPreEvolve')
         var rightPostEvolve = document.getElementById('rightPostEvolve')
         var explosionGIF = document.getElementById('explosionGIF')
@@ -267,8 +269,12 @@
         }, 8500);
     }
 
-
-
+     function ToggleButtonOff() {
+        document.getElementById("continueNRButton").disabled = true;
+        setTimeout(function(){
+            document.getElementById("continueNRButton").disabled = false;
+        }, 10000);
+    }
 
 </script>
 <!--    else if (if evolveFlag == 1 && nextIndex == 1) {-->
