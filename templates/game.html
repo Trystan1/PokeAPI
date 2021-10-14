@@ -31,9 +31,9 @@
              <input type="hidden" name="nextIndex" value="{{nextIndex}}">
              <input type="hidden" name="numplayers" value="{{numplayers}}">
              {% if playerIndex == 0 %}
-             {{player1Cards[0].name}} used its {{atttype}} move!
+                {{player1Cards[0].name}} used its {{atttype}} move!
              {% elif playerIndex == 1 %}
-             {{player2Cards[0].name}} used its {{atttype}} move!
+                {{player2Cards[0].name}} used its {{atttype}} move!
              {% endif %}
              <button id="continueNRButton" class="">Continue to next round?</button>
          </form>
@@ -72,6 +72,9 @@
         {% endif %}
     {% endif %}
     </div>
+</div>
+<div class="center">
+    <button type="button" onclick="ToggleButton();" >Damage Relations</button>
 </div>
 <div class="float-container" style="font-size: 2vw;">
      <div class="float-child">
@@ -174,6 +177,12 @@
     </div>
 </div>
 
+<div class="center" style="display:none" id="DamageRelations">
+        <div class="overlay_damage_relations">
+            <img src="{{ url_for('static', filename='Images/Damage_Relations.png') }}" width="80%" height="80%">
+        </div>
+</div>
+
 <audio autoplay loop id="background">
     <source src="{{ url_for('static', filename='Audio/Battle_Theme.mp3') }}" type="audio/mpeg">
 </audio>
@@ -274,6 +283,15 @@
         setTimeout(function(){
             document.getElementById("continueNRButton").disabled = false;
         }, 10000);
+    }
+
+    function ToggleButton() {
+        var DamageRelations = document.getElementById('DamageRelations')
+        if (DamageRelations.style.display == "none") {
+            DamageRelations.style.display = "block"
+        } else if (DamageRelations.style.display == "block") {
+            DamageRelations.style.display = "none"
+        }
     }
 
 </script>
