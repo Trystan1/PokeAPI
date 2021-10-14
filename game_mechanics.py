@@ -6,11 +6,11 @@ from pokemon_types import PokemonTypes
 
 
 def InitialiseDecks():
-    Player1 = DataBase('Player1', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
-                                  ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+    Player1 = DataBase('Player1', ['name', 'evolution_path', 'image', 'max_hp', 'attack', 'defence', 'types'],
+                                  ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'INTEGER', 'TEXT'])
     Player1.CreateTable()
-    Player2 = DataBase('Player2', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
-                                  ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+    Player2 = DataBase('Player2', ['name', 'evolution_path', 'image', 'max_hp', 'attack', 'defence', 'types'],
+                                  ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'INTEGER', 'TEXT'])
     Player2.CreateTable()
     return Player1, Player2
 
@@ -21,18 +21,18 @@ def InitialiseDeck(playerIndex):
     DefendingPlayer = None
 
     if playerIndex == 0:
-        AttackingPlayer = DataBase('Player1', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
-                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+        AttackingPlayer = DataBase('Player1', ['name', 'evolution_path', 'image', 'max_hp', 'attack', 'defence', 'types'],
+                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'INTEGER', 'TEXT'])
         AttackingPlayer.CreateTable()
-        DefendingPlayer = DataBase('Player2', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
-                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+        DefendingPlayer = DataBase('Player2', ['name', 'evolution_path', 'image', 'max_hp', 'attack', 'defence', 'types'],
+                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'INTEGER', 'TEXT'])
         DefendingPlayer.CreateTable()
     elif playerIndex == 1:
-        AttackingPlayer = DataBase('Player2', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
-                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+        AttackingPlayer = DataBase('Player2', ['name', 'evolution_path', 'image', 'max_hp', 'attack', 'defence', 'types'],
+                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'INTEGER', 'TEXT'])
         AttackingPlayer.CreateTable()
-        DefendingPlayer = DataBase('Player1', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
-                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+        DefendingPlayer = DataBase('Player1', ['name', 'evolution_path', 'image', 'max_hp', 'attack', 'defence', 'types'],
+                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'INTEGER', 'TEXT'])
         DefendingPlayer.CreateTable()
 
     return AttackingPlayer, DefendingPlayer
