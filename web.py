@@ -49,12 +49,18 @@ def Attack():
     Players = PLAYERCHOICES[NumPlayers]
     Player1, Player2 = InitialiseDecks()
 
-    playerIndex, winFlag = ComputeAttack(attType, Player1, Player2, playerIndex)
+    # compute's damage and updates database, winFlag = 1 if defender HP hit's <= 0
+    # playerIndex switches unless the attacker wins, in which case no change
+    nextIndex, winFlag = ComputeAttack(attType, Player1, Player2, playerIndex)
 
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
-    nextIndex, attackResult = ComputeVictor(attType, Player1, Player2, playerIndex)
-    evolveFlag, evolvedCard = EvolvePokemon(nextIndex, Player1, Player2)
+
+    # decks are rotated, cards given to the attacker and hp's are restored to max (only on winFlag == 1)
+    OnVictory(winFlag, Player1, Player2, nextIndex)
+    # evolution as before but will only execute on winFlag == 1, otherwise evolveFlag = 0, evolvedCard = None
+    evolveFlag, evolvedCard = EvolvePokemon(winFlag, nextIndex, Player1, Player2)
+
     endFlag = EndGame(Player1, Player2)
     if endFlag is None:
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards,

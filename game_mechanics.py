@@ -221,12 +221,12 @@ def ComputeAttack(attackType, Player1, Player2, playerIndex):
     attackValue = int(attackingPlayer[0]['attack'])
     defenceValue = int(defendingPlayer[0]['defence'])
 
-    totalDamage = (attackValue/defenceValue)*damageModifier*30
+    damageDealt = (attackValue/defenceValue)*damageModifier*30
 
     # modify defender's current hitpoints based upon this
     pokemonName = defendingPlayer[0]['name']
     initialHP = defendingPlayer[0]['current_hp']
-    newHP = int(initialHP - totalDamage)
+    newHP = int(initialHP - damageDealt)
 
     if newHP < 0:
         newHP = 0
@@ -234,9 +234,51 @@ def ComputeAttack(attackType, Player1, Player2, playerIndex):
 
     DefendingPlayer.EditHP(newHP, pokemonName)
     print(f'{pokemonName} initialHP: {initialHP}, HP after being attacked: {newHP}')
-    # playerIndex = SwitchAttackingPlayer(playerIndex)
 
-    return playerIndex, winFlag
+    if winFlag == 0:
+        playerIndex = SwitchAttackingPlayer(playerIndex)
+
+    return playerIndex, damageDealt, winFlag
+
+
+def OnVictory(winFlag, Player1, Player2, playerIndex):
+
+    if winFlag == 1:
+        attackingPlayer = None
+        AttackingPlayer = None
+        defendingPlayer = None
+        DefendingPlayer = None
+
+        if playerIndex == 0:
+            AttackingPlayer = Player1
+            attackingPlayer = AttackingPlayer.GetAllData()
+            DefendingPlayer = Player2
+            defendingPlayer = DefendingPlayer.GetAllData()
+        elif playerIndex == 1:
+            AttackingPlayer = Player2
+            attackingPlayer = AttackingPlayer.GetAllData()
+            DefendingPlayer = Player1
+            defendingPlayer = DefendingPlayer.GetAllData()
+
+        # reset HP of both cards
+        # AttackingPlayer.EditHP(attackingPlayer[0]['max_hp'], attackingPlayer[0]['name'])
+        # DefendingPlayer.EditHP(defendingPlayer[0]['max_hp'], defendingPlayer[0]['name'])
+
+        # add defender's card to attacker
+        AttackingPlayer.AddData([defendingPlayer[0]])
+        # delete card from defender
+        DefendingPlayer.DeleteLine(defendingPlayer[0]['name'])
+        # rotate attacker's deck
+        attackingPlayer = AttackingPlayer.GetAllData()
+        attackingPlayer = deque(attackingPlayer)
+        attackingPlayer.rotate(-1)
+        attackingPlayer = list(attackingPlayer)
+        AttackingPlayer.DestroyTable()
+        AttackingPlayer, DefendingPlayer = InitialiseDeck(playerIndex)
+        AttackingPlayer.AddData(attackingPlayer)
+
+    else:
+        pass
 
 
 def EndGame(Player1, Player2):
@@ -252,38 +294,42 @@ def EndGame(Player1, Player2):
     return endFlag
 
 
-def EvolvePokemon(nextIndex, Player1, Player2):
+def EvolvePokemon(winFlag, nextIndex, Player1, Player2):
     # take last card of the deck, check its evolution path and if is not none then delete it and replace with the fist
     # in the evolution list
 
     evolveFlag = 0
     evolvedCard = None
 
-    Pokedex = InitialiseDatabase()
-    pokeDex = Pokedex.GetAllData()
+    if winFlag == 1:
+        Pokedex = InitialiseDatabase()
+        pokeDex = Pokedex.GetAllData()
 
-    if nextIndex == 0:
-        Player = Player1
-    elif nextIndex == 1:
-        Player = Player2
+        if nextIndex == 0:
+            Player = Player1
+        elif nextIndex == 1:
+            Player = Player2
+        else:
+            Player = None
+
+        playerDeck = Player.GetAllData()
+        evolvingPokemon = playerDeck[-1]
+
+        evolutions = evolvingPokemon['evolution_path'].split(",")
+
+        print(evolvingPokemon['name'])
+
+        if evolutions[0] != 'None':
+            Player.DeleteLine(evolvingPokemon['name'])
+            print('evolve!')
+            evolveFlag = 1
+            for line in pokeDex:
+                if line['name'] == evolutions[0]:
+                    print(f"Evolution into {line['name']}")
+                    Player.AddData([line])
+                    evolvedCard = line
+
     else:
-        Player = None
-
-    playerDeck = Player.GetAllData()
-    evolvingPokemon = playerDeck[-1]
-
-    evolutions = evolvingPokemon['evolution_path'].split(",")
-
-    print(evolvingPokemon['name'])
-
-    if evolutions[0] != 'None':
-        Player.DeleteLine(evolvingPokemon['name'])
-        print('evolve!')
-        evolveFlag = 1
-        for line in pokeDex:
-            if line['name'] == evolutions[0]:
-                print(f"Evolution into {line['name']}")
-                Player.AddData([line])
-                evolvedCard = line
+        pass
 
     return evolveFlag, evolvedCard
