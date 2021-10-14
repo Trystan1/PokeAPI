@@ -51,7 +51,7 @@ def Attack():
 
     # compute's damage and updates database, winFlag = 1 if defender HP hit's <= 0
     # playerIndex switches unless the attacker wins, in which case no change
-    nextIndex, winFlag = ComputeAttack(attType, Player1, Player2, playerIndex)
+    nextIndex, damageDealt, winFlag = ComputeAttack(attType, Player1, Player2, playerIndex)
 
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
@@ -64,7 +64,7 @@ def Attack():
     endFlag = EndGame(Player1, Player2)
     if endFlag is None:
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards,
-                               playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex,
+                               playerIndex=playerIndex, nextIndex=nextIndex,
                                players=Players, numplayers=NumPlayers, atttype=attType, evolveFlag=evolveFlag,
                                evolvedCard=evolvedCard)
     else:
