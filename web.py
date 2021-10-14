@@ -49,6 +49,8 @@ def Attack():
     Players = PLAYERCHOICES[NumPlayers]
     Player1, Player2 = InitialiseDecks()
 
+    playerIndex, winFlag = ComputeAttack(attType, Player1, Player2, playerIndex)
+
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
     nextIndex, attackResult = ComputeVictor(attType, Player1, Player2, playerIndex)

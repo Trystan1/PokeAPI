@@ -195,6 +195,50 @@ def ComputeVictor(attackType, Player1, Player2, playerIndex):
     return playerIndex, attackResult
 
 
+def ComputeAttack(attackType, Player1, Player2, playerIndex):
+
+    winFlag = 0
+
+    defenceTypes = GetDefenceTypes(Player1, Player2, playerIndex)
+    # needs to call pokemonTypes, then workout how to define attacker and defender
+    damageModifier = PokemonTypes(attackType, defenceTypes)
+
+    attackingPlayer = None
+    defendingPlayer = None
+    DefendingPlayer = None
+
+    if playerIndex == 0:
+        AttackingPlayer = Player1
+        attackingPlayer = AttackingPlayer.GetAllData()
+        DefendingPlayer = Player2
+        defendingPlayer = DefendingPlayer.GetAllData()
+    elif playerIndex == 1:
+        AttackingPlayer = Player2
+        attackingPlayer = AttackingPlayer.GetAllData()
+        DefendingPlayer = Player1
+        defendingPlayer = DefendingPlayer.GetAllData()
+
+    attackValue = int(attackingPlayer[0]['attack'])
+    defenceValue = int(defendingPlayer[0]['defence'])
+
+    totalDamage = (attackValue/defenceValue)*damageModifier*30
+
+    # modify defender's current hitpoints based upon this
+    pokemonName = defendingPlayer[0]['name']
+    initialHP = defendingPlayer[0]['current_hp']
+    newHP = int(initialHP - totalDamage)
+
+    if newHP < 0:
+        newHP = 0
+        winFlag = 1
+
+    DefendingPlayer.EditHP(newHP, pokemonName)
+    print(f'{pokemonName} initialHP: {initialHP}, HP after being attacked: {newHP}')
+    # playerIndex = SwitchAttackingPlayer(playerIndex)
+
+    return playerIndex, winFlag
+
+
 def EndGame(Player1, Player2):
     player1 = Player1.GetAllData()
     player2 = Player2.GetAllData()
