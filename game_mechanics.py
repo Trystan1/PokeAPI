@@ -228,7 +228,7 @@ def ComputeAttack(attackType, Player1, Player2, playerIndex):
     initialHP = defendingPlayer[0]['current_hp']
     newHP = int(initialHP - damageDealt)
 
-    if newHP < 0:
+    if newHP <= 0:
         newHP = 0
         winFlag = 1
 
