@@ -3,9 +3,14 @@
 {% block content %}
 <head>
     <style>
+        body {
+          background-image: url('https://assets.pokemon.com//assets/cms2/img/misc/virtual-backgrounds/sword-shield/dynamax-battle.png');
+          background-repeat: no-repeat;
+        }
+
         .jumbotron{
-            width: 60vw;
-            padding: 3vw;
+            width: 80vw;
+            padding: 1vw;
             background: rgba(255, 255, 255, 0.7);
             font-size: 2vw
         }
@@ -14,6 +19,8 @@
             width: 35vw;
             padding: 2vw;
             background: rgba(255, 255, 255, 0.7);
+            height: auto;
+            width: 100%;
             border-radius:10px;
             transition: all 1s;
         }
@@ -73,7 +80,7 @@
     {% endif %}
     </div>
 </div>
-<div class="float-container" style="font-size: 2vw;">
+<div class="float-container" style="font-size: 2vw; width:90vw; height:60vh;">
      <div class="float-child">
         <div class="pokemon-card-container">
             <div id="leftcard" class="player-info">
@@ -89,13 +96,13 @@
                     <b><div id="leftplayer">LOSER...</div></b>
                 {% endif %}
                 {% if playerIndex == 1 and nextIndex == None%}
-                        <div class="inner-container">
-                            <img src="https://cdn2.bulbagarden.net/upload/1/17/Cardback.jpg" class="pokemon-card">
-                        </div>
+                    <div class="inner-container">
+                        <img src="{{ url_for('static', filename='Images/pokemon_card_back.jpg') }}" class="pokemon-card">
+                    </div>
                 {% else %}
                     {% if evolveFlag == 1 and nextIndex == 0 %}
                     <div class="inner-container" style="display:none" id="leftPostEvolve">
-                        <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                        <img src="{{ url_for('static', filename='Images/pokemon_card_front.jpg') }}" class="pokemon-card">
                             <span class="name-position" id="pokemonName">{{  evolvedCard.name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  evolvedCard.attack  }} Defence: {{  evolvedCard.defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  evolvedCard.types  }}</span>
@@ -104,7 +111,7 @@
                         <!--                            <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename='Images/evolve.gif') }}">-->
                     </div>
                     <div class="inner-container" style="display:block" id="leftPreEvolve">
-                        <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                        <img src="{{ url_for('static', filename='Images/pokemon_card_front.jpg') }}" class="pokemon-card">
                             <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
@@ -112,7 +119,7 @@
                     </div>
                     {% else %}
                     <div class="inner-container" >
-                        <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                        <img src="{{ url_for('static', filename='Images/pokemon_card_front.jpg') }}" class="pokemon-card">
                             <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
@@ -140,12 +147,12 @@
             {% endif %}
             {% if playerIndex == 0 and nextIndex == None %}
                 <div class="inner-container">
-                    <img src="https://cdn2.bulbagarden.net/upload/1/17/Cardback.jpg" class="pokemon-card">
+                    <img src="{{ url_for('static', filename='Images/pokemon_card_back.jpg') }}" class="pokemon-card">
                 </div>
             {% else %}
                 {% if evolveFlag == 1 and nextIndex == 1 %}
                     <div class="inner-container" style="display:none" id="rightPostEvolve">
-                        <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                        <img src="{{ url_for('static', filename='Images/pokemon_card_front.jpg') }}" class="pokemon-card">
                             <span class="name-position" id="pokemonName">{{  evolvedCard.name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  evolvedCard.attack  }} Defence: {{  evolvedCard.defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  evolvedCard.types  }}</span>
@@ -153,7 +160,7 @@
                             <img class="pokemon-image-position" id="explosionGIF" src="{{ url_for('static', filename='Images/explosion.gif') }}" style="display:block">
                     </div>
                     <div class="inner-container" style="display:block" id="rightPreEvolve">
-                        <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                        <img src="{{ url_for('static', filename='Images/pokemon_card_front.jpg') }}" class="pokemon-card">
                             <span class="name-position" id="pokemonName">{{  player2Cards[0].name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  player2Cards[0].attack  }} Defence: {{  player2Cards[0].defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  player2Cards[0].types  }}</span>
@@ -161,7 +168,7 @@
                     </div>
                     {% else %}
                     <div class="inner-container">
-                        <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
+                        <img src="{{ url_for('static', filename='Images/pokemon_card_front.jpg') }}" class="pokemon-card">
                         <span class="name-position" id="pokemonName2">{{  player2Cards[0].name  }}</span>
                         <span class="stats-position" id="pokemonStats2">Attack: {{  player2Cards[0].attack  }} Defence: {{  player2Cards[0].defence  }}</span>
                         <span class="types-position" id="pokemonTypes2">{{  player2Cards[0].types  }}</span>
