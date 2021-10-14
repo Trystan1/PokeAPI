@@ -1,6 +1,6 @@
 import requests
 from pokemon_database import DataBase
-
+import urllib.request
 
 def FillPokedex():
 
@@ -10,7 +10,7 @@ def FillPokedex():
 
     pokeDex = CleanPokeDex(pokeDex)
     Pokedex = InitialiseDatabase()
-    Pokedex.DestroyTable()    # uncomment this if want a quick table reset
+    Pokedex.DestroyTable()
     Pokedex = InitialiseDatabase()
     Pokedex.AddData(pokeDex)
     return Pokedex
@@ -38,6 +38,10 @@ def GetPokedex():
         pokemonAttack = individualStats[1]["base_stat"]
         pokemonDefence = individualStats[2]["base_stat"]
         pokemonImage = response["sprites"]["other"]["official-artwork"]["front_default"]
+
+        filename = f'static/Images/PokemonPNGs/{pokemonName}.png'
+        urllib.request.urlretrieve(f'{pokemonImage}', filename)
+        pokemonImage = f'Images/PokemonPNGs/{pokemonName}.png'
 
         individualTypes = response["types"]
         typeList = ''
@@ -115,4 +119,3 @@ def InitialiseDatabase():
     Pokedex.CreateTable()
 
     return Pokedex
-

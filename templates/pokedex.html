@@ -91,6 +91,7 @@ function hideDIV() {
         if(pokeDex[i].name == select){
             name = pokeDex[i].name;
             image = pokeDex[i].image;
+            image = 'static/' + image;
             attack = pokeDex[i].attack;
             defence = pokeDex[i].defence;
             types = pokeDex[i].types;
@@ -100,12 +101,12 @@ function hideDIV() {
     document.getElementById("pokemonName").innerHTML = name;
     document.getElementById("pokemonStats").innerHTML = "Attack: " + attack + " Defence: " + defence;
     document.getElementById("pokemonTypes").innerHTML = "Types: " + types;
-    document.getElementById('pokemonImage').src=image;
+    document.getElementById('pokemonImage').src = image;
     }
 
 </script>
 </body>
 </html>
-
+<!--document.getElementById('pokemonImage').src=image;-->
 
 {% endblock %}
