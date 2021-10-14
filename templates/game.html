@@ -48,6 +48,12 @@
                      </audio>
              {% endif %}
 
+             {% if winFlag == 0 %}
+             <input type="hidden" name="showDefender" value="True">
+             {% else %}
+             <input type="hidden" name="showDefender" value="False">
+             {% endif %}
+
              <input type="hidden" name="nextIndex" value="{{nextIndex}}">
              <input type="hidden" name="numplayers" value="{{numplayers}}">
              <input type="hidden" id="rightplayer" value="{{playerIndex}}">
@@ -112,7 +118,7 @@
                         <b><div>LOSER...</div></b>
                     {% endif %}
                 {% endif %}
-                {% if playerIndex == 1 and nextIndex == None%}
+                {% if playerIndex == 1 and showDefender == 'False' %}
                         <div class="inner-container">
                             <img src="https://cdn2.bulbagarden.net/upload/1/17/Cardback.jpg" class="pokemon-card">
                         </div>
@@ -164,7 +170,7 @@
                         <b><div>LOSER...</div></b>
                     {% endif %}
                 {% endif %}
-            {% if playerIndex == 0 and nextIndex == None %}
+            {% if playerIndex == 0 and showDefender == 'False' %}
                 <div class="inner-container">
                     <img src="https://cdn2.bulbagarden.net/upload/1/17/Cardback.jpg" class="pokemon-card">
                 </div>

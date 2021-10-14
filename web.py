@@ -33,8 +33,7 @@ def PlayGame():
     player2Cards = Player2.GetAllData()
     playerIndex = random.randint(0, 1)
     winFlag = 0
-    print(f'play game win flag = {winFlag}')
-
+    showDefender = 'False'
     nextIndex = None
     attType = None
     if player1Cards == [] or player2Cards == []:
@@ -42,7 +41,8 @@ def PlayGame():
     else:
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards,
                                playerIndex=playerIndex, nextIndex=nextIndex,
-                               players=Players, numplayers=NumPlayers, atttype=attType, winFlag=winFlag)
+                               players=Players, numplayers=NumPlayers, atttype=attType,
+                               winFlag=winFlag, showDefender=showDefender)
 
 
 @app.route("/playgame/attack")
@@ -52,11 +52,11 @@ def Attack():
     NumPlayers = int(request.args.get('numplayers'))
     Players = PLAYERCHOICES[NumPlayers]
     Player1, Player2 = InitialiseDecks()
+    showDefender = 'True'
 
     # compute's damage and updates database, winFlag = 1 if defender HP hit's <= 0
     # playerIndex switches unless the attacker wins, in which case no change
     nextIndex, damageDealt, winFlag = ComputeAttack(attType, Player1, Player2, playerIndex)
-    print(f'att win flag = {winFlag}')
 
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
@@ -71,7 +71,7 @@ def Attack():
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards,
                                playerIndex=playerIndex, nextIndex=nextIndex,
                                players=Players, numplayers=NumPlayers, atttype=attType, evolveFlag=evolveFlag,
-                               evolvedCard=evolvedCard, winFlag=winFlag)
+                               evolvedCard=evolvedCard, winFlag=winFlag, showDefender=showDefender)
     else:
         return render_template('victoryscreen.html', endFlag=endFlag)
 
@@ -80,18 +80,17 @@ def Attack():
 def NewRound():
     playerIndex = int(request.args.get('nextIndex'))
     NumPlayers = int(request.args.get('numplayers'))
+    showDefender = request.args.get('showDefender')
     Players = PLAYERCHOICES[NumPlayers]
     Player1, Player2 = InitialiseDecks()
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
     winFlag = 0
-    print(f'new round win flag = {winFlag}' )
-
     nextIndex = None
     attType = None
     return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex,
                            nextIndex=nextIndex, players=Players, numplayers=NumPlayers,
-                           atttype=attType, winFlag=winFlag)
+                           atttype=attType, winFlag=winFlag, showDefender=showDefender)
 
 
 
