@@ -49,9 +49,9 @@
              {% endif %}
 
              {% if winFlag == 0 %}
-             <input type="hidden" name="showDefender" value="True">
+                <input type="hidden" name="showDefender" value="True">
              {% else %}
-             <input type="hidden" name="showDefender" value="False">
+                <input type="hidden" name="showDefender" value="False">
              {% endif %}
 
              <input type="hidden" name="nextIndex" value="{{nextIndex}}">
@@ -59,9 +59,9 @@
              <input type="hidden" id="rightplayer" value="{{playerIndex}}">
              <input type="hidden" id="leftplayer" value="{{playerIndex}}">
              {% if playerIndex == 0 %}
-             {{player1Cards[0].name}} used its {{atttype}} move!
+                {{player1Cards[0].name}} used its {{atttype}} move!
              {% elif playerIndex == 1 %}
-             {{player2Cards[0].name}} used its {{atttype}} move!
+                {{player2Cards[0].name}} used its {{atttype}} move!
              {% endif %}
              <button id="continueNRButton" class="">Continue to next round?</button>
          </form>
@@ -90,7 +90,11 @@
             {% elif playerIndex == 1 %}
                 {% set typeList = player2Cards[0].types.split(',') %}
             {% endif %}
-            {% set atttype = typeList|random %}
+            {% if showDefender == 'True' %}
+                {% set atttype = typeList %}
+            {% else %}
+                {% set atttype = typeList|random %}
+            {% endif %}
             Please press continue to see the results..
             <input type="hidden" name="atttype" value="{{atttype}}">
             <input type="hidden" name="playerIndex" value="{{playerIndex}}">
