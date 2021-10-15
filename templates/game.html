@@ -132,16 +132,15 @@
                             <span class="name-position" id="pokemonName">{{  evolvedCard.name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  evolvedCard.attack  }} Defence: {{  evolvedCard.defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  evolvedCard.types  }}</span>
-                            <img class="pokemon-image-position" id="pokemonImage" src="{{  evolvedCard.image  }}">
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{  url_for('static', filename=evolvedCard.image)  }}">
                             <img class="pokemon-image-position" id="explosionGIF" src="{{ url_for('static', filename='Images/explosion.gif') }}" style="display:block">
-                        <!--                            <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename='Images/evolve.gif') }}">-->
                     </div>
                     <div class="inner-container" style="display:block" id="leftPreEvolve">
                         <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
                             <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
-                            <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename=player1Cards[0].image) }}">
                     </div>
                     {% else %}
                     <div class="inner-container" >
@@ -149,8 +148,7 @@
                             <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
-                            <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
-
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename=player1Cards[0].image) }}">
                     </div>
                     {% endif %}
                 {% endif %}
@@ -184,7 +182,7 @@
                             <span class="name-position" id="pokemonName">{{  evolvedCard.name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  evolvedCard.attack  }} Defence: {{  evolvedCard.defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  evolvedCard.types  }}</span>
-                            <img class="pokemon-image-position" id="pokemonImage" src="{{  evolvedCard.image  }}">
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{  url_for('static', filename=evolvedCard.image)  }}">
                             <img class="pokemon-image-position" id="explosionGIF" src="{{ url_for('static', filename='Images/explosion.gif') }}" style="display:block">
                     </div>
                     <div class="inner-container" style="display:block" id="rightPreEvolve">
@@ -192,7 +190,7 @@
                             <span class="name-position" id="pokemonName">{{  player2Cards[0].name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  player2Cards[0].attack  }} Defence: {{  player2Cards[0].defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  player2Cards[0].types  }}</span>
-                            <img class="pokemon-image-position" id="pokemonImage" src="{{  player2Cards[0].image  }}">
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename=player2Cards[0].image) }}">
                     </div>
                     {% else %}
                     <div class="inner-container">
@@ -200,7 +198,8 @@
                         <span class="name-position" id="pokemonName2">{{  player2Cards[0].name  }}</span>
                         <span class="stats-position" id="pokemonStats2">Attack: {{  player2Cards[0].attack  }} Defence: {{  player2Cards[0].defence  }}</span>
                         <span class="types-position" id="pokemonTypes2">{{  player2Cards[0].types  }}</span>
-                        <img class="pokemon-image-position" id="pokemonImage2" src="{{  player2Cards[0].image  }}">
+<!--                        <img class="pokemon-image-position" id="pokemonImage2" src="{{  player2Cards[0].image  }}">-->
+                        <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename=player2Cards[0].image) }}">
                     </div>
                     {% endif %}
             {% endif %}
