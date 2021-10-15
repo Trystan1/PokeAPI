@@ -56,10 +56,12 @@
 
              <input type="hidden" name="nextIndex" value="{{nextIndex}}">
              <input type="hidden" name="numplayers" value="{{numplayers}}">
+             <input type="hidden" id="rightplayer" value="{{playerIndex}}">
+             <input type="hidden" id="leftplayer" value="{{playerIndex}}">
              {% if playerIndex == 0 %}
-                {{player1Cards[0].name}} used its {{atttype}} move!
+             {{player1Cards[0].name}} used its {{atttype}} move!
              {% elif playerIndex == 1 %}
-                {{player2Cards[0].name}} used its {{atttype}} move!
+             {{player2Cards[0].name}} used its {{atttype}} move!
              {% endif %}
              <button id="continueNRButton" class="">Continue to next round?</button>
          </form>
@@ -289,15 +291,6 @@
         }, 10000);
     }
 
-    function ToggleButton() {
-        var DamageRelations = document.getElementById('DamageRelations')
-        if (DamageRelations.style.display == "none") {
-            DamageRelations.style.display = "block"
-        } else if (DamageRelations.style.display == "block") {
-            DamageRelations.style.display = "none"
-        }
-    }
-
 
 window.onload = showresults();
 
@@ -321,6 +314,15 @@ function showresults() {
             DoEvolutionLeft();
         } else if (("{{evolveFlag}}" == "1") && ("{{nextIndex}}" == "1")) {
             DoEvolutionRight();
+        }
+    }
+
+    function ToggleButton() {
+        var DamageRelations = document.getElementById('DamageRelations')
+        if (DamageRelations.style.display == "none") {
+            DamageRelations.style.display = "block"
+        } else if (DamageRelations.style.display == "block") {
+            DamageRelations.style.display = "none"
         }
     }
 
