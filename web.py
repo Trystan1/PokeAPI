@@ -72,7 +72,7 @@ def Attack():
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards,
                                playerIndex=playerIndex, nextIndex=nextIndex,
                                players=Players, numplayers=NumPlayers, atttype=attType, evolveFlag=evolveFlag,
-                               evolvedCard=evolvedCard, winFlag=winFlag, showDefender=showDefender)
+                               evolvedCard=evolvedCard, winFlag=winFlag, showDefender=showDefender, damageDealt=damageDealt)
     else:
         return render_template('victoryscreen.html', endFlag=endFlag)
 
