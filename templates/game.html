@@ -101,6 +101,9 @@
     {% endif %}
     </div>
 </div>
+<div class="center">
+    <button type="button" onclick="ToggleButton();" >Damage Relations</button>
+</div>
 <div class="float-container" style="font-size: 2vw;">
      <div class="float-child">
         <div class="pokemon-card-container">
@@ -206,6 +209,12 @@
     </div>
 </div>
 
+<div class="center" style="display:none" id="DamageRelations">
+        <div class="overlay_damage_relations">
+            <img src="{{ url_for('static', filename='Images/Damage_Relations.png') }}" width="80%" height="80%">
+        </div>
+</div>
+
 <audio autoplay loop id="background">
     <source src="{{ url_for('static', filename='Audio/Battle_Theme.mp3') }}" type="audio/mpeg">
 </audio>
@@ -305,6 +314,15 @@ function showresults() {
             DoEvolutionLeft();
         } else if (("{{evolveFlag}}" == "1") && ("{{nextIndex}}" == "1")) {
             DoEvolutionRight();
+        }
+    }
+
+    function ToggleButton() {
+        var DamageRelations = document.getElementById('DamageRelations')
+        if (DamageRelations.style.display == "none") {
+            DamageRelations.style.display = "block"
+        } else if (DamageRelations.style.display == "block") {
+            DamageRelations.style.display = "none"
         }
     }
 
