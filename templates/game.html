@@ -126,10 +126,9 @@
                 <p></p>
                     {% if evolveFlag == 1 and nextIndex == 0 %}
                     <div class="inner-container" style="display:none" id="leftPostEvolve">
-                        <div class="redhpbar">x</div>
-                        <div class="lefthpbar" id="lefthpbar">
-                            <span class="" id="pokemonMaxHp">{{player1Cards[0].current_hp}}/{{player1Cards[0].max_hp}}</span>
-                        </div>
+                        <div class="redhpbar"></div>
+                        <div class="lefthpbar" id="lefthpbar"></div>
+                        <span class="hptext" id="pokemonMaxHp">{{player1Cards[0].current_hp}}/{{player1Cards[0].max_hp}}</span>
                         <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
                             <span class="name-position" id="pokemonName">{{  evolvedCard.name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  evolvedCard.attack  }} Defence: {{  evolvedCard.defence  }}</span>
@@ -139,10 +138,9 @@
                         <!--                            <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename='Images/evolve.gif') }}">-->
                     </div>
                     <div class="inner-container" style="display:block" id="leftPreEvolve">
-                        <div class="redhpbar">x</div>
-                        <div class="lefthpbar" id="lefthpbar">
-                            <span class="" id="pokemonMaxHp">{{player1Cards[0].current_hp}}/{{player1Cards[0].max_hp}}</span>
-                        </div>
+                        <div class="redhpbar"></div>
+                        <div class="lefthpbar" id="lefthpbar"></div>
+                            <span class="hptext" id="pokemonMaxHp">{{player1Cards[0].current_hp}}/{{player1Cards[0].max_hp}}</span>
                         <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
                             <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
@@ -151,10 +149,9 @@
                     </div>
                     {% else %}
                     <div class="inner-container" >
-                        <div class="redhpbar">x</div>
-                        <div class="lefthpbar" id="lefthpbar">
-                            <span class="" id="pokemonMaxHp">{{player1Cards[0].current_hp}}/{{player1Cards[0].max_hp}}</span>
-                        </div>
+                        <div class="redhpbar"></div>
+                        <div class="lefthpbar" id="lefthpbar"></div>
+                            <span class="hptext" id="pokemonMaxHp">{{player1Cards[0].current_hp}}/{{player1Cards[0].max_hp}}</span>
                         <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
                             <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
@@ -191,10 +188,9 @@
                 <p></p>
                 {% if evolveFlag == 1 and nextIndex == 1 %}
                     <div class="inner-container" style="display:none" id="rightPostEvolve">
-                        <div class="redhpbar">x</div>
-                        <div class="righthpbar" id="righthpbar">
-                            <span class="" id="pokemonMaxHp">{{player2Cards[0].current_hp}}/{{player2Cards[0].max_hp}}</span>
-                        </div>
+                        <div class="redhpbar"></div>
+                        <div class="righthpbar" id="righthpbar"></div>
+                            <span class="hptext" id="pokemonMaxHp">{{player2Cards[0].current_hp}}/{{player2Cards[0].max_hp}}</span>
                         <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
                             <span class="name-position" id="pokemonName">{{  evolvedCard.name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  evolvedCard.attack  }} Defence: {{  evolvedCard.defence  }}</span>
@@ -203,9 +199,9 @@
                             <img class="pokemon-image-position" id="explosionGIF" src="{{ url_for('static', filename='Images/explosion.gif') }}" style="display:block">
                     </div>
                     <div class="inner-container" style="display:block" id="rightPreEvolve">
-                        <div class="redhpbar">x</div>
+                        <div class="redhpbar"></div>
                         <div class="righthpbar" id="righthpbar">
-                            <span class="" id="pokemonMaxHp">{{player2Cards[0].current_hp}}/{{player2Cards[0].max_hp}}</span>
+                            <span class="hptext" id="pokemonMaxHp">{{player2Cards[0].current_hp}}/{{player2Cards[0].max_hp}}</span>
                         </div>
                         <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
                             <span class="name-position" id="pokemonName">{{  player2Cards[0].name  }}</span>
@@ -215,10 +211,9 @@
                     </div>
                     {% else %}
                     <div class="inner-container">
-                        <div class="redhpbar">x</div>
-                        <div class="righthpbar" id="righthpbar">
-                            <span class="" id="pokemonMaxHp">{{player2Cards[0].current_hp}}/{{player2Cards[0].max_hp}}</span>
-                        </div>
+                        <div class="redhpbar"></div>
+                        <div class="righthpbar" id="righthpbar"></div>
+                        <span class="hptext" id="pokemonMaxHp">{{player2Cards[0].current_hp}}/{{player2Cards[0].max_hp}}</span>
                         <img src="https://i.pinimg.com/originals/ed/c7/c6/edc7c6437653ab73346c7bf08c884077.jpg" class="pokemon-card">
                         <span class="name-position" id="pokemonName2">{{  player2Cards[0].name  }}</span>
                         <span class="stats-position" id="pokemonStats2">Attack: {{  player2Cards[0].attack  }} Defence: {{  player2Cards[0].defence  }}</span>
@@ -346,14 +341,14 @@ function hpBarPercentage() {
 
     if (leftwidth == 0) {
         document.getElementById("lefthpbar").style.width = "60%";
-        document.getElementById("lefthpbar").style.backgroundColor =  "#FF0000";
+        document.getElementById("lefthpbar").style.backgroundColor =  "#808080";
     } else {
          document.getElementById("lefthpbar").style.width = `${leftwidth}%`;
     }
 
     if (rightwidth == 0){
         document.getElementById("righthpbar").style.width = "60%";
-        document.getElementById("righthpbar").style.backgroundColor =  "#FF0000";
+        document.getElementById("righthpbar").style.backgroundColor =  "#808080";
     } else {
         document.getElementById("righthpbar").style.width = `${rightwidth}%`;
     }
