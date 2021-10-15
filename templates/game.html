@@ -32,19 +32,20 @@
                             var round_win_music = document.getElementById("roundwin");
                             round_win_music.volume = 0.1;</script>
                  </audio>
-             {% elif playerIndex == 0 %}
+             {% endif %}
+             {% if playerIndex == 0 %}
                 <audio autoplay id="leftattack">
                     <source src="{{ url_for('static', filename='Audio/leftattack.mp3') }}" type="audio/mpeg">
                          <script>document.getElementById("leftattack").play;
                             var round_win_music = document.getElementById("leftattack");
-                            round_win_music.volume = 0.1;</script>
+                            round_win_music.volume = 0.3;</script>
                  </audio>
              {% else %}
                  <audio autoplay id="rightattack">
                         <source src="{{ url_for('static', filename='Audio/rightattack.mp3') }}" type="audio/mpeg">
                              <script>document.getElementById("rightattack").play;
                                 var round_win_music = document.getElementById("rightattack");
-                                round_win_music.volume = 0.1;</script>
+                                round_win_music.volume = 0.3;</script>
                      </audio>
              {% endif %}
 
@@ -334,8 +335,8 @@ function hpBarPercentage() {
     var rightwidth = "{{player2Cards[0].current_hp}}"/"{{player2Cards[0].max_hp}}" * 60;
     console.log('leftwidth =' + leftwidth)
     console.log('rightwidth =' + rightwidth)
-    lefthpbar.css('width', leftwidth);
-    righthpbar.css('width', rightidth);
+    lefthpbar.css({'width': leftwidth});
+    righthpbar.css({'width': rightidth});
 }
 
 </script>
