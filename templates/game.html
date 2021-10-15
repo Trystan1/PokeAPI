@@ -25,15 +25,43 @@
     <div class="jumbotron">
     {% if nextIndex != None %}
          <form action="/playgame/newround" method="get" style="text-align: center;">
-             <audio autoplay id="roundwin">
-                <source src="{{ url_for('static', filename='Audio/round-victory.mp3') }}" type="audio/mpeg">
-             </audio>
+             {% if winFlag == 1 %}
+                 <audio autoplay id="roundwin">
+                    <source src="{{ url_for('static', filename='Audio/round-victory.mp3') }}" type="audio/mpeg">
+                         <script>document.getElementById("roundwin").play;
+                            var round_win_music = document.getElementById("roundwin");
+                            round_win_music.volume = 0.1;</script>
+                 </audio>
+             {% elif playerIndex == 0 %}
+                <audio autoplay id="leftattack">
+                    <source src="{{ url_for('static', filename='Audio/leftattack.mp3') }}" type="audio/mpeg">
+                         <script>document.getElementById("leftattack").play;
+                            var round_win_music = document.getElementById("leftattack");
+                            round_win_music.volume = 0.3;</script>
+                 </audio>
+             {% else %}
+                 <audio autoplay id="rightattack">
+                        <source src="{{ url_for('static', filename='Audio/rightattack.mp3') }}" type="audio/mpeg">
+                             <script>document.getElementById("rightattack").play;
+                                var round_win_music = document.getElementById("rightattack");
+                                round_win_music.volume = 0.3;</script>
+                     </audio>
+             {% endif %}
+
+             {% if winFlag == 0 %}
+             <input type="hidden" name="showDefender" value="True">
+             {% else %}
+             <input type="hidden" name="showDefender" value="False">
+             {% endif %}
+
              <input type="hidden" name="nextIndex" value="{{nextIndex}}">
              <input type="hidden" name="numplayers" value="{{numplayers}}">
+             <input type="hidden" id="rightplayer" value="{{playerIndex}}">
+             <input type="hidden" id="leftplayer" value="{{playerIndex}}">
              {% if playerIndex == 0 %}
-                {{player1Cards[0].name}} used its {{atttype}} move!
+             {{player1Cards[0].name}} used its {{atttype}} move!
              {% elif playerIndex == 1 %}
-                {{player2Cards[0].name}} used its {{atttype}} move!
+             {{player2Cards[0].name}} used its {{atttype}} move!
              {% endif %}
              <button id="continueNRButton" class="">Continue to next round?</button>
          </form>
@@ -81,17 +109,19 @@
         <div class="pokemon-card-container">
             <div id="leftcard" class="player-info">
                 Number of Cards = {{player1Cards|length}}
-                {% if playerIndex == 1 %}
-                        <div><b>Defender - {{players[0]}}</b></div>
+                    {% if playerIndex == 1 %}
+                            <div><b>Defender - {{players[0]}}</b></div>
                     {% elif playerIndex == 0 %}
-                        <div><b>Attacker - {{players[0]}}</b></div>
+                            <div><b>Attacker - {{players[0]}}</b></div>
+                    {% endif %}
+                {% if winFlag == 1 %}
+                    {% if nextIndex == 0 %}
+                        <b><div>WINNER!</div></b>
+                    {% elif nextIndex == 1 %}
+                        <b><div>LOSER...</div></b>
+                    {% endif %}
                 {% endif %}
-                {% if nextIndex == 0 %}
-                    <b><div id="leftplayer">WINNER!</div></b>
-                {% elif nextIndex == 1 %}
-                    <b><div id="leftplayer">LOSER...</div></b>
-                {% endif %}
-                {% if playerIndex == 1 and nextIndex == None%}
+                {% if playerIndex == 1 and showDefender == 'False' %}
                         <div class="inner-container">
                             <img src="https://cdn2.bulbagarden.net/upload/1/17/Cardback.jpg" class="pokemon-card">
                         </div>
@@ -136,12 +166,14 @@
             {% elif playerIndex == 1 %}
                 <div><b>Attacker - {{players[1]}}</b></div>
             {% endif %}
-            {% if nextIndex == 1 %}
-                <b><div id="rightplayer">WINNER!</div></b>
-            {% elif nextIndex == 0 %}
-                <b><div id="rightplayer">LOSER...</div></b>
-            {% endif %}
-            {% if playerIndex == 0 and nextIndex == None %}
+                {% if winFlag == 1 %}
+                    {% if nextIndex == 1 %}
+                        <b><div>WINNER!</div></b>
+                    {% elif nextIndex == 0 %}
+                        <b><div>LOSER...</div></b>
+                    {% endif %}
+                {% endif %}
+            {% if playerIndex == 0 and showDefender == 'False' %}
                 <div class="inner-container">
                     <img src="https://cdn2.bulbagarden.net/upload/1/17/Cardback.jpg" class="pokemon-card">
                 </div>
@@ -192,35 +224,9 @@
     var background_music = document.getElementById("background");
     background_music.volume = 0.02;
 
-    document.getElementById("roundwin").play;
-    var round_win_music = document.getElementById("roundwin");
-    round_win_music.volume = 0.1;
-
     var audio_evolve = new Audio("{{ url_for('static', filename='Audio/JOHN.mp3') }}");
     audio_evolve.volume = 0.1;
 
-    function showresults() {
-        var leftplayer = document.getElementById("leftplayer").innerHTML
-        var rightplayer = document.getElementById("rightplayer").innerHTML
-        if (leftplayer == 'WINNER!') {
-            leftcolour = "#008000";
-        } else {
-            leftcolour = "#8B0000";
-        }
-        if (rightplayer == 'WINNER!') {
-            rightcolour = "#008000";
-        } else {
-            rightcolour = "#8B0000";
-        }
-        colourLeftBox(leftcolour)
-        colourRightBox(rightcolour)
-
-        if (("{{evolveFlag}}" == "1") && ("{{nextIndex}}" == "0")) {
-            DoEvolutionLeft();
-        } else if (("{{evolveFlag}}" == "1") && ("{{nextIndex}}" == "1")) {
-            DoEvolutionRight();
-        }
-    }
 
     function colourRightBox(rightcolour) {
         document.getElementById('rightcard').style.background = rightcolour;
@@ -235,8 +241,6 @@
                 document.getElementById('leftcard').style.background = "";
             }, 2000);
     }
-
-    window.onload = showresults();
 
     function DoEvolutionLeft() {
         ToggleButtonOff();
@@ -283,6 +287,31 @@
         setTimeout(function(){
             document.getElementById("continueNRButton").disabled = false;
         }, 10000);
+    }
+
+window.onload = showresults();
+
+function showresults() {
+        var leftplayer = document.getElementById("leftplayer").value
+        var rightplayer = document.getElementById("rightplayer").value
+        if (leftplayer == 0) {
+            leftcolour = "#008000";
+        } else {
+            leftcolour = "#8B0000";
+        }
+        if (rightplayer == 1) {
+            rightcolour = "#008000";
+        } else {
+            rightcolour = "#8B0000";
+        }
+        colourLeftBox(leftcolour)
+        colourRightBox(rightcolour)
+
+        if (("{{evolveFlag}}" == "1") && ("{{nextIndex}}" == "0")) {
+            DoEvolutionLeft();
+        } else if (("{{evolveFlag}}" == "1") && ("{{nextIndex}}" == "1")) {
+            DoEvolutionRight();
+        }
     }
 
     function ToggleButton() {
