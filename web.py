@@ -55,7 +55,7 @@ def Attack():
     Players = PLAYERCHOICES[NumPlayers]
     Player1, Player2 = InitialiseDecks()
     showDefender = 'True'
-    # compute's damage and updates database, winFlag = 1 if defender HP hit's <= 0
+    # computes damage and updates database, winFlag = 1 if defender HP hit's <= 0
     # playerIndex switches unless the attacker wins, in which case no change
     nextIndex, damageDealt, winFlag, attType = ComputeAttack(attType, Player1, Player2, playerIndex)
 
