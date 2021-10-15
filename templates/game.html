@@ -97,7 +97,7 @@
             {% else %}
                 {% set atttype = typeList|random %}
             {% endif %}
-            Please press continue to see the results..
+            Please press continue to see the results...
             <input type="hidden" name="atttype" value="{{atttype}}">
             <input type="hidden" name="playerIndex" value="{{playerIndex}}">
             <input type="hidden" name="numplayers" value="{{numplayers}}">
@@ -108,7 +108,7 @@
     </div>
 </div>
 <div class="center">
-    <button type="button" class="welcome-page-button" onclick="ToggleButton();" >Damage Relations</button>
+    <button type="button" class="" onclick="ToggleButton();" >Damage Relations</button>
 </div>
 <div class="float-container" style="font-size: 2vw;">
      <div class="float-child">
@@ -237,7 +237,7 @@
 
 <div class="center" style="display:none;" id="DamageRelations">
         <div class="overlay_damage_relations">
-            <img src="{{ url_for('static', filename='Images/Damage_Relations.png') }}" width="80%" height="80%">
+            <img src="{{ url_for('static', filename='Images/Damage_Relations.png') }}" width="70%" height="70%">
         </div>
 </div>
 

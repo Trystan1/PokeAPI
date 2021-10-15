@@ -251,7 +251,7 @@ def ComputeAttack(attType, Player1, Player2, playerIndex):
     attackValue = int(attackingPlayer[0]['attack'])
     defenceValue = int(defendingPlayer[0]['defence'])
 
-    damageDealt = (attackValue/defenceValue)*damageModifier*30
+    damageDealt = int((attackValue/defenceValue)*damageModifier*30)
 
     # modify defender's current hitpoints based upon this
     pokemonName = defendingPlayer[0]['name']
