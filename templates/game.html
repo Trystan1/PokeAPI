@@ -37,14 +37,14 @@
                     <source src="{{ url_for('static', filename='Audio/leftattack.mp3') }}" type="audio/mpeg">
                          <script>document.getElementById("leftattack").play;
                             var round_win_music = document.getElementById("leftattack");
-                            round_win_music.volume = 0.1;</script>
+                            round_win_music.volume = 0.3;</script>
                  </audio>
              {% else %}
                  <audio autoplay id="rightattack">
                         <source src="{{ url_for('static', filename='Audio/rightattack.mp3') }}" type="audio/mpeg">
                              <script>document.getElementById("rightattack").play;
                                 var round_win_music = document.getElementById("rightattack");
-                                round_win_music.volume = 0.1;</script>
+                                round_win_music.volume = 0.3;</script>
                      </audio>
              {% endif %}
 
@@ -242,8 +242,6 @@
             }, 2000);
     }
 
-
-
     function DoEvolutionLeft() {
         ToggleButtonOff();
         var leftPreEvolve = document.getElementById('leftPreEvolve')
@@ -290,7 +288,6 @@
             document.getElementById("continueNRButton").disabled = false;
         }, 10000);
     }
-
 
 window.onload = showresults();
 

@@ -261,8 +261,8 @@ def OnVictory(winFlag, Player1, Player2, playerIndex):
             defendingPlayer = DefendingPlayer.GetAllData()
 
         # reset HP of both cards
-        # AttackingPlayer.EditHP(attackingPlayer[0]['max_hp'], attackingPlayer[0]['name'])
-        # DefendingPlayer.EditHP(defendingPlayer[0]['max_hp'], defendingPlayer[0]['name'])
+        AttackingPlayer.EditHP(attackingPlayer[0]['max_hp'], attackingPlayer[0]['name'])
+        DefendingPlayer.EditHP(defendingPlayer[0]['max_hp'], defendingPlayer[0]['name'])
 
         # add defender's card to attacker
         AttackingPlayer.AddData([defendingPlayer[0]])
