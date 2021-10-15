@@ -32,17 +32,45 @@
     <div class="jumbotron">
     {% if nextIndex != None %}
          <form action="/playgame/newround" method="get" style="text-align: center;">
-             <audio autoplay id="roundwin">
-                <source src="{{ url_for('static', filename='Audio/round-victory.mp3') }}" type="audio/mpeg">
-             </audio>
+             {% if winFlag == 1 %}
+                 <audio autoplay id="roundwin">
+                    <source src="{{ url_for('static', filename='Audio/round-victory.mp3') }}" type="audio/mpeg">
+                         <script>document.getElementById("roundwin").play;
+                            var round_win_music = document.getElementById("roundwin");
+                            round_win_music.volume = 0.1;</script>
+                 </audio>
+             {% elif playerIndex == 0 %}
+                <audio autoplay id="leftattack">
+                    <source src="{{ url_for('static', filename='Audio/leftattack.mp3') }}" type="audio/mpeg">
+                         <script>document.getElementById("leftattack").play;
+                            var round_win_music = document.getElementById("leftattack");
+                            round_win_music.volume = 0.3;</script>
+                 </audio>
+             {% else %}
+                 <audio autoplay id="rightattack">
+                        <source src="{{ url_for('static', filename='Audio/rightattack.mp3') }}" type="audio/mpeg">
+                             <script>document.getElementById("rightattack").play;
+                                var round_win_music = document.getElementById("rightattack");
+                                round_win_music.volume = 0.3;</script>
+                     </audio>
+             {% endif %}
+
+             {% if winFlag == 0 %}
+                <input type="hidden" name="showDefender" value="True">
+             {% else %}
+                <input type="hidden" name="showDefender" value="False">
+             {% endif %}
+
              <input type="hidden" name="nextIndex" value="{{nextIndex}}">
              <input type="hidden" name="numplayers" value="{{numplayers}}">
+             <input type="hidden" id="rightplayer" value="{{playerIndex}}">
+             <input type="hidden" id="leftplayer" value="{{playerIndex}}">
              {% if playerIndex == 0 %}
-             {{player1Cards[0].name}} used its {{atttype}} move!
+                {{player1Cards[0].name}} used its {{atttype}} move!
              {% elif playerIndex == 1 %}
-             {{player2Cards[0].name}} used its {{atttype}} move!
+                {{player2Cards[0].name}} used its {{atttype}} move!
              {% endif %}
-             <button class="">Continue to next round?</button>
+             <button id="continueNRButton" class="">Continue to next round?</button>
          </form>
     {% elif nextIndex == None %}
         {% if (playerIndex == 0 and players[0][0:6] == 'Player') or (playerIndex == 1 and players[1][0:6] == 'Player') %}
@@ -69,7 +97,11 @@
             {% elif playerIndex == 1 %}
                 {% set typeList = player2Cards[0].types.split(',') %}
             {% endif %}
-            {% set atttype = typeList|random %}
+            {% if showDefender == 'True' %}
+                {% set atttype = typeList %}
+            {% else %}
+                {% set atttype = typeList|random %}
+            {% endif %}
             Please press continue to see the results..
             <input type="hidden" name="atttype" value="{{atttype}}">
             <input type="hidden" name="playerIndex" value="{{playerIndex}}">
@@ -80,25 +112,31 @@
     {% endif %}
     </div>
 </div>
+<div class="center">
+    <button type="button" onclick="ToggleButton();" >Damage Relations</button>
+</div>
+<div class="float-container" style="font-size: 2vw;">
 <div class="float-container" style="font-size: 2vw; width:90vw; height:60vh;">
      <div class="float-child">
         <div class="pokemon-card-container">
             <div id="leftcard" class="player-info">
                 Number of Cards = {{player1Cards|length}}
-                {% if playerIndex == 1 %}
-                        <div><b>Defender - {{players[0]}}</b></div>
+                    {% if playerIndex == 1 %}
+                            <div><b>Defender - {{players[0]}}</b></div>
                     {% elif playerIndex == 0 %}
-                        <div><b>Attacker - {{players[0]}}</b></div>
+                            <div><b>Attacker - {{players[0]}}</b></div>
+                    {% endif %}
+                {% if winFlag == 1 %}
+                    {% if nextIndex == 0 %}
+                        <b><div>WINNER!</div></b>
+                    {% elif nextIndex == 1 %}
+                        <b><div>LOSER...</div></b>
+                    {% endif %}
                 {% endif %}
-                {% if nextIndex == 0 %}
-                    <b><div id="leftplayer">WINNER!</div></b>
-                {% elif nextIndex == 1 %}
-                    <b><div id="leftplayer">LOSER...</div></b>
-                {% endif %}
-                {% if playerIndex == 1 and nextIndex == None%}
-                    <div class="inner-container">
-                        <img src="{{ url_for('static', filename='Images/pokemon_card_back.jpg') }}" class="pokemon-card">
-                    </div>
+                {% if playerIndex == 1 and showDefender == 'False' %}
+                        <div class="inner-container">
+                            <img src="https://cdn2.bulbagarden.net/upload/1/17/Cardback.jpg" class="pokemon-card">
+                        </div>
                 {% else %}
                     {% if evolveFlag == 1 and nextIndex == 0 %}
                     <div class="inner-container" style="display:none" id="leftPostEvolve">
@@ -106,16 +144,15 @@
                             <span class="name-position" id="pokemonName">{{  evolvedCard.name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  evolvedCard.attack  }} Defence: {{  evolvedCard.defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  evolvedCard.types  }}</span>
-                            <img class="pokemon-image-position" id="pokemonImage" src="{{  evolvedCard.image  }}">
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{  url_for('static', filename=evolvedCard.image)  }}">
                             <img class="pokemon-image-position" id="explosionGIF" src="{{ url_for('static', filename='Images/explosion.gif') }}" style="display:block">
-                        <!--                            <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename='Images/evolve.gif') }}">-->
                     </div>
                     <div class="inner-container" style="display:block" id="leftPreEvolve">
                         <img src="{{ url_for('static', filename='Images/pokemon_card_front.jpg') }}" class="pokemon-card">
                             <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
-                            <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename=player1Cards[0].image) }}">
                     </div>
                     {% else %}
                     <div class="inner-container" >
@@ -123,8 +160,7 @@
                             <span class="name-position" id="pokemonName">{{  player1Cards[0].name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  player1Cards[0].attack  }} Defence: {{  player1Cards[0].defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  player1Cards[0].types  }}</span>
-                            <img class="pokemon-image-position" id="pokemonImage" src="{{  player1Cards[0].image  }}">
-
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename=player1Cards[0].image) }}">
                     </div>
                     {% endif %}
                 {% endif %}
@@ -140,12 +176,14 @@
             {% elif playerIndex == 1 %}
                 <div><b>Attacker - {{players[1]}}</b></div>
             {% endif %}
-            {% if nextIndex == 1 %}
-                <b><div id="rightplayer">WINNER!</div></b>
-            {% elif nextIndex == 0 %}
-                <b><div id="rightplayer">LOSER...</div></b>
-            {% endif %}
-            {% if playerIndex == 0 and nextIndex == None %}
+                {% if winFlag == 1 %}
+                    {% if nextIndex == 1 %}
+                        <b><div>WINNER!</div></b>
+                    {% elif nextIndex == 0 %}
+                        <b><div>LOSER...</div></b>
+                    {% endif %}
+                {% endif %}
+            {% if playerIndex == 0 and showDefender == 'False' %}
                 <div class="inner-container">
                     <img src="{{ url_for('static', filename='Images/pokemon_card_back.jpg') }}" class="pokemon-card">
                 </div>
@@ -156,7 +194,7 @@
                             <span class="name-position" id="pokemonName">{{  evolvedCard.name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  evolvedCard.attack  }} Defence: {{  evolvedCard.defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  evolvedCard.types  }}</span>
-                            <img class="pokemon-image-position" id="pokemonImage" src="{{  evolvedCard.image  }}">
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{  url_for('static', filename=evolvedCard.image)  }}">
                             <img class="pokemon-image-position" id="explosionGIF" src="{{ url_for('static', filename='Images/explosion.gif') }}" style="display:block">
                     </div>
                     <div class="inner-container" style="display:block" id="rightPreEvolve">
@@ -164,7 +202,7 @@
                             <span class="name-position" id="pokemonName">{{  player2Cards[0].name  }}</span>
                             <span class="stats-position" id="pokemonStats">Attack: {{  player2Cards[0].attack  }} Defence: {{  player2Cards[0].defence  }}</span>
                             <span class="types-position" id="pokemonTypes">{{  player2Cards[0].types  }}</span>
-                            <img class="pokemon-image-position" id="pokemonImage" src="{{  player2Cards[0].image  }}">
+                            <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename=player2Cards[0].image) }}">
                     </div>
                     {% else %}
                     <div class="inner-container">
@@ -172,13 +210,20 @@
                         <span class="name-position" id="pokemonName2">{{  player2Cards[0].name  }}</span>
                         <span class="stats-position" id="pokemonStats2">Attack: {{  player2Cards[0].attack  }} Defence: {{  player2Cards[0].defence  }}</span>
                         <span class="types-position" id="pokemonTypes2">{{  player2Cards[0].types  }}</span>
-                        <img class="pokemon-image-position" id="pokemonImage2" src="{{  player2Cards[0].image  }}">
+<!--                        <img class="pokemon-image-position" id="pokemonImage2" src="{{  player2Cards[0].image  }}">-->
+                        <img class="pokemon-image-position" id="pokemonImage" src="{{ url_for('static', filename=player2Cards[0].image) }}">
                     </div>
                     {% endif %}
             {% endif %}
             </div>
         </div>
     </div>
+</div>
+
+<div class="center" style="display:none" id="DamageRelations">
+        <div class="overlay_damage_relations">
+            <img src="{{ url_for('static', filename='Images/Damage_Relations.png') }}" width="80%" height="80%">
+        </div>
 </div>
 
 <audio autoplay loop id="background">
@@ -190,35 +235,9 @@
     var background_music = document.getElementById("background");
     background_music.volume = 0.02;
 
-    document.getElementById("roundwin").play;
-    var round_win_music = document.getElementById("roundwin");
-    round_win_music.volume = 0.1;
-
     var audio_evolve = new Audio("{{ url_for('static', filename='Audio/JOHN.mp3') }}");
-    audio_evolve.volume = 0.3;
+    audio_evolve.volume = 0.1;
 
-    function showresults() {
-        var leftplayer = document.getElementById("leftplayer").innerHTML
-        var rightplayer = document.getElementById("rightplayer").innerHTML
-        if (leftplayer == 'WINNER!') {
-            leftcolour = "#008000";
-        } else {
-            leftcolour = "#8B0000";
-        }
-        if (rightplayer == 'WINNER!') {
-            rightcolour = "#008000";
-        } else {
-            rightcolour = "#8B0000";
-        }
-        colourLeftBox(leftcolour)
-        colourRightBox(rightcolour)
-
-        if (("{{evolveFlag}}" == "1") && ("{{nextIndex}}" == "0")) {
-            DoEvolutionLeft();
-        } else if (("{{evolveFlag}}" == "1") && ("{{nextIndex}}" == "1")) {
-            DoEvolutionRight();
-        }
-    }
 
     function colourRightBox(rightcolour) {
         document.getElementById('rightcard').style.background = rightcolour;
@@ -234,9 +253,8 @@
             }, 2000);
     }
 
-    window.onload = showresults();
-
     function DoEvolutionLeft() {
+        ToggleButtonOff();
         var leftPreEvolve = document.getElementById('leftPreEvolve')
         var leftPostEvolve = document.getElementById('leftPostEvolve')
         var explosionGIF = document.getElementById('explosionGIF')
@@ -256,6 +274,7 @@
     }
 
     function DoEvolutionRight() {
+        ToggleButtonOff();
         var rightPreEvolve = document.getElementById('rightPreEvolve')
         var rightPostEvolve = document.getElementById('rightPostEvolve')
         var explosionGIF = document.getElementById('explosionGIF')
@@ -274,8 +293,46 @@
         }, 8500);
     }
 
+     function ToggleButtonOff() {
+        document.getElementById("continueNRButton").disabled = true;
+        setTimeout(function(){
+            document.getElementById("continueNRButton").disabled = false;
+        }, 10000);
+    }
 
+window.onload = showresults();
 
+function showresults() {
+        var leftplayer = document.getElementById("leftplayer").value
+        var rightplayer = document.getElementById("rightplayer").value
+        if (leftplayer == 0) {
+            leftcolour = "#008000";
+        } else {
+            leftcolour = "#8B0000";
+        }
+        if (rightplayer == 1) {
+            rightcolour = "#008000";
+        } else {
+            rightcolour = "#8B0000";
+        }
+        colourLeftBox(leftcolour)
+        colourRightBox(rightcolour)
+
+        if (("{{evolveFlag}}" == "1") && ("{{nextIndex}}" == "0")) {
+            DoEvolutionLeft();
+        } else if (("{{evolveFlag}}" == "1") && ("{{nextIndex}}" == "1")) {
+            DoEvolutionRight();
+        }
+    }
+
+    function ToggleButton() {
+        var DamageRelations = document.getElementById('DamageRelations')
+        if (DamageRelations.style.display == "none") {
+            DamageRelations.style.display = "block"
+        } else if (DamageRelations.style.display == "block") {
+            DamageRelations.style.display = "none"
+        }
+    }
 
 </script>
 <!--    else if (if evolveFlag == 1 && nextIndex == 1) {-->

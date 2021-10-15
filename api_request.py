@@ -1,6 +1,6 @@
 import requests
 from pokemon_database import DataBase
-
+import urllib.request
 
 def FillPokedex():
 
@@ -10,7 +10,7 @@ def FillPokedex():
 
     pokeDex = CleanPokeDex(pokeDex)
     Pokedex = InitialiseDatabase()
-    Pokedex.DestroyTable()    # uncomment this if want a quick table reset
+    Pokedex.DestroyTable()
     Pokedex = InitialiseDatabase()
     Pokedex.AddData(pokeDex)
     return Pokedex
@@ -34,9 +34,14 @@ def GetPokedex():
         r = requests.get(individualPokemon['url'])
         response = r.json()
         individualStats = response["stats"]
+        pokemonHP = individualStats[0]["base_stat"]
         pokemonAttack = individualStats[1]["base_stat"]
         pokemonDefence = individualStats[2]["base_stat"]
         pokemonImage = response["sprites"]["other"]["official-artwork"]["front_default"]
+
+        filename = f'static/Images/PokemonPNGs/{pokemonName}.png'
+        urllib.request.urlretrieve(f'{pokemonImage}', filename)
+        pokemonImage = f'Images/PokemonPNGs/{pokemonName}.png'
 
         individualTypes = response["types"]
         typeList = ''
@@ -75,9 +80,8 @@ def GetPokedex():
             pokemonEvolution = None
 
         pokeDex.append(
-            {'name': pokemonName, 'evolution_path': pokemonEvolution, 'image': pokemonImage, 'attack': pokemonAttack,
-             'defence': pokemonDefence,
-             'types': typeList})
+            {'name': pokemonName, 'evolution_path': pokemonEvolution, 'image': pokemonImage, 'max_hp': pokemonHP,
+             'current_hp': pokemonHP, 'attack': pokemonAttack, 'defence': pokemonDefence, 'types': typeList})
 
         numPokemon += 1
         print(f'{numPokemon}/151')
@@ -110,9 +114,8 @@ def CleanPokeDex(pokeDex):
 
 
 def InitialiseDatabase():
-    Pokedex = DataBase('Pokedex', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
-                       ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+    Pokedex = DataBase('Pokedex', ['name', 'evolution_path', 'image', 'max_hp', 'current_hp', 'attack', 'defence', 'types'],
+                       ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'INTEGER', 'INTEGER', 'TEXT'])
     Pokedex.CreateTable()
 
     return Pokedex
-

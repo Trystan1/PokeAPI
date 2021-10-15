@@ -18,9 +18,11 @@ def PokeDex():
     pokeDex = Pokedex.GetAllData()
     return render_template('pokedex.html', pokeDex=pokeDex)
 
+
 @app.route("/gameSetUp")
 def GameSetUp():
     return render_template('gamesetup.html')
+
 
 @app.route("/playgame")
 def PlayGame():
@@ -32,13 +34,17 @@ def PlayGame():
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
     playerIndex = random.randint(0, 1)
-    attackResult = None
+    winFlag = 0
+    showDefender = 'False'
     nextIndex = None
     attType = None
     if player1Cards == [] or player2Cards == []:
         return render_template('error.html', errorType="emptydatabase")
     else:
-        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex, players=Players, numplayers=NumPlayers, atttype=attType)
+        return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards,
+                               playerIndex=playerIndex, nextIndex=nextIndex,
+                               players=Players, numplayers=NumPlayers, atttype=attType,
+                               winFlag=winFlag, showDefender=showDefender)
 
 
 @app.route("/playgame/attack")
@@ -48,17 +54,25 @@ def Attack():
     NumPlayers = int(request.args.get('numplayers'))
     Players = PLAYERCHOICES[NumPlayers]
     Player1, Player2 = InitialiseDecks()
+    showDefender = 'True'
+    # compute's damage and updates database, winFlag = 1 if defender HP hit's <= 0
+    # playerIndex switches unless the attacker wins, in which case no change
+    nextIndex, damageDealt, winFlag, attType = ComputeAttack(attType, Player1, Player2, playerIndex)
+
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
-    nextIndex, attackResult = ComputeVictor(attType, Player1, Player2, playerIndex)
-    evolveFlag, evolvedCard = EvolvePokemon(nextIndex, Player1, Player2)
-    print(evolveFlag)
+
+    # decks are rotated, cards given to the attacker and hp's are restored to max (only on winFlag == 1)
+    OnVictory(winFlag, Player1, Player2, nextIndex)
+    # evolution as before but will only execute on winFlag == 1, otherwise evolveFlag = 0, evolvedCard = None
+    evolveFlag, evolvedCard = EvolvePokemon(winFlag, nextIndex, Player1, Player2)
+
     endFlag = EndGame(Player1, Player2)
     if endFlag is None:
         return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards,
-                               playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex,
+                               playerIndex=playerIndex, nextIndex=nextIndex,
                                players=Players, numplayers=NumPlayers, atttype=attType, evolveFlag=evolveFlag,
-                               evolvedCard=evolvedCard)
+                               evolvedCard=evolvedCard, winFlag=winFlag, showDefender=showDefender)
     else:
         return render_template('victoryscreen.html', endFlag=endFlag)
 
@@ -67,43 +81,24 @@ def Attack():
 def NewRound():
     playerIndex = int(request.args.get('nextIndex'))
     NumPlayers = int(request.args.get('numplayers'))
+    showDefender = request.args.get('showDefender')
     Players = PLAYERCHOICES[NumPlayers]
     Player1, Player2 = InitialiseDecks()
     player1Cards = Player1.GetAllData()
     player2Cards = Player2.GetAllData()
-    attackResult = None
+    winFlag = 0
     nextIndex = None
     attType = None
-    return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex, attackResult=attackResult, nextIndex=nextIndex, players=Players, numplayers=NumPlayers, atttype=attType)
-
-
-@app.route("/playgame/nextbutton1")
-def NextButton1():
-    Player1, Player2 = InitialiseDecks()
-    NextCard(Player1, 0)
-    player1Cards = Player1.GetAllData()
-    player2Cards = Player2.GetAllData()
-    playerIndex = random.randint(0, 1)
-    #TODO put attacking player into 'get attacking player' function for playgame, nextbutton1, nextbutton2
-
-    return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, attackingPlayer=playerIndex)
-
-
-@app.route("/playgame/nextbutton2")
-def NextButton2():
-    Player1, Player2 = InitialiseDecks()
-    NextCard(Player2, 1)
-    player1Cards = Player1.GetAllData()
-    player2Cards = Player2.GetAllData()
-    playerIndex = random.randint(0, 1)
-
-    return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, attackingPlayer=playerIndex)
+    return render_template('game.html', player1Cards=player1Cards, player2Cards=player2Cards, playerIndex=playerIndex,
+                           nextIndex=nextIndex, players=Players, numplayers=NumPlayers,
+                           atttype=attType, winFlag=winFlag, showDefender=showDefender)
 
 
 @app.route("/pokedex/redownload")
 def RedownloadData():
     FillPokedex()
     return PokeDex()
+
 
 @app.route("/error/general")
 def GeneralError():
@@ -114,10 +109,12 @@ def GeneralError():
 def DatabaseError():
     return render_template('error.html', errorType="databaseError")
 
+
 @app.route("/victory")
 def Victory():
     endFlag = 'Player 1'
     return render_template('victoryscreen.html', endFlag=endFlag)
+
 
 @app.route("/damage_relations")
 def DamageRelations():

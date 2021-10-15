@@ -6,11 +6,11 @@ from pokemon_types import PokemonTypes
 
 
 def InitialiseDecks():
-    Player1 = DataBase('Player1', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
-                                  ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+    Player1 = DataBase('Player1', ['name', 'evolution_path', 'image', 'max_hp', 'current_hp', 'attack', 'defence', 'types'],
+                                  ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'INTEGER', 'INTEGER', 'TEXT'])
     Player1.CreateTable()
-    Player2 = DataBase('Player2', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
-                                  ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+    Player2 = DataBase('Player2', ['name', 'evolution_path', 'image', 'max_hp', 'current_hp', 'attack', 'defence', 'types'],
+                                  ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'INTEGER', 'INTEGER', 'TEXT'])
     Player2.CreateTable()
     return Player1, Player2
 
@@ -21,18 +21,18 @@ def InitialiseDeck(playerIndex):
     DefendingPlayer = None
 
     if playerIndex == 0:
-        AttackingPlayer = DataBase('Player1', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
-                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+        AttackingPlayer = DataBase('Player1', ['name', 'evolution_path', 'image', 'max_hp', 'current_hp', 'attack', 'defence', 'types'],
+                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'INTEGER', 'INTEGER', 'TEXT'])
         AttackingPlayer.CreateTable()
-        DefendingPlayer = DataBase('Player2', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
-                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+        DefendingPlayer = DataBase('Player2', ['name', 'evolution_path', 'image', 'max_hp', 'current_hp', 'attack', 'defence', 'types'],
+                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'INTEGER', 'INTEGER', 'TEXT'])
         DefendingPlayer.CreateTable()
     elif playerIndex == 1:
-        AttackingPlayer = DataBase('Player2', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
-                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+        AttackingPlayer = DataBase('Player2', ['name', 'evolution_path', 'image', 'max_hp', 'current_hp', 'attack', 'defence', 'types'],
+                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'INTEGER', 'INTEGER', 'TEXT'])
         AttackingPlayer.CreateTable()
-        DefendingPlayer = DataBase('Player1', ['name', 'evolution_path', 'image', 'attack', 'defence', 'types'],
-                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'TEXT'])
+        DefendingPlayer = DataBase('Player1', ['name', 'evolution_path', 'image', 'max_hp', 'current_hp', 'attack', 'defence', 'types'],
+                                              ['TEXT', 'TEXT', 'TEXT', 'INTEGER', 'INTEGER', 'INTEGER', 'INTEGER', 'TEXT'])
         DefendingPlayer.CreateTable()
 
     return AttackingPlayer, DefendingPlayer
@@ -195,6 +195,126 @@ def ComputeVictor(attackType, Player1, Player2, playerIndex):
     return playerIndex, attackResult
 
 
+def ComputeAttack(attType, Player1, Player2, playerIndex):
+
+    winFlag = 0
+
+    defenceTypes = GetDefenceTypes(Player1, Player2, playerIndex)
+
+    if '[' in attType:
+        print(f'the defender is shown and we are making an informed choice')
+        # delete square brackets from either end
+        attType = attType[:-1]
+        attType = attType[1:]
+        attType = attType.split(",")
+        for i in range(0, len(attType)):
+            # remove space in formatting for all but first in list
+            if i > 0:
+                attType[i] = attType[i][1:]
+            # delete quotation marks from either side
+            attType[i] = attType[i][:-1]
+            attType[i] = attType[i][1:]
+
+        print(attType)
+
+        # pick the best option
+        damage = []
+        for typeAI in attType:
+            damageModifier = PokemonTypes(typeAI, defenceTypes)
+            damage.append(damageModifier)
+
+        print(damage)
+        highestIndex = damage.index(max(damage))
+
+        attackType = str(attType[highestIndex])
+    else:
+        attackType = attType
+
+    # needs to call pokemonTypes, then workout how to define attacker and defender
+    damageModifier = PokemonTypes(attackType, defenceTypes)
+
+    attackingPlayer = None
+    defendingPlayer = None
+    DefendingPlayer = None
+
+    if playerIndex == 0:
+        AttackingPlayer = Player1
+        attackingPlayer = AttackingPlayer.GetAllData()
+        DefendingPlayer = Player2
+        defendingPlayer = DefendingPlayer.GetAllData()
+    elif playerIndex == 1:
+        AttackingPlayer = Player2
+        attackingPlayer = AttackingPlayer.GetAllData()
+        DefendingPlayer = Player1
+        defendingPlayer = DefendingPlayer.GetAllData()
+
+    attackValue = int(attackingPlayer[0]['attack'])
+    defenceValue = int(defendingPlayer[0]['defence'])
+
+    damageDealt = (attackValue/defenceValue)*damageModifier*30
+
+    # modify defender's current hitpoints based upon this
+    pokemonName = defendingPlayer[0]['name']
+    initialHP = defendingPlayer[0]['current_hp']
+    newHP = int(initialHP - damageDealt)
+
+    if newHP <= 0:
+        newHP = 0
+        winFlag = 1
+
+    DefendingPlayer.EditHP(newHP, pokemonName)
+    print(f'{attackingPlayer[0]["name"]} attacked {defendingPlayer[0]["name"]} using {attackType}!')
+    print(f'{pokemonName} initialHP: {initialHP}, HP after being attacked: {newHP}')
+
+    if winFlag == 0:
+        playerIndex = SwitchAttackingPlayer(playerIndex)
+
+    return playerIndex, damageDealt, winFlag, attackType
+
+
+def OnVictory(winFlag, Player1, Player2, playerIndex):
+
+    if winFlag == 1:
+        attackingPlayer = None
+        AttackingPlayer = None
+        defendingPlayer = None
+        DefendingPlayer = None
+
+        if playerIndex == 0:
+            AttackingPlayer = Player1
+            attackingPlayer = AttackingPlayer.GetAllData()
+            DefendingPlayer = Player2
+            defendingPlayer = DefendingPlayer.GetAllData()
+        elif playerIndex == 1:
+            AttackingPlayer = Player2
+            attackingPlayer = AttackingPlayer.GetAllData()
+            DefendingPlayer = Player1
+            defendingPlayer = DefendingPlayer.GetAllData()
+
+        # reset HP of both cards
+        AttackingPlayer.EditHP(attackingPlayer[0]['max_hp'], attackingPlayer[0]['name'])
+        DefendingPlayer.EditHP(defendingPlayer[0]['max_hp'], defendingPlayer[0]['name'])
+
+        # get updated values of hand (hp reset)
+        defendingPlayer = DefendingPlayer.GetAllData()
+
+        # add defender's card to attacker
+        AttackingPlayer.AddData([defendingPlayer[0]])
+        # delete card from defender
+        DefendingPlayer.DeleteLine(defendingPlayer[0]['name'])
+        # rotate attacker's deck
+        attackingPlayer = AttackingPlayer.GetAllData()
+        attackingPlayer = deque(attackingPlayer)
+        attackingPlayer.rotate(-1)
+        attackingPlayer = list(attackingPlayer)
+        AttackingPlayer.DestroyTable()
+        AttackingPlayer, DefendingPlayer = InitialiseDeck(playerIndex)
+        AttackingPlayer.AddData(attackingPlayer)
+
+    else:
+        pass
+
+
 def EndGame(Player1, Player2):
     player1 = Player1.GetAllData()
     player2 = Player2.GetAllData()
@@ -208,39 +328,42 @@ def EndGame(Player1, Player2):
     return endFlag
 
 
-def EvolvePokemon(nextIndex, Player1, Player2):
+def EvolvePokemon(winFlag, nextIndex, Player1, Player2):
     # take last card of the deck, check its evolution path and if is not none then delete it and replace with the fist
     # in the evolution list
 
     evolveFlag = 0
     evolvedCard = None
 
-    Pokedex = InitialiseDatabase()
-    pokeDex = Pokedex.GetAllData()
+    if winFlag == 1:
+        Pokedex = InitialiseDatabase()
+        pokeDex = Pokedex.GetAllData()
 
-    if nextIndex == 0:
-        Player = Player1
-    elif nextIndex == 1:
-        Player = Player2
+        if nextIndex == 0:
+            Player = Player1
+        elif nextIndex == 1:
+            Player = Player2
+        else:
+            Player = None
+
+        playerDeck = Player.GetAllData()
+        evolvingPokemon = playerDeck[-1]
+
+        evolutions = evolvingPokemon['evolution_path'].split(",")
+
+        print(evolvingPokemon['name'])
+
+        if evolutions[0] != 'None':
+            Player.DeleteLine(evolvingPokemon['name'])
+            print('evolve!')
+            evolveFlag = 1
+            for line in pokeDex:
+                if line['name'] == evolutions[0]:
+                    print(f"Evolution into {line['name']}")
+                    Player.AddData([line])
+                    evolvedCard = line
+
     else:
-        Player = None
-
-    playerDeck = Player.GetAllData()
-    evolvingPokemon = playerDeck[-1]
-
-    evolutions = evolvingPokemon['evolution_path'].split(",")
-
-    print(evolvingPokemon['name'])
-    print(evolutions)
-
-    if evolutions[0] != 'None':
-        Player.DeleteLine(evolvingPokemon['name'])
-        print('evolve!')
-        evolveFlag = 1
-        for line in pokeDex:
-            if line['name'] == evolutions[0]:
-                print(f"Evolution into {line['name']}")
-                Player.AddData([line])
-                evolvedCard = line
+        pass
 
     return evolveFlag, evolvedCard
