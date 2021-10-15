@@ -195,11 +195,41 @@ def ComputeVictor(attackType, Player1, Player2, playerIndex):
     return playerIndex, attackResult
 
 
-def ComputeAttack(attackType, Player1, Player2, playerIndex):
+def ComputeAttack(attType, Player1, Player2, playerIndex):
 
     winFlag = 0
 
     defenceTypes = GetDefenceTypes(Player1, Player2, playerIndex)
+
+    if '[' in attType:
+        print(f'the defender is shown and we are making an informed choice')
+        # delete square brackets from either end
+        attType = attType[:-1]
+        attType = attType[1:]
+        attType = attType.split(",")
+        for i in range(0, len(attType)):
+            # remove space in formatting for all but first in list
+            if i > 0:
+                attType[i] = attType[i][1:]
+            # delete quotation marks from either side
+            attType[i] = attType[i][:-1]
+            attType[i] = attType[i][1:]
+
+        print(attType)
+
+        # pick the best option
+        damage = []
+        for typeAI in attType:
+            damageModifier = PokemonTypes(typeAI, defenceTypes)
+            damage.append(damageModifier)
+
+        print(damage)
+        highestIndex = damage.index(max(damage))
+
+        attackType = str(attType[highestIndex])
+    else:
+        attackType = attType
+
     # needs to call pokemonTypes, then workout how to define attacker and defender
     damageModifier = PokemonTypes(attackType, defenceTypes)
 
@@ -233,12 +263,13 @@ def ComputeAttack(attackType, Player1, Player2, playerIndex):
         winFlag = 1
 
     DefendingPlayer.EditHP(newHP, pokemonName)
+    print(f'{attackingPlayer[0]["name"]} attacked {defendingPlayer[0]["name"]} using {attackType}!')
     print(f'{pokemonName} initialHP: {initialHP}, HP after being attacked: {newHP}')
 
     if winFlag == 0:
         playerIndex = SwitchAttackingPlayer(playerIndex)
 
-    return playerIndex, damageDealt, winFlag
+    return playerIndex, damageDealt, winFlag, attackType
 
 
 def OnVictory(winFlag, Player1, Player2, playerIndex):
@@ -261,8 +292,11 @@ def OnVictory(winFlag, Player1, Player2, playerIndex):
             defendingPlayer = DefendingPlayer.GetAllData()
 
         # reset HP of both cards
-        # AttackingPlayer.EditHP(attackingPlayer[0]['max_hp'], attackingPlayer[0]['name'])
-        # DefendingPlayer.EditHP(defendingPlayer[0]['max_hp'], defendingPlayer[0]['name'])
+        AttackingPlayer.EditHP(attackingPlayer[0]['max_hp'], attackingPlayer[0]['name'])
+        DefendingPlayer.EditHP(defendingPlayer[0]['max_hp'], defendingPlayer[0]['name'])
+
+        # get updated values of hand (hp reset)
+        defendingPlayer = DefendingPlayer.GetAllData()
 
         # add defender's card to attacker
         AttackingPlayer.AddData([defendingPlayer[0]])
