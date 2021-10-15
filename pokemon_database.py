@@ -94,3 +94,15 @@ class DataBase:
         cursor.execute(sql_command)
         conn.commit()
         conn.close()
+
+    def EditHP(self, newHP, pokemonName):
+        conn = sqlite3.connect(DATABASE)
+        cursor = conn.cursor()
+
+        sql_command = f"""UPDATE {self.name}"""
+        sql_command += f"""\nSET current_HP={newHP}"""
+        sql_command += f"""\nWHERE name='{pokemonName}';"""
+
+        cursor.execute(sql_command)
+        conn.commit()
+        conn.close()
